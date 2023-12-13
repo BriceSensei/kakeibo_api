@@ -19,6 +19,9 @@ model Users {
     connectionAttempts Int      @default(0)
     isActive           Boolean  @default(false)
     role               Int      @default(0)
+    curencyId          Int
+
+    curency Curencies @relation(fields: [curencyId], references: [id])
 
     tokens                     Tokens[]
     fbTokens                   FbTokens[]
@@ -28,6 +31,14 @@ model Users {
     subCategories              SubCategories[]
     ownedGroups                UserGroups[]
     relation_UserGroupsOnUsers Relation_UserGroupsOnUsers[]
+}
+
+model Curencies {
+    id     Int    @id @default(autoincrement())
+    name   String
+    devise String
+
+    Users Users[]
 }
 
 model Tokens {
