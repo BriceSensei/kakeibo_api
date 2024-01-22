@@ -1,0 +1,21 @@
+{
+  "name": "kakeibo_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "node ./test.js && exit 1"
+  },
+  "author": "BriceSensei & M1KL & Norookezi",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
