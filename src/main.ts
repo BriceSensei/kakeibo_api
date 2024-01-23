@@ -13,3 +13,5 @@ const port = parseInt(ENV.PORT ?? "3000");
 app.listen(port, () => {
   console.log(`Server started at ${port}`);
 });
+
+console.log("Test");
