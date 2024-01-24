@@ -1,37 +1,21 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
-import parkings from "../parkings.json";
+import { ParkingRouter } from "./routers";
 
 dotenv.config();
 const ENV: NodeJS.ProcessEnv = process.env;
-
 const app = express();
-
 const port = parseInt(ENV.PORT ?? "3000");
 
-/** Make routes here */
-
-
-/**GET */
-app.get('/parking', (req: Request, res: Response) =>{
-  res.status(200).json(parkings);
+/**MIDDLEWARE */
+app.use(function (req: Request, res: Response, next: NextFunction) {
+  console.log("Heure", Date.now());
+  next();
 });
 
-app.get('/parking/:id', (req:Request, res: Response) =>{
-  const id = parseInt(req.params.id);
-  const parking = parkings.find(parking => parking.id === id);
-  if(parking){
-    res.status(200).json(parking)  
-  }else{
-    res.status(404).send("il n'y pas de parking avec l'id: " + id);
-  }
-})
-
-/**POST */
-app.post('/parking', (req:Request, res:Response) =>{
-  const newParking = req.body;
-})
+app.use("/parking", ParkingRouter);
+/** Make routes here */
 
 app.listen(port, () => {
-  console.log(`Server started at ${port}`);
+  console.log(`Server started at http://localhost:${port}`);
 });
