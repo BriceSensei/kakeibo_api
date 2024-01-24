@@ -4,15 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "test": "node ./test.js && exit 1",
+    "serve": "npx nodemon",
+    "build": "npx tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.3.2",
     "express": "^4.18.2"
   },
-  "devDependencies": {
-    "prisma": "^5.6.0"
-  }
+  "type": "module"
 }
