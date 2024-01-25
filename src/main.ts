@@ -1,4 +1,6 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
+import swaggerUi from 'swagger-ui-express';
+import { specs } from './swagger';
 import dotenv from "dotenv";
 
 
@@ -8,15 +10,10 @@ const app = express();
 const port = parseInt(ENV.PORT ?? "3000");
 
 /**MIDDLEWARE */
-app.use(function (req: Request, res: Response, next: NextFunction) {
-  console.log("Heure", Date.now());
-  next();
-});
 
-/** Make routes here */
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.listen(port, () => {
-  console.log(`Server started at http://localhost:${port}`);
+  console.log(`Server started on ${ENV.SCHEME??'http'}://127.0.01:${port}`);
 });
-
-
