@@ -9,9 +9,6 @@ const ENV: NodeJS.ProcessEnv = process.env;
 const app = express();
 const port = parseInt(ENV.PORT ?? "3000");
 
-/**MIDDLEWARE */
-
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.listen(port, () => {
