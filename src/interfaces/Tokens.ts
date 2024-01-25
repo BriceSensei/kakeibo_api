@@ -1,9 +1,7 @@
-interface Tokens {
+interface TokensInterface {
     id: number;
     token: string;
     userAgent: string;
     userId: number;
-
-    user: Users;
-}
-;
+    user: UsersInterface;
+};

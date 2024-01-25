@@ -1,9 +1,7 @@
-interface Icons {
+interface IconsInterface {
     id: number;
     iconName: string;
     svgPath: string;
-
-    categories: Categories[];
-    SubCategories: SubCategories[];
-}
-;
+    categories: CategoriesInterface[];
+    SubCategories: SubCategoriesInterface[];
+};

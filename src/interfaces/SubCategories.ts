@@ -1,4 +1,4 @@
-interface SubCategories {
+interface SubCategoriesInterface {
     id: number;
     name: string;
     iconId: number | null;
@@ -8,15 +8,12 @@ interface SubCategories {
     parentId: number;
     userId: number;
     userGroupsId: number | null;
-
-    parent: Categories;
-    icon: Icons;
-    user: Users;
-    userGroups: UserGroups;
-
-    alerts: Alerts[];
-    epargnes: Epargnes[];
-    groups: UserGroups[];
-    BudgetLines: BudgetLines[];
-}
-;
+    parent: CategoriesInterface;
+    icon: IconsInterface;
+    user: UsersInterface;
+    userGroups: UserGroupsInterface;
+    alerts: AlertsInterface[];
+    epargnes: EpargnesInterface[];
+    groups: UserGroupsInterface[];
+    BudgetLines: BudgetLinesInterface[];
+};

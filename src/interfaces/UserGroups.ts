@@ -1,13 +1,10 @@
-interface UserGroups {
+interface UserGroupsInterface {
     id: number;
     title: string;
     ownerId: number;
-
-    owner: Users;
-
-    categories: Categories[];
-    SubCategories: SubCategories[];
-    epargnes: Epargnes[];
-    users: Users[];
-}
-;
+    owner: UsersInterface;
+    categories: CategoriesInterface[];
+    SubCategories: SubCategoriesInterface[];
+    epargnes: EpargnesInterface[];
+    users: UsersInterface[];
+};

@@ -1,4 +1,4 @@
-interface Users {
+interface UsersInterface {
     id: number;
     name: string;
     firstName: string;
@@ -13,14 +13,12 @@ interface Users {
     isActive: boolean;
     role: number;
     curencyId: number;
-
-    curency: Curencies;
-
-    tokens: Tokens[];
-    fbTokens: FbTokens[];
-    alerts: Alerts[];
-    epargnes: Epargnes[];
-    frequancies: Frequencies[];
-    subCategories: SubCategories[];
-    groups: UserGroups[];
+    curency: CurenciesInterface;
+    tokens: TokensInterface[];
+    fbTokens: FbTokensInterface[];
+    alerts: AlertsInterface[];
+    epargnes: EpargnesInterface[];
+    frequancies: FrequenciesInterface[];
+    subCategories: SubCategoriesInterface[];
+    groups: UserGroupsInterface[];
 };

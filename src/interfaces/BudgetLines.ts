@@ -1,4 +1,4 @@
-interface BudgetLines {
+interface BudgetLinesInterface {
     id: number;
     userId: number;
     value: number;
@@ -11,9 +11,7 @@ interface BudgetLines {
     subCategoryId: number | null;
     updateDate: Date;
     creationDate: Date;
-
-    frequency: Frequencies;
-    category: Categories;
-    subCategory: SubCategories;
-}
-;
+    frequency: FrequenciesInterface;
+    category: CategoriesInterface;
+    subCategory: SubCategoriesInterface;
+};

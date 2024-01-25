@@ -1,8 +1,6 @@
-interface Curencies {
+interface CurenciesInterface {
     id: number;
     name: string;
     devise: string;
-
-    Users: Users[];
-}
-;
+    Users: UsersInterface[];
+};

@@ -1,4 +1,4 @@
-interface Epargnes {
+interface EpargnesInterface {
     id: number;
     userId: number;
     value: number;
@@ -11,10 +11,8 @@ interface Epargnes {
     categoryId: number;
     subcategoryId: number | null;
     userGroupsId: number | null;
-
-    user: Users;
-    category: Categories;
-    subcategory: SubCategories;
-    userGroups: UserGroups[];
-}
-;
+    user: UsersInterface;
+    category: CategoriesInterface;
+    subcategory: SubCategoriesInterface;
+    userGroups: UserGroupsInterface[];
+};

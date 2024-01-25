@@ -1,4 +1,4 @@
-interface Alerts {
+interface AlertsInterface {
     id: number;
     title: string;
     seuil: number;
@@ -8,9 +8,7 @@ interface Alerts {
     categoryId: number;
     subCategoriesId: number | null;
     budgetId: number;
-
-    user: Users;
-    category: Categories;
-    subCategories: SubCategories;
-}
-;
+    user: UsersInterface;
+    category: CategoriesInterface;
+    subCategories: SubCategoriesInterface;
+};
