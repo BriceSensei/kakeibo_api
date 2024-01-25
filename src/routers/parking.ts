@@ -9,12 +9,15 @@ router.get("/", (req, res) => {
   res.send(JSON.stringify(parkings));
 });
 
-router.get("/parking/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const parking = parkings.find((parking) => parking.id === id);
   if (parking) {
     res.status(200).json(parking);
+   
   } else {
     res.status(404).send("il n'y pas de parking avec l'id: " + id);
   }
 });
+
+
