@@ -6,6 +6,11 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@route/*": ["./src/routes/*"],
+      "@controller/*": ["./src/controllers/*"],
+      "@class/*": ["./src/classes/*"]
+    }
   }
 }
