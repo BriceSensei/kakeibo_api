@@ -1,6 +1,6 @@
 import express from "express";
 import swaggerUi from 'swagger-ui-express';
-import { specs } from './Swagger';
+import { specs } from './swagger';
 import dotenv from "dotenv";
 
 
