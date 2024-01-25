@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
-import { ParkingRouter } from "./routers";
+
 
 dotenv.config();
 const ENV: NodeJS.ProcessEnv = process.env;
@@ -13,7 +13,6 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
   next();
 });
 
-app.use("/parking", ParkingRouter);
 /** Make routes here */
 
 app.listen(port, () => {
