@@ -1,4 +1,4 @@
-interface EpargnesInterface {
+export interface EpargnesInterface {
     id: number;
     userId: number;
     value: number;

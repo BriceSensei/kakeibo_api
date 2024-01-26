@@ -1,4 +1,4 @@
-interface FrequenciesInterface {
+export interface FrequenciesInterface {
     id: number;
     userId: number;
     startTime: Date;

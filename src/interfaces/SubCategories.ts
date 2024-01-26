@@ -1,4 +1,4 @@
-interface SubCategoriesInterface {
+export interface SubCategoriesInterface {
     id: number;
     name: string;
     iconId: number | null;
