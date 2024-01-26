@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node ./test.js && exit 1",
     "serve": "npx nodemon",
-    "build": "npx tsc"
+    "build": "npx tsc",
+    "migrate": "npx prisma migrate dev --schema ./database/dump.prisma"
   },
   "keywords": [],
   "author": "",
