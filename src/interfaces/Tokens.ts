@@ -1,4 +1,4 @@
-interface TokensInterface {
+export interface TokensInterface {
     id: number;
     token: string;
     userAgent: string;
