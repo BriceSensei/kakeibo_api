@@ -1,3 +1,8 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
 model Todo_Relation {
     id            Int     @id @default(autoincrement())
     Epargnes      Boolean
