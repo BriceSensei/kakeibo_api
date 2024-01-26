@@ -1,4 +1,4 @@
-interface FbTokensInterface {
+export interface FbTokensInterface {
     id: number;
     token: string;
     userAgent: string;

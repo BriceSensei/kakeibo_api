@@ -1,4 +1,8 @@
-interface AlertsInterface {
+import { CategoriesInterface } from "./Categories";
+import { SubCategoriesInterface } from "./SubCategories";
+import { UsersInterface } from "./Users";
+
+export interface AlertsInterface {
     id: number;
     title: string;
     seuil: number;
