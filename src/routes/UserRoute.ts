@@ -1,25 +1,20 @@
 import express, { Request, Response, Router } from 'express';
 import { UnimplementedError } from '../exceptions/UnimplementedError';
-
 const userRoute: Router = express.Router()
 
 userRoute.post('/', (req: Request, res: Response): void => {
     throw new UnimplementedError();
 });
 
-// Get all alerts
+// Get all users
 userRoute.get('/', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
+    res.json({message: "Madame Zazou"}).status(200);
 });
 
-// Get alert by id
+// Get user by id
 userRoute.get('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
-
-// Get all alerts from user
-userRoute.get('/user/:userId', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
+    const userId = req.params.id;
+    console.log(userId);
 });
 
 userRoute.patch('/:id', (req: Request, res: Response): void => {
