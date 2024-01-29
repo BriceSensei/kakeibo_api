@@ -1,6 +1,10 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+    provider = "mysql"
+    url      = env("DATABASE_URL")
 }
 
 model Todo_Relation {
@@ -13,14 +17,14 @@ model Todo_Relation {
 model Users {
     id                 Int      @id @default(autoincrement())
     name               String
-    firstName          String                   @map("first_name")
-    lastName           String                   @map("last_name")
+    firstName          String   @map("first_name")
+    lastName           String   @map("last_name")
     email              String   @unique
     password           String
     creationDate       DateTime @default(now()) @map("creation_date")
-    updateDate         DateTime @updatedAt      @map("update_date")
-    passwordUpdateDate DateTime                 @map("password_update_date")
-    lastLoginDate      DateTime                 @map("last_login_date")
+    updateDate         DateTime @updatedAt @map("update_date")
+    passwordUpdateDate DateTime @map("password_update_date")
+    lastLoginDate      DateTime @map("last_login_date")
     connectionAttempts Int      @default(0)
     isActive           Boolean  @default(false)
     role               Int      @default(0)
