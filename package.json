@@ -7,13 +7,14 @@
     "test": "node ./test.js && exit 1",
     "serve": "npx nodemon",
     "build": "npx tsc",
-    "migrate": "npx prisma migrate dev --schema ./prisma/dump.prisma",
+    "migrate": "npx prisma migrate dev --schema ./prisma/schema.prisma",
     "seed": "npx tsx ./prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.6",
     "@types/swagger-jsdoc": "^6.0.4",

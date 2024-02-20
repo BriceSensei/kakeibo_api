@@ -33,7 +33,7 @@ model Users {
   role               Int      @default(0)
   curencyId          Int
 
-  curency Curencies @relation(fields: [curencyId], references: [id])
+  curency Curencies @relation(fields: [curencyId], references: [id], onDelete: Cascade)
 
   tokens                     Tokens[]
   fbTokens                   FbTokens[]
@@ -59,7 +59,7 @@ model Tokens {
   userAgent String
   userId    Int
 
-  user Users @relation(fields: [userId], references: [id])
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model FbTokens {
@@ -68,13 +68,13 @@ model FbTokens {
   userAgent String
   userId    Int
 
-  user Users @relation(fields: [userId], references: [id])
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Icons {
   id       Int    @id @default(autoincrement())
   iconName String @unique
-  svgPath  String
+  svgPath  String @db.Text
 
   categories    Categories[]
   SubCategories SubCategories[]
@@ -88,7 +88,7 @@ model Categories {
   creationDate DateTime @default(now())
   updateDate   DateTime @updatedAt
 
-  icon Icons @relation(fields: [iconId], references: [id])
+  icon Icons @relation(fields: [iconId], references: [id], onDelete: Cascade)
 
   alerts                          Alerts[]
   budgetLines                     BudgetLines[]
@@ -108,9 +108,9 @@ model Alerts {
   subCategoriesId Int?
   budgetId        Int
 
-  user          Users          @relation(fields: [userId], references: [id])
-  category      Categories     @relation(fields: [categoryId], references: [id])
-  subCategories SubCategories? @relation(fields: [subCategoriesId], references: [id])
+  user          Users          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category      Categories     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  subCategories SubCategories? @relation(fields: [subCategoriesId], references: [id], onDelete: Cascade)
 }
 
 model BudgetLines {
@@ -127,9 +127,9 @@ model BudgetLines {
   updateDate    DateTime @updatedAt
   creationDate  DateTime @default(now())
 
-  frequency   Frequencies?   @relation(fields: [frequencyId], references: [id])
-  category    Categories     @relation(fields: [categoryId], references: [id])
-  subCategory SubCategories? @relation(fields: [subCategoryId], references: [id])
+  frequency   Frequencies?   @relation(fields: [frequencyId], references: [id], onDelete: Cascade)
+  category    Categories     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  subCategory SubCategories? @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
 }
 
 model BudgetTypes {
@@ -152,10 +152,10 @@ model Epargnes {
   subcategoryId Int?
   userGroupsId  Int?
 
-  user                 Users                           @relation(fields: [userId], references: [id])
-  category             Categories                      @relation(fields: [categoryId], references: [id])
-  subcategory          SubCategories?                  @relation(fields: [subcategoryId], references: [id])
-  userGroups           UserGroups?                     @relation(fields: [userGroupsId], references: [id])
+  user                 Users                           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category             Categories                      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  subcategory          SubCategories?                  @relation(fields: [subcategoryId], references: [id], onDelete: Cascade)
+  userGroups           UserGroups?                     @relation(fields: [userGroupsId], references: [id], onDelete: Cascade)
   userGroupsOnEpargnes Relation_UserGroupsOnEpargnes[]
 }
 
@@ -167,7 +167,7 @@ model Frequencies {
   type      String
   days      String
 
-  user Users @relation(fields: [userId], references: [id])
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   budgetLines BudgetLines[]
 }
@@ -183,10 +183,10 @@ model SubCategories {
   userId       Int
   userGroupsId Int?
 
-  parent     Categories  @relation(fields: [parentId], references: [id])
-  icon       Icons?      @relation(fields: [iconId], references: [id])
-  user       Users       @relation(fields: [userId], references: [id])
-  userGroups UserGroups? @relation(fields: [userGroupsId], references: [id])
+  parent     Categories  @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  icon       Icons?      @relation(fields: [iconId], references: [id], onDelete: Cascade)
+  user       Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userGroups UserGroups? @relation(fields: [userGroupsId], references: [id], onDelete: Cascade)
 
   alerts                             Alerts[]
   epargnes                           Epargnes[]
@@ -208,7 +208,7 @@ model UserGroups {
   title   String
   ownerId Int    @unique
 
-  owner Users @relation(fields: [ownerId], references: [id])
+  owner Users @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
   categories                         Relation_UserGroupsOnEpargnes[]
   relation_UserGroupsOnsubCategories Relation_UserGroupsOnSubCategories[]
@@ -223,8 +223,8 @@ model Relation_UserGroupsOnCategories {
   categoryId   Int
   assignedAt   DateTime @default(now())
 
-  userGroups UserGroups @relation(fields: [userGroupsId], references: [id])
-  category   Categories @relation(fields: [categoryId], references: [id])
+  userGroups UserGroups @relation(fields: [userGroupsId], references: [id], onDelete: Cascade)
+  category   Categories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   @@id([userGroupsId, categoryId])
 }
@@ -234,8 +234,8 @@ model Relation_UserGroupsOnSubCategories {
   subCategoriesId Int
   assignedAt      DateTime @default(now())
 
-  userGroups    UserGroups    @relation(fields: [userGroupsId], references: [id])
-  subCategories SubCategories @relation(fields: [subCategoriesId], references: [id])
+  userGroups    UserGroups    @relation(fields: [userGroupsId], references: [id], onDelete: Cascade)
+  subCategories SubCategories @relation(fields: [subCategoriesId], references: [id], onDelete: Cascade)
 
   @@id([userGroupsId, subCategoriesId])
 }
@@ -245,8 +245,8 @@ model Relation_UserGroupsOnEpargnes {
   epargnesId   Int
   assignedAt   DateTime @default(now())
 
-  userGroups UserGroups @relation(fields: [userGroupsId], references: [id])
-  epargnes   Epargnes   @relation(fields: [epargnesId], references: [id])
+  userGroups UserGroups @relation(fields: [userGroupsId], references: [id], onDelete: Cascade)
+  epargnes   Epargnes   @relation(fields: [epargnesId], references: [id], onDelete: Cascade)
 
   @@id([userGroupsId, epargnesId])
 }
@@ -256,8 +256,8 @@ model Relation_UserGroupsOnUsers {
   usersId      Int
   assignedAt   DateTime @default(now())
 
-  userGroups UserGroups @relation(fields: [userGroupsId], references: [id])
-  users      Users      @relation(fields: [usersId], references: [id])
+  userGroups UserGroups @relation(fields: [userGroupsId], references: [id], onDelete: Cascade)
+  users      Users      @relation(fields: [usersId], references: [id], onDelete: Cascade)
 
   @@id([userGroupsId, usersId])
 }
