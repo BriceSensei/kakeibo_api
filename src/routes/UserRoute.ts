@@ -1,28 +1,35 @@
 import express, { Request, Response, Router } from 'express';
 import { UnimplementedError } from '../exceptions/UnimplementedError';
+import { UserController } from '@controller/UserController';
+import { UserClass } from '@class/userClass';
 const userRoute: Router = express.Router()
 
 userRoute.post('/', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
+    res.status(201).send()
 });
 
 // Get all users
-userRoute.get('/', (req: Request, res: Response): void => {
-    res.json({message: "Madame Zazou"}).status(200);
-});
+// userRoute.get('/', (req: Request, res: Response): void => {
+    //     res.json(UserController.getUsers()).status(200);
+    // });
+    const userController: UserController = new UserController();
+    userRoute.get("/", userController.getAllUsers);
 
-// Get user by id
-userRoute.get('/:id', (req: Request, res: Response): void => {
-    const userId = req.params.id;
-    console.log(userId);
-});
+// // Get user by id
+// userRoute.get('/:id', (req: Request, res: Response): void => {
+//     const userId = UserController.getUser(Number(req.params.id));
+//     res.json(userId);
+    
+// });
 
-userRoute.patch('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
+// userRoute.patch('/:id', (req: Request, res: Response): void => {
+    
+    
+// });
 
-userRoute.delete('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
+// userRoute.delete('/:id', (req: Request, res: Response): void => {
+//     UserController.deleteUser(Number(req.params.id));
+//     res.status(204).send();
+// });
 
 export default userRoute
