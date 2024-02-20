@@ -4,32 +4,14 @@ import { UserController } from '@controller/UserController';
 import { UserClass } from '../services/userService';
 const userRoute: Router = express.Router()
 
-userRoute.post('/', (req: Request, res: Response): void => {
-    res.status(201).send()
-});
+const userController: UserController = new UserController();
 
-// Get all users
-// userRoute.get('/', (req: Request, res: Response): void => {
-    //     res.json(UserController.getUsers()).status(200);
-    // });
-    const userController: UserController = new UserController();
-    userRoute.get("/", userController.getAllUsers);
+userRoute.post("/", userController.createNewUser);
+userRoute.get("/", userController.getAllUsers);
+userRoute.get("/:id", userController.getAllUsers);
+userRoute.patch("/:id", userController.updateOneUser);
+userRoute.delete("/:id", userController.deleteOneUser);
 
-// // Get user by id
-// userRoute.get('/:id', (req: Request, res: Response): void => {
-//     const userId = UserController.getUser(Number(req.params.id));
-//     res.json(userId);
-    
-// });
 
-// userRoute.patch('/:id', (req: Request, res: Response): void => {
-    
-    
-// });
-
-// userRoute.delete('/:id', (req: Request, res: Response): void => {
-//     UserController.deleteUser(Number(req.params.id));
-//     res.status(204).send();
-// });
 
 export default userRoute

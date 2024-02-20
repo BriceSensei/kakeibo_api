@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UsersInterface } from "../interfaces/Users";
+import { UnimplementedError} from "../exceptions/UnimplementedError";
 
 class UserClass{
 
@@ -7,21 +8,25 @@ class UserClass{
 
     }
 
-     getAllUsers = (req: Request, res: Response) : void =>{
+    getAllUsers = (req: Request, res: Response) : void =>{
         //const allUsers 
-        return;
+        throw new UnimplementedError();
     }
 
     getOneUser = (req: Request, res: Response) : UsersInterface | undefined =>{
-        return;
+        throw new UnimplementedError();
     }
 
     createNewUser = (req: Request, res: Response) : void => {
-        return;
+        throw new UnimplementedError();
     }
 
     updateOneUser = (req: Request, res: Response) : void => {
-        return;
+        throw new UnimplementedError();
+    }
+
+    deleteOneUser = (req: Request, res: Response) : void => {
+        throw new UnimplementedError();
     }
 }
 
