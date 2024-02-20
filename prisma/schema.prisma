@@ -6,6 +6,258 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Todo_Relation {
+  id            Int     @id @default(autoincrement())
+  Epargnes      Boolean
+  Frequencies   Boolean
+  SubCategories Boolean
+}
+
+model Users {
+  id                 Int      @id @default(autoincrement())
+  name               String
+  firstName          String   @map("first_name")
+  lastName           String   @map("last_name")
+  email              String   @unique
+  password           String
+  creationDate       DateTime @default(now()) @map("creation_date")
+  updateDate         DateTime @updatedAt @map("update_date")
+  passwordUpdateDate DateTime @map("password_update_date")
+  lastLoginDate      DateTime @map("last_login_date")
+  connectionAttempts Int      @default(0)
+  isActive           Boolean  @default(false)
+  role               Int      @default(0)
+  curencyId          Int
+
+  curency Curencies @relation(fields: [curencyId], references: [id])
+
+  tokens                     Tokens[]
+  fbTokens                   FbTokens[]
+  alerts                     Alerts[]
+  epargnes                   Epargnes[]
+  frequancies                Frequencies[]
+  subCategories              SubCategories[]
+  ownedGroups                UserGroups[]
+  relation_UserGroupsOnUsers Relation_UserGroupsOnUsers[]
+}
+
+model Curencies {
+  id     Int    @id @default(autoincrement())
+  name   String
+  devise String
+
+  Users Users[]
+}
+
+model Tokens {
+  id        Int    @id @default(autoincrement())
+  token     String @unique
+  userAgent String
+  userId    Int
+
+  user Users @relation(fields: [userId], references: [id])
+}
+
+model FbTokens {
+  id        Int    @id @default(autoincrement())
+  token     String @unique
+  userAgent String
+  userId    Int
+
+  user Users @relation(fields: [userId], references: [id])
+}
+
+model Icons {
+  id       Int    @id @default(autoincrement())
+  iconName String @unique
+  svgPath  String
+
+  categories    Categories[]
+  SubCategories SubCategories[]
+}
+
+model Categories {
+  id           Int      @id @default(autoincrement())
+  name         String   @unique
+  iconId       Int
+  color        String
+  creationDate DateTime @default(now())
+  updateDate   DateTime @updatedAt
+
+  icon Icons @relation(fields: [iconId], references: [id])
+
+  alerts                          Alerts[]
+  budgetLines                     BudgetLines[]
+  relation_UserGroupsOnCategories Relation_UserGroupsOnCategories[]
+  Epargnes                        Epargnes[]
+  SubCategories                   SubCategories[]
+}
+
+model Alerts {
+  id              Int    @id @default(autoincrement())
+  title           String
+  seuil           Float
+  description     String
+  type            String
+  userId          Int
+  categoryId      Int
+  subCategoriesId Int?
+  budgetId        Int
+
+  user          Users          @relation(fields: [userId], references: [id])
+  category      Categories     @relation(fields: [categoryId], references: [id])
+  subCategories SubCategories? @relation(fields: [subCategoriesId], references: [id])
+}
+
+model BudgetLines {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  value         Float
+  title         String
+  description   String?
+  date          DateTime
+  type          String
+  frequencyId   Int?
+  categoryId    Int
+  subCategoryId Int?
+  updateDate    DateTime @updatedAt
+  creationDate  DateTime @default(now())
+
+  frequency   Frequencies?   @relation(fields: [frequencyId], references: [id])
+  category    Categories     @relation(fields: [categoryId], references: [id])
+  subCategory SubCategories? @relation(fields: [subCategoryId], references: [id])
+}
+
+model BudgetTypes {
+  id        Int    @id @default(autoincrement())
+  typeName  String @unique
+  typeColor String
+}
+
+model Epargnes {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  value         Float
+  title         String
+  description   String?
+  creationDate  DateTime @default(now())
+  updateDate    DateTime @updatedAt
+  beginDate     DateTime @default(now())
+  endDate       DateTime
+  categoryId    Int
+  subcategoryId Int?
+  userGroupsId  Int?
+
+  user                 Users                           @relation(fields: [userId], references: [id])
+  category             Categories                      @relation(fields: [categoryId], references: [id])
+  subcategory          SubCategories?                  @relation(fields: [subcategoryId], references: [id])
+  userGroups           UserGroups?                     @relation(fields: [userGroupsId], references: [id])
+  userGroupsOnEpargnes Relation_UserGroupsOnEpargnes[]
+}
+
+model Frequencies {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  startTime DateTime  @default(now())
+  endTime   DateTime?
+  type      String
+  days      String
+
+  user Users @relation(fields: [userId], references: [id])
+
+  budgetLines BudgetLines[]
+}
+
+model SubCategories {
+  id           Int      @id @default(autoincrement())
+  name         String
+  iconId       Int?
+  color        String
+  creationDate DateTime @default(now())
+  updateDate   DateTime @updatedAt
+  parentId     Int
+  userId       Int
+  userGroupsId Int?
+
+  parent     Categories  @relation(fields: [parentId], references: [id])
+  icon       Icons?      @relation(fields: [iconId], references: [id])
+  user       Users       @relation(fields: [userId], references: [id])
+  userGroups UserGroups? @relation(fields: [userGroupsId], references: [id])
+
+  alerts                             Alerts[]
+  epargnes                           Epargnes[]
+  relation_UserGroupsOnSubCategories Relation_UserGroupsOnSubCategories[]
+  BudgetLines                        BudgetLines[]
+}
+
+model Tips {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  level        Int
+  creationDate DateTime @default(now())
+  updateDate   DateTime @updatedAt
+}
+
+model UserGroups {
+  id      Int    @id @default(autoincrement())
+  title   String
+  ownerId Int    @unique
+
+  owner Users @relation(fields: [ownerId], references: [id])
+
+  categories                         Relation_UserGroupsOnEpargnes[]
+  relation_UserGroupsOnsubCategories Relation_UserGroupsOnSubCategories[]
+  relation_UserGroupsOnCategories    Relation_UserGroupsOnCategories[]
+  epargnes                           Epargnes[]
+  SubCategories                      SubCategories[]
+  Relation_UserGroupsOnUsers         Relation_UserGroupsOnUsers[]
+}
+
+model Relation_UserGroupsOnCategories {
+  userGroupsId Int
+  categoryId   Int
+  assignedAt   DateTime @default(now())
+
+  userGroups UserGroups @relation(fields: [userGroupsId], references: [id])
+  category   Categories @relation(fields: [categoryId], references: [id])
+
+  @@id([userGroupsId, categoryId])
+}
+
+model Relation_UserGroupsOnSubCategories {
+  userGroupsId    Int
+  subCategoriesId Int
+  assignedAt      DateTime @default(now())
+
+  userGroups    UserGroups    @relation(fields: [userGroupsId], references: [id])
+  subCategories SubCategories @relation(fields: [subCategoriesId], references: [id])
+
+  @@id([userGroupsId, subCategoriesId])
+}
+
+model Relation_UserGroupsOnEpargnes {
+  userGroupsId Int
+  epargnesId   Int
+  assignedAt   DateTime @default(now())
+
+  userGroups UserGroups @relation(fields: [userGroupsId], references: [id])
+  epargnes   Epargnes   @relation(fields: [epargnesId], references: [id])
+
+  @@id([userGroupsId, epargnesId])
+}
+
+model Relation_UserGroupsOnUsers {
+  userGroupsId Int
+  usersId      Int
+  assignedAt   DateTime @default(now())
+
+  userGroups UserGroups @relation(fields: [userGroupsId], references: [id])
+  users      Users      @relation(fields: [usersId], references: [id])
+
+  @@id([userGroupsId, usersId])
 }

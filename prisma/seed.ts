@@ -1,7 +1,7 @@
 import { glob } from "glob";
 
 async function main() {
-  const seedFiles = await glob("./database/seeders/*.seed.ts");
+  const seedFiles = await glob("./prisma/seeders/*.seed.ts");
 
   for (let file of seedFiles) {
     let success = true;
