@@ -206,9 +206,9 @@ model Tips {
 model UserGroups {
   id      Int    @id @default(autoincrement())
   title   String
-  ownerId Int    
+  ownerId Int
 
-  owner Users @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner Users @relation(fields: [ownerId], references: [id])
 
   categories                         Relation_UserGroupsOnEpargnes[]
   relation_UserGroupsOnsubCategories Relation_UserGroupsOnSubCategories[]
