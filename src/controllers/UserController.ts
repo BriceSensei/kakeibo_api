@@ -1,5 +1,5 @@
 import { UsersInterface } from "../interfaces/Users";
-import { UserClass} from "../classes/userClass";
+import { UserClass } from "../services/userService";
 import { Request, Response } from "express";
 
 
@@ -52,10 +52,16 @@ export class UserController{
          res.send("Get All users !");
         };
 
-        getUserById(req: Request, res:Response): void{
+        getUserById(req: Request, res:Response){
             const IdUser = new UserClass();
-            IdUser.getUserById(req,res);
+            IdUser.getOneUser(req,res);
             res.send("Get user ID !");
+        }
+
+        createNewUser(req: Request, res:Response){
+            const createUser = new UserClass();
+            createUser.createNewUser(req,res);
+            res.send("New user has been create !")
         }
 
 

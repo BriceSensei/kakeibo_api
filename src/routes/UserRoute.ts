@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from 'express';
 import { UnimplementedError } from '../exceptions/UnimplementedError';
 import { UserController } from '@controller/UserController';
-import { UserClass } from '@class/userClass';
+import { UserClass } from '../services/userService';
 const userRoute: Router = express.Router()
 
 userRoute.post('/', (req: Request, res: Response): void => {
