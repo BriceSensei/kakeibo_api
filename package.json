@@ -7,8 +7,8 @@
     "test": "node ./test.js && exit 1",
     "serve": "npx nodemon",
     "build": "npx tsc",
-    "migrate": "npx prisma migrate dev --schema ./prisma/dump.prisma",
-    "seed": "npx tsx ./database/seed.ts"
+    "migrate": "npx prisma migrate dev --schema ./prisma/schema.prisma",
+    "seed": "npx tsx ./prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
