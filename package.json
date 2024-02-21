@@ -7,8 +7,7 @@
     "test": "node ./test.js && exit 1",
     "serve": "npx nodemon",
     "build": "npx tsc",
-    "start": "node server.js",
-    "start:prod": "node dist/server.js",
+    "start:prod": "node dist/src/main.js",
     "migrate": "npx prisma migrate dev --schema ./prisma/schema.prisma",
     "seed": "npx tsx ./prisma/seed.ts"
   },
@@ -23,6 +22,7 @@
     "@types/swagger-ui-express": "^4.1.6",
     "jest": "^29.7.0",
     "nodemon": "^3.0.3",
+    "prisma": "^5.8.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
@@ -31,7 +31,6 @@
     "dotenv": "^16.3.2",
     "express": "^4.18.2",
     "glob": "^10.3.10",
-    "prisma": "^5.8.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   },

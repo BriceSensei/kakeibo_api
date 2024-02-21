@@ -1,6 +1,6 @@
 import express from "express";
 import swaggerUi from 'swagger-ui-express';
-import { specs } from './swagger';
+import { specs } from './Swagger';
 import dotenv from "dotenv";
 
 import alertsRoute from '@route/AlertsRoute';
