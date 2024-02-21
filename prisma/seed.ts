@@ -14,6 +14,7 @@ async function main() {
 }
 
 function numb(str: string): number {
+  str = str.replace(/\\/g, "/")
   const parsed: number = parseInt(str.split("/").pop()?.split("_")[0] ?? "0");
   return parsed;
 }
