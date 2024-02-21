@@ -1,6 +1,6 @@
 import express from "express";
 import swaggerUi from 'swagger-ui-express';
-import { specs } from './Swagger';
+import { specs } from './swagger';
 import dotenv from "dotenv";
 
 import alertsRoute from '@route/AlertsRoute';
@@ -38,5 +38,5 @@ app.use('/user', userRoute);
 const port = parseInt(ENV.PORT ?? "3000");
 
 app.listen(port, () => {
-  console.log(`Server started on ${ENV.SCHEME??'http'}://127.0.01:${port}`);
+  console.log(`Server started on ${ENV.SCHEME??'http'}://127.0.0.1:${port}`);
 });
