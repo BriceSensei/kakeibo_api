@@ -1,3 +1,6 @@
+import { CategoriesInterface } from "./Categories";
+import { SubCategoriesInterface } from "./SubCategories";
+
 export interface IconsInterface {
     id: number;
     iconName: string;

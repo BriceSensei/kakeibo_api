@@ -1,3 +1,6 @@
+import { BudgetLinesInterface } from "./BudgetLines";
+import { UsersInterface } from "./Users";
+
 export interface FrequenciesInterface {
     id: number;
     userId: number;

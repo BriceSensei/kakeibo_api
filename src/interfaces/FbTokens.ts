@@ -1,3 +1,5 @@
+import { UsersInterface } from "./Users";
+
 export interface FbTokensInterface {
     id: number;
     token: string;
