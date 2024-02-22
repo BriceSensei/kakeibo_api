@@ -11,7 +11,8 @@
     "paths": {
       "@route*": ["./src/routes/*"],
       "@controller/*": ["./src/controllers/*"],
-      "@class/*": ["./src/classes/*"]
+      "@class/*": ["./src/classes/*"],
+      "@prisma/*": ["./prisma/*"]
     }
   },
   "tsc-alias": {
