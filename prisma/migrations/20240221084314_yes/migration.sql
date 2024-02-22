@@ -64,7 +64,7 @@ CREATE TABLE `FbTokens` (
 CREATE TABLE `Icons` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `iconName` VARCHAR(191) NOT NULL,
-    `svgPath` VARCHAR(191) NOT NULL,
+    `svgPath` TEXT NOT NULL,
 
     UNIQUE INDEX `Icons_iconName_key`(`iconName`),
     PRIMARY KEY (`id`)
@@ -189,7 +189,6 @@ CREATE TABLE `UserGroups` (
     `title` VARCHAR(191) NOT NULL,
     `ownerId` INTEGER NOT NULL,
 
-    UNIQUE INDEX `UserGroups_ownerId_key`(`ownerId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -230,85 +229,85 @@ CREATE TABLE `Relation_UserGroupsOnUsers` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Users` ADD CONSTRAINT `Users_curencyId_fkey` FOREIGN KEY (`curencyId`) REFERENCES `Curencies`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Users` ADD CONSTRAINT `Users_curencyId_fkey` FOREIGN KEY (`curencyId`) REFERENCES `Curencies`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Tokens` ADD CONSTRAINT `Tokens_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Tokens` ADD CONSTRAINT `Tokens_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `FbTokens` ADD CONSTRAINT `FbTokens_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `FbTokens` ADD CONSTRAINT `FbTokens_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Categories` ADD CONSTRAINT `Categories_iconId_fkey` FOREIGN KEY (`iconId`) REFERENCES `Icons`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Categories` ADD CONSTRAINT `Categories_iconId_fkey` FOREIGN KEY (`iconId`) REFERENCES `Icons`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Alerts` ADD CONSTRAINT `Alerts_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Alerts` ADD CONSTRAINT `Alerts_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Alerts` ADD CONSTRAINT `Alerts_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `Categories`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Alerts` ADD CONSTRAINT `Alerts_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `Categories`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Alerts` ADD CONSTRAINT `Alerts_subCategoriesId_fkey` FOREIGN KEY (`subCategoriesId`) REFERENCES `SubCategories`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `Alerts` ADD CONSTRAINT `Alerts_subCategoriesId_fkey` FOREIGN KEY (`subCategoriesId`) REFERENCES `SubCategories`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `BudgetLines` ADD CONSTRAINT `BudgetLines_frequencyId_fkey` FOREIGN KEY (`frequencyId`) REFERENCES `Frequencies`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `BudgetLines` ADD CONSTRAINT `BudgetLines_frequencyId_fkey` FOREIGN KEY (`frequencyId`) REFERENCES `Frequencies`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `BudgetLines` ADD CONSTRAINT `BudgetLines_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `Categories`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `BudgetLines` ADD CONSTRAINT `BudgetLines_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `Categories`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `BudgetLines` ADD CONSTRAINT `BudgetLines_subCategoryId_fkey` FOREIGN KEY (`subCategoryId`) REFERENCES `SubCategories`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `BudgetLines` ADD CONSTRAINT `BudgetLines_subCategoryId_fkey` FOREIGN KEY (`subCategoryId`) REFERENCES `SubCategories`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Epargnes` ADD CONSTRAINT `Epargnes_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Epargnes` ADD CONSTRAINT `Epargnes_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Epargnes` ADD CONSTRAINT `Epargnes_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `Categories`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Epargnes` ADD CONSTRAINT `Epargnes_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `Categories`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Epargnes` ADD CONSTRAINT `Epargnes_subcategoryId_fkey` FOREIGN KEY (`subcategoryId`) REFERENCES `SubCategories`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `Epargnes` ADD CONSTRAINT `Epargnes_subcategoryId_fkey` FOREIGN KEY (`subcategoryId`) REFERENCES `SubCategories`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Epargnes` ADD CONSTRAINT `Epargnes_userGroupsId_fkey` FOREIGN KEY (`userGroupsId`) REFERENCES `UserGroups`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `Epargnes` ADD CONSTRAINT `Epargnes_userGroupsId_fkey` FOREIGN KEY (`userGroupsId`) REFERENCES `UserGroups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Frequencies` ADD CONSTRAINT `Frequencies_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Frequencies` ADD CONSTRAINT `Frequencies_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `SubCategories` ADD CONSTRAINT `SubCategories_parentId_fkey` FOREIGN KEY (`parentId`) REFERENCES `Categories`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `SubCategories` ADD CONSTRAINT `SubCategories_parentId_fkey` FOREIGN KEY (`parentId`) REFERENCES `Categories`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `SubCategories` ADD CONSTRAINT `SubCategories_iconId_fkey` FOREIGN KEY (`iconId`) REFERENCES `Icons`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `SubCategories` ADD CONSTRAINT `SubCategories_iconId_fkey` FOREIGN KEY (`iconId`) REFERENCES `Icons`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `SubCategories` ADD CONSTRAINT `SubCategories_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `SubCategories` ADD CONSTRAINT `SubCategories_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `SubCategories` ADD CONSTRAINT `SubCategories_userGroupsId_fkey` FOREIGN KEY (`userGroupsId`) REFERENCES `UserGroups`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `SubCategories` ADD CONSTRAINT `SubCategories_userGroupsId_fkey` FOREIGN KEY (`userGroupsId`) REFERENCES `UserGroups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `UserGroups` ADD CONSTRAINT `UserGroups_ownerId_fkey` FOREIGN KEY (`ownerId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Relation_UserGroupsOnCategories` ADD CONSTRAINT `Relation_UserGroupsOnCategories_userGroupsId_fkey` FOREIGN KEY (`userGroupsId`) REFERENCES `UserGroups`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Relation_UserGroupsOnCategories` ADD CONSTRAINT `Relation_UserGroupsOnCategories_userGroupsId_fkey` FOREIGN KEY (`userGroupsId`) REFERENCES `UserGroups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Relation_UserGroupsOnCategories` ADD CONSTRAINT `Relation_UserGroupsOnCategories_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `Categories`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Relation_UserGroupsOnCategories` ADD CONSTRAINT `Relation_UserGroupsOnCategories_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `Categories`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Relation_UserGroupsOnSubCategories` ADD CONSTRAINT `Relation_UserGroupsOnSubCategories_userGroupsId_fkey` FOREIGN KEY (`userGroupsId`) REFERENCES `UserGroups`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Relation_UserGroupsOnSubCategories` ADD CONSTRAINT `Relation_UserGroupsOnSubCategories_userGroupsId_fkey` FOREIGN KEY (`userGroupsId`) REFERENCES `UserGroups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Relation_UserGroupsOnSubCategories` ADD CONSTRAINT `Relation_UserGroupsOnSubCategories_subCategoriesId_fkey` FOREIGN KEY (`subCategoriesId`) REFERENCES `SubCategories`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Relation_UserGroupsOnSubCategories` ADD CONSTRAINT `Relation_UserGroupsOnSubCategories_subCategoriesId_fkey` FOREIGN KEY (`subCategoriesId`) REFERENCES `SubCategories`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Relation_UserGroupsOnEpargnes` ADD CONSTRAINT `Relation_UserGroupsOnEpargnes_userGroupsId_fkey` FOREIGN KEY (`userGroupsId`) REFERENCES `UserGroups`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Relation_UserGroupsOnEpargnes` ADD CONSTRAINT `Relation_UserGroupsOnEpargnes_userGroupsId_fkey` FOREIGN KEY (`userGroupsId`) REFERENCES `UserGroups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Relation_UserGroupsOnEpargnes` ADD CONSTRAINT `Relation_UserGroupsOnEpargnes_epargnesId_fkey` FOREIGN KEY (`epargnesId`) REFERENCES `Epargnes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Relation_UserGroupsOnEpargnes` ADD CONSTRAINT `Relation_UserGroupsOnEpargnes_epargnesId_fkey` FOREIGN KEY (`epargnesId`) REFERENCES `Epargnes`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Relation_UserGroupsOnUsers` ADD CONSTRAINT `Relation_UserGroupsOnUsers_userGroupsId_fkey` FOREIGN KEY (`userGroupsId`) REFERENCES `UserGroups`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Relation_UserGroupsOnUsers` ADD CONSTRAINT `Relation_UserGroupsOnUsers_userGroupsId_fkey` FOREIGN KEY (`userGroupsId`) REFERENCES `UserGroups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Relation_UserGroupsOnUsers` ADD CONSTRAINT `Relation_UserGroupsOnUsers_usersId_fkey` FOREIGN KEY (`usersId`) REFERENCES `Users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Relation_UserGroupsOnUsers` ADD CONSTRAINT `Relation_UserGroupsOnUsers_usersId_fkey` FOREIGN KEY (`usersId`) REFERENCES `Users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

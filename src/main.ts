@@ -38,5 +38,5 @@ app.use('/user', userRoute);
 const port = parseInt(ENV.PORT ?? "3000");
 
 app.listen(port, () => {
-  console.log(`Server started on ${ENV.SCHEME??'http'}://127.0.01:${port}`);
+  console.log(`Server started on ${ENV.SCHEME??'http'}://127.0.0.1:${port}`);
 });

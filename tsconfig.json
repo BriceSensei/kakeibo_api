@@ -1,16 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "outDir":"dist",
-    "module": "commonjs",
+    "target": "es6",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "outDir": "dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
     "paths": {
-      "@route/*": ["./src/routes/*"],
+      "@route*": ["./src/routes/*"],
       "@controller/*": ["./src/controllers/*"],
-      "@class/*": ["./src/classes/*"]
+      "@class/*": ["./src/classes/*"],
+      "@prisma/*": ["./prisma/*"]
     }
+  },
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "verbose": false
   }
 }
