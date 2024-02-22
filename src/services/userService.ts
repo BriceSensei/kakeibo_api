@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { UsersInterface } from "../interfaces/Users";
 import { UnimplementedError} from "../exceptions/UnimplementedError";
+import prisma from "@prisma/prisma"
 
 class UserClass{
 
@@ -9,6 +10,7 @@ class UserClass{
     }
 
     getAllUsers = (req: Request, res: Response) : void =>{
+
         //const allUsers 
         throw new UnimplementedError();
     }

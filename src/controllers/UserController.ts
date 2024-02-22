@@ -4,10 +4,21 @@ import { Request, Response } from "express";
 
 export class UserController{
     
-        getAllUsers(req:Request, res:Response): void{
+        async getAllUsers(req:Request, res:Response): Promise<void>{
             const allUser = new UserClass();
-            allUser.getAllUsers(req, res);
-            res.send("Get All users !");
+
+            try {
+                const retour = await allUser.getAllUsers();
+                res.send(retour);
+                
+            } catch (err) {
+                const errMsg = {
+                    status: 500,
+                    error: err,
+                    message: "It this error keep occuring please reach tech team"
+                }
+                res.status(500).send(errMsg)
+            }
         };
 
         getUserById(req: Request, res:Response){
