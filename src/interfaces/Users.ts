@@ -22,14 +22,14 @@ export interface UsersInterface {
     isActive: boolean;
     role: number;
     curencyId: number;
-    // curency: CurenciesInterface;
-    // tokens: TokensInterface[];
-    // fbTokens: FbTokensInterface[];
-    // alerts: AlertsInterface[];
-    // epargnes: EpargnesInterface[];
-    // frequancies: FrequenciesInterface[];
-    // subCategories: SubCategoriesInterface[];
-    // groups: UserGroupsInterface[];
+    curency: CurenciesInterface;
+    tokens: TokensInterface[];
+    fbTokens: FbTokensInterface[];
+    alerts: AlertsInterface[];
+    epargnes: EpargnesInterface[];
+    frequancies: FrequenciesInterface[];
+    subCategories: SubCategoriesInterface[];
+    groups: UserGroupsInterface[];
 };
 
 

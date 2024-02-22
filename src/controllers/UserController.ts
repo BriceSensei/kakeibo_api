@@ -1,35 +1,45 @@
 import { UsersInterface } from "../interfaces/Users";
-import { UserClass } from "../services/userService";
+import { UserService } from "../services/userService";
 import { Request, Response } from "express";
 
 export class UserController{
-    
-        getAllUsers(req:Request, res:Response): void{
-            const allUser = new UserClass();
-            allUser.getAllUsers(req, res);
-            res.send("Get All users !");
+
+        async getAllUsers(req:Request, res:Response): Promise<void>{
+            const allUser = new UserService();
+            try {
+                const users = await allUser.getAllUsers();
+                res.json(users);
+                
+            } catch (error) {
+                const errMsg ={
+                    status: 500,
+                    error: error,
+                    message: "It this error keep please reach tech team"
+                }
+                res.status(500).send(errMsg)
+            }
         };
 
-        getUserById(req: Request, res:Response){
-            const IdUser = new UserClass();
+       async  getUserById(req: Request, res:Response): Promise<void>{
+            const IdUser = new UserService();
             IdUser.getOneUser(req,res);
             res.send("Get user ID !");
         }
 
         createNewUser(req: Request, res:Response){
-            const createUser = new UserClass();
+            const createUser = new UserService();
             createUser.createNewUser(req,res);
             res.send("New user has been create !");
         }
 
         updateOneUser(req: Request, res:Response){
-            const updateUser = new UserClass();
+            const updateUser = new UserService();
             updateUser.updateOneUser(req, res);
             res.send("update user !");
         }
 
         deleteOneUser(req: Request, res:Response){
-            const deleteUser = new UserClass();
+            const deleteUser = new UserService();
             deleteUser.deleteOneUser(req, res);
             res.send("Delete One user !");
         }

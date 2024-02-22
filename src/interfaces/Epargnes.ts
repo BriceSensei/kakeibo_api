@@ -1,3 +1,8 @@
+import { CategoriesInterface } from "./Categories";
+import { SubCategoriesInterface } from "./SubCategories";
+import { UserGroupsInterface } from "./UserGroups";
+import { UsersInterface } from "./Users";
+
 export interface EpargnesInterface {
     id: number;
     userId: number;

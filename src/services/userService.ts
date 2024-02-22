@@ -1,20 +1,27 @@
 import { Request, Response } from "express";
 import { UsersInterface } from "../interfaces/Users";
 import { UnimplementedError} from "../exceptions/UnimplementedError";
+import { PrismaClient, Users} from "@prisma/client";
 
-class UserClass{
+const userClient = new PrismaClient().users
 
-    constructor(){
+class UserService{
 
-    }
+    constructor(){}
 
-    getAllUsers = (req: Request, res: Response) : void =>{
-        //const allUsers 
-        throw new UnimplementedError();
-    }
+
+   async getAllUsers() : Promise<Users[]>  {
+        try {
+            const allUsers: Users[] = await userClient.findMany();
+            return allUsers;               
+        } catch (error) {       
+            console.error("Erreur lors de la récupération des utilisateurs :", error);
+            return error;
+        }      
+    };
 
     getOneUser = (req: Request, res: Response) : UsersInterface | undefined =>{
-        throw new UnimplementedError();
+        return 
     }
 
     createNewUser = (req: Request, res: Response) : void => {
@@ -30,4 +37,4 @@ class UserClass{
     }
 }
 
-export{UserClass};
+export{UserService};
