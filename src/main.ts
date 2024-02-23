@@ -1,6 +1,6 @@
 import express from "express";
 import swaggerUi from 'swagger-ui-express';
-import { specs } from './swagger';
+// import { specs } from './swagger';
 import dotenv from "dotenv";
 
 import alertsRoute from '@route/AlertsRoute';
@@ -20,7 +20,7 @@ dotenv.config();
 const ENV: NodeJS.ProcessEnv = process.env;
 const app = express();
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use('/alerts', alertsRoute);
 app.use('/category', budgetLineRoute);
