@@ -2,39 +2,47 @@ import { Request, Response } from "express";
 import { UsersInterface } from "../interfaces/Users";
 import { UnimplementedError} from "../exceptions/UnimplementedError";
 import { PrismaClient, Users} from "@prisma/client";
+import prisma from "@prisma/prisma";
 
-const userClient = new PrismaClient().users
+
 
 class UserService{
 
     constructor(){}
 
 
-   async getAllUsers() : Promise<Users[]>  {
-        try {
-            const allUsers: Users[] = await userClient.findMany();
-            return allUsers;               
-        } catch (error) {       
-            console.error("Erreur lors de la récupération des utilisateurs :", error);
-            return error;
-        }      
+   async getAllUsers() : Promise<Users[]> {
+
+        const allUsers: Users[] = await prisma.users.findMany();
+        return allUsers;               
+           
     };
 
-    getOneUser = (req: Request, res: Response) : UsersInterface | undefined =>{
-        return 
+     async getOneUser(userId: number) : Promise<Users>{
+        
+        const user: Users = await prisma.users.findUniqueOrThrow({
+            where: {id: userId},
+            })          
+        return user; 
     }
 
-    createNewUser = (req: Request, res: Response) : void => {
-        throw new UnimplementedError();
+   async createNewUser(userData: Users) : Promise<Users>{
+        const user: Users =  await prisma.users.create({data: userData})     
+        return user
     }
 
-    updateOneUser = (req: Request, res: Response) : void => {
-        throw new UnimplementedError();
+   async updateOneUser(userId: number, userData:Users) : Promise<Users>{
+        const user: Users = await prisma.users.update({
+            where:{id: userId},
+            data: userData
+        })
+        return user
     }
 
-    deleteOneUser = (req: Request, res: Response) : void => {
-        throw new UnimplementedError();
+   async deleteOneUser(userId: number) : Promise<Users >{
+        const user : Users = await prisma.users.delete({where:{id:userId}})
+        return user
     }
+
 }
-
 export{UserService};

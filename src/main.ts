@@ -2,6 +2,7 @@ import express from "express";
 import swaggerUi from 'swagger-ui-express';
 import { specs } from './swagger';
 import dotenv from "dotenv";
+import bodyParser from "body-parser";
 
 import alertsRoute from '@route/AlertsRoute';
 import budgetLineRoute from '@route/BudgetLineRoute';
@@ -21,6 +22,7 @@ const ENV: NodeJS.ProcessEnv = process.env;
 const app = express();
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+app.use(bodyParser.json())
 
 app.use('/alerts', alertsRoute);
 app.use('/category', budgetLineRoute);

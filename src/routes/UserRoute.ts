@@ -8,7 +8,7 @@ const userController: UserController = new UserController();
 
 userRoute.post("/", userController.createNewUser);
 userRoute.get("/", userController.getAllUsers);
-userRoute.get("/:id", userController.getAllUsers);
+userRoute.get("/:id", userController.getUserById);
 userRoute.patch("/:id", userController.updateOneUser);
 userRoute.delete("/:id", userController.deleteOneUser);
 
