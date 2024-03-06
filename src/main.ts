@@ -25,7 +25,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use(bodyParser.json())
 
 app.use('/alerts', alertsRoute);
-app.use('/category', budgetLineRoute);
+app.use('/category', categoryRoute);
 app.use('/fbToken', categoryRoute);
 app.use('/groups', epargnesRoute);
 app.use('/subCategory', fbTokenRoute);
