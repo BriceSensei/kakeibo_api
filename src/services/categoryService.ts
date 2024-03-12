@@ -1,6 +1,5 @@
-import { CategoriesInterface } from "../interfaces/Categories";
-import { UnimplementedError } from "../exceptions/UnimplementedError";
-import { PrismaClient ,Categories } from "@prisma/client";
+
+import {Categories } from "@prisma/client";
 import  prisma  from "@prisma/prisma";
 
 
@@ -26,5 +25,21 @@ class CategoryService {
 
         return category;
     }
+
+    async updateOneCategory(categoryId: number, categoryData : Categories) : Promise<Categories>{
+        const category : Categories = await prisma.categories.update({
+            where:{id: categoryId},
+            data: categoryData
+        })
+
+        return category;
+    }
+
+    async deleteOneUser(categoryId: number){
+        const category: Categories = await prisma.categories.delete({where:{id:categoryId}})
+
+        return category;
+    }
 }
+
 export{CategoryService};

@@ -1,7 +1,5 @@
-import { Request, Response } from "express";
-import { UsersInterface } from "../interfaces/Users";
-import { UnimplementedError} from "../exceptions/UnimplementedError";
-import { PrismaClient, Users} from "@prisma/client";
+
+import {Users} from "@prisma/client";
 import prisma from "@prisma/prisma";
 
 

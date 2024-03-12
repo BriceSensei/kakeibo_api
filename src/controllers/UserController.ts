@@ -1,5 +1,4 @@
 import { Users } from "@prisma/client";
-import { UsersInterface } from "../interfaces/Users";
 import { UserService } from "../services/userService";
 import { Request, Response } from "express";
 
