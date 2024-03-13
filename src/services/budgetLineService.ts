@@ -22,23 +22,26 @@ class BudgetLineClass{
         return BudgetLineById; 
     }
 
-    createNewBudgetLine = async (req: Request, res: Response): Promise<BudgetLines | null> => {
-        const budgetLineData: BudgetLinesInterface = req.body;
-        const newBudgetLine = await prisma.budgetLines.create({
-            data: budgetLineData
-        });
-        return newBudgetLine;
-    }
+    // createNewBudgetLine = async (req: Request, res: Response): Promise<BudgetLines | null> => {
+    //     const budgetLineData: BudgetLinesInterface = req.body;
+    //     const newBudgetLine = await prisma.budgetLines.create({
+    //         data: budgetLineData
+    //     });
+    //     return newBudgetLine;
+    // }
 
-    updateOneBudgetLine = async (req: Request, res: Response): Promise<BudgetLines | null> => {
-        const { id } = req.params;
-        const budgetLineData: BudgetLinesInterface = req.body;
-        const updatedBudgetLine = await prisma.budgetLines.update({
-            where: { id: parseInt(id) },
-            data: budgetLineData
-        });
-        return updatedBudgetLine;
-    }
+    // updateOneBudgetLine = async (req: Request, res: Response): Promise<BudgetLines | null> => {
+    //     const { id } = req.params;
+    //     const budgetLineData: BudgetLinesInterface = req.body;
+    //     const updatedBudgetLine = await prisma.budgetLines.update({
+    //         where: { id: parseInt(id) },
+    //         data: {
+    //             ...budgetLineData,
+    //             frequency: undefined
+    //         }
+    //     });
+    //     return updatedBudgetLine;
+    // }
 
     deleteOneBudgetLine = async (req: Request, res: Response): Promise<BudgetLines | null> => {
         const { id } = req.params;

@@ -1,6 +1,6 @@
 import express from "express";
 import swaggerUi from 'swagger-ui-express';
-import { specs } from './swagger';
+// import { specs } from './swagger';
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 
