@@ -1,89 +1,62 @@
-import { BudgetLineClass } from "../services/budgetLineService";
-import { Request, Response } from "express";
-import { BudgetLines } from "@prisma/client";
-import prisma from "@prisma/prisma";
 
+import { Request, Response } from "express";
+import { BudgetLineService } from "../services/budgetLineService";
+import { BudgetLines } from "@prisma/client";
 export class BudgetLineController {
 
-    // public async getBudgetLines(req: Request, res: Response) {
-    //     const budgetLines = new BudgetLineClass();
-    //     await budgetLines.getAllBudgetLine(req, res);
-    //     //const result = await budgetLines.getOneBudgetLine(req, res);
-    //     res.send("Get All budget !");
-    // }
 
-    public async getBudgetLines(req: Request, res: Response) {
+    async getAllBudgetLines(req:Request, res:Response): Promise<void>{
+        const allBudgetLines : BudgetLineService = new BudgetLineService();
+
         try {
-            // Récupérer toutes les lignes de budget
-            const budgetLines = await prisma.budgetLines.findMany();
-            res.status(200).json(budgetLines);
+            const budgetLines: BudgetLines[] = await allBudgetLines.getAllBudgetLines();
+            res.json(budgetLines);
         } catch (error) {
-            console.error("Erreur lors de la récupération de toutes les lignes de budget :", error);
-            res.status(500).json({ message: "Erreur lors de la récupération de toutes les lignes de budget" });
-        }
-    }
-
-    public async getBudgetLineById(req: Request, res: Response) {
-        const { id } = req.params;
-        try {
-            // Récupérer une ligne de budget spécifique
-            const budgetLine = await prisma.budgetLines.findUnique({
-                where: { id: parseInt(id) }
-            });
-            if (!budgetLine) {
-                res.status(404).json({ message: "Ligne de budget introuvable" });
-                return;
+            const errMsg = {
+                status: 500,
+                error: error,
+                message: "Fail to get all budgetLines"               
             }
-            res.status(200).json(budgetLine);
-        } catch (error) {
-            console.error("Erreur lors de la récupération de la ligne de budget :", error);
-            res.status(500).json({ message: "Erreur lors de la récupération de la ligne de budget" });
+
+            res.status(500).send(errMsg);
         }
     }
 
-    public async createBudgetLine(req: Request, res: Response) {
+    async getBudgetLineById(req: Request, res: Response):Promise<void>{
+        const budgetLineMethod : BudgetLineService = new BudgetLineService();
+        const budgetLineId : number = parseInt(req.params.id);
 
-        const budgetLineData = req.body;
         try {
-            // Créer une nouvelle ligne de budget
-            const newBudgetLine = await prisma.budgetLines.create({
-                data: budgetLineData
-            });
-            res.status(201).json(newBudgetLine);
+            const budgetLine : BudgetLines = await budgetLineMethod.getOneBudgetLine(budgetLineId);
+            res.json(budgetLine);
         } catch (error) {
-            // Gérer les erreurs
-            console.error("Erreur lors de la création de la ligne de budget :", error);
-            res.status(500).json({ message: "Erreur lors de la création de la ligne de budget" });
+            const errMsg = {
+                status: 500,
+                error: error,
+                message: "Impossible de récuperer l'id d'une alert"
+            }
+            res.status(500).send(errMsg);
         }
     }
 
-    public async updateBudgetLine(req: Request, res: Response) {
-        const { id } = req.params;
-        const updatedBudgetLineData = req.body;
-        try {
-            // Mettre à jour une ligne de budget spécifique
-            const updatedBudgetLine = await prisma.budgetLines.update({
-                where: { id: parseInt(id) },
-                data: updatedBudgetLineData
-            });
-            res.status(200).json(updatedBudgetLine);
-        } catch (error) {
-            console.error("Erreur lors de la mise à jour de la ligne de budget :", error);
-            res.status(500).json({ message: "Erreur lors de la mise à jour de la ligne de budget" });
-        }
-    }
+    async createNewBudgetLine(req: Request, res: Response): Promise<void>{
+        const budgetLineMethod : BudgetLineService = new BudgetLineService();
+        const budgetLineData: BudgetLines = { ...req.body};
 
-    public async deleteBudgetLine(req: Request, res: Response) {
-        const { id } = req.params;
         try {
-            // Supprimer une ligne de budget spécifique
-            const deletedBudgetLine = await prisma.budgetLines.delete({
-                where: { id: parseInt(id) }
-            });
-            res.status(200).json(deletedBudgetLine);
+           const budgetLine : BudgetLines = await budgetLineMethod.createOneBudgetLine(budgetLineData);
+           res.json(budgetLine); 
         } catch (error) {
-            console.error("Erreur lors de la suppression de la ligne de budget :", error);
-            res.status(500).json({ message: "Erreur lors de la suppression de la ligne de budget" });
+            const errMsg = {
+                status: 500,
+                error: error,
+                message: "Echec leur de la creation d'une nouvelle ligne de budget"
+            }
+            res.status(500).send(errMsg);
         }
     }
 }
+    
+
+   
+    

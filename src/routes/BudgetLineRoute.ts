@@ -1,21 +1,13 @@
 import express, { Request, Response, Router } from 'express';
 import { UnimplementedError } from '../exceptions/UnimplementedError';
+import { BudgetLineController } from '@controller/BudgetLineController';
 
 const budgetLineRoute: Router = express.Router()
+const budgetLineController : BudgetLineController= new BudgetLineController;
 
-budgetLineRoute.post('/', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
-
-// Get all alerts
-budgetLineRoute.get('/', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
-
-// Get alert by id
-budgetLineRoute.get('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
+budgetLineRoute.post('/', budgetLineController.createNewBudgetLine);
+budgetLineRoute.get('/', budgetLineController.getAllBudgetLines);
+budgetLineRoute.get('/:id', budgetLineController.getBudgetLineById);
 
 // Get all alerts from user
 budgetLineRoute.get('/user/:userId', (req: Request, res: Response): void => {

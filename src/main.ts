@@ -1,6 +1,6 @@
 import express from "express";
 import swaggerUi from 'swagger-ui-express';
-// import { specs } from './swagger';
+import { specs } from './swagger';
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 
@@ -30,7 +30,7 @@ app.use('/fbToken', categoryRoute);
 app.use('/groups', epargnesRoute);
 app.use('/subCategory', fbTokenRoute);
 app.use('/token', frequencyRoute);
-app.use('/budgetLine', groupsRoute);
+app.use('/budgetLine', budgetLineRoute);
 app.use('/epargnes', iconRoute);
 app.use('/frequency', subCategoryRoute);
 app.use('/icon', tipsRoute);

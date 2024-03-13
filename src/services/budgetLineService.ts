@@ -1,55 +1,45 @@
-import { Request, Response } from "express";
-import { BudgetLinesInterface } from "../interfaces/BudgetLines";
-import { UnimplementedError} from "../exceptions/UnimplementedError";
+
 import { BudgetLines } from "@prisma/client";
 import prisma from "@prisma/prisma";
 
-class BudgetLineClass{
+class BudgetLineService{
 
     constructor(){
     }
 
-    getAllBudgetLine = async (req: Request, res: Response): Promise<void> => {
-        const budgetLines = await prisma.budgetLines.findMany();
+   async getAllBudgetLines() : Promise<BudgetLines[]>{
+    const allBudgetLines : BudgetLines[] = await prisma.budgetLines.findMany();
+
+    return allBudgetLines;
+   }
+
+   async getOneBudgetLine(budgetLineId : number) : Promise<BudgetLines>{
+    const budgetLine : BudgetLines = await prisma.budgetLines.findUniqueOrThrow({where :{id: budgetLineId}});
+
+    return budgetLine;
+   }
+
+   async createOneBudgetLine(budgetLineData: BudgetLines) : Promise<BudgetLines>{
+    const budgetLine : BudgetLines = await prisma.budgetLines.create({data: budgetLineData});
+
+    return budgetLine;
+   }
+
+    async updateBudgetLine(budgetLineId: number, budgetLineData: BudgetLines): Promise<BudgetLines>{
+        const budgetLine : BudgetLines = await prisma.budgetLines.update({where:{id: budgetLineId},
+                data: budgetLineData
+        })
+
+        return budgetLine;
     }
 
-    getBudgetLineById = async (id:number): Promise<BudgetLines | null> => {
-        const BudgetLineById = await prisma.budgetLines.findUnique({
-            where: {
-                id: id
-            }
-        });
-        return BudgetLineById; 
+
+    async deleteOneBudgetLine(budgetLineId: number){
+        const budgetLine: BudgetLines = await prisma.budgetLines.delete({where:{id: budgetLineId}})
+
+        return budgetLine;
     }
 
-    // createNewBudgetLine = async (req: Request, res: Response): Promise<BudgetLines | null> => {
-    //     const budgetLineData: BudgetLinesInterface = req.body;
-    //     const newBudgetLine = await prisma.budgetLines.create({
-    //         data: budgetLineData
-    //     });
-    //     return newBudgetLine;
-    // }
-
-    // updateOneBudgetLine = async (req: Request, res: Response): Promise<BudgetLines | null> => {
-    //     const { id } = req.params;
-    //     const budgetLineData: BudgetLinesInterface = req.body;
-    //     const updatedBudgetLine = await prisma.budgetLines.update({
-    //         where: { id: parseInt(id) },
-    //         data: {
-    //             ...budgetLineData,
-    //             frequency: undefined
-    //         }
-    //     });
-    //     return updatedBudgetLine;
-    // }
-
-    deleteOneBudgetLine = async (req: Request, res: Response): Promise<BudgetLines | null> => {
-        const { id } = req.params;
-       const deleteBudgetLine = await prisma.budgetLines.delete({
-            where: { id: parseInt(id) }
-        });
-        return deleteBudgetLine;
-    }
 }
 
-export{BudgetLineClass};
+export{BudgetLineService};

@@ -41,7 +41,7 @@ export class CategoryController{
     }
 
     async createNewCategory(req: Request, res: Response): Promise<void>{
-        const categoryMethod : CategoryService = new CategoryService;
+        const categoryMethod : CategoryService = new CategoryService();
         const categoryData: Categories = { ...req.body};
 
         try {
