@@ -35,7 +35,7 @@ class CategoryService {
         return category;
     }
 
-    async deleteOneUser(categoryId: number){
+    async deleteOneCategory(categoryId: number){
         const category: Categories = await prisma.categories.delete({where:{id:categoryId}})
 
         return category;

@@ -80,7 +80,7 @@ export class CategoryController{
         const categoryId : number = parseInt(req.params.id)
 
         try {
-            const categoryDeleted: Categories = await categoryMethod.deleteOneUser(categoryId);
+            const categoryDeleted: Categories = await categoryMethod.deleteOneCategory(categoryId);
             res.json(categoryDeleted);
         } catch (error) {
             const errMsg = {

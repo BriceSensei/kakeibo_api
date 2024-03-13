@@ -23,72 +23,72 @@ export class AlertController{
     }
 
 
-//     async getCategoryById(req: Request, res: Response):Promise<void>{
-//         const categoryMethod : CategoryService = new CategoryService();
-//         const categoryId : number = parseInt(req.params.id);
+    async getCategoryById(req: Request, res: Response):Promise<void>{
+        const alertMethod : AlertService = new AlertService();
+        const alertId : number = parseInt(req.params.id);
 
-//         try {
-//             const categories : Categories = await categoryMethod.getOneCategory(categoryId);
-//             res.json(categories);
-//         } catch (error) {
-//             const errMsg = {
-//                 status: 500,
-//                 error: error,
-//                 message: "Impossible de récuperer l'id d'une catégorie"
-//             }
-//             res.status(500).send(errMsg);
-//         }
-//     }
+        try {
+            const alert : Alerts = await alertMethod.getOneAlert(alertId);
+            res.json(alert);
+        } catch (error) {
+            const errMsg = {
+                status: 500,
+                error: error,
+                message: "Impossible de récuperer l'id d'une alert"
+            }
+            res.status(500).send(errMsg);
+        }
+    }
 
-//     async createNewCategory(req: Request, res: Response): Promise<void>{
-//         const categoryMethod : CategoryService = new CategoryService;
-//         const categoryData: Categories = { ...req.body};
+    async createNewAlert(req: Request, res: Response): Promise<void>{
+        const alertMethod : AlertService = new AlertService;
+        const alertData: Alerts = { ...req.body};
 
-//         try {
-//            const category : Categories = await categoryMethod.createNewCategory(categoryData);
-//            res.json(category); 
-//         } catch (error) {
-//             const errMsg = {
-//                 status: 500,
-//                 error: error,
-//                 message: "Echec leur de la creation d'une nouvelle catégorie"
-//             }
-//             res.status(500).send(errMsg);
-//         }
-//     }
+        try {
+           const alert : Alerts = await alertMethod.createNewAlert(alertData);
+           res.json(alert); 
+        } catch (error) {
+            const errMsg = {
+                status: 500,
+                error: error,
+                message: "Echec leur de la creation d'une nouvelle catégorie"
+            }
+            res.status(500).send(errMsg);
+        }
+    }
 
-//     async updateOneCategory(req: Request, res:Response): Promise<void>{
-//         const categoryMethod: CategoryService = new CategoryService();
-//         const categoryData: Categories = req.body;
-//         const categoryId: number = parseInt(req.params.id);
+    async updateOneAlert(req: Request, res:Response): Promise<void>{
+        const alertMethod: AlertService = new AlertService();
+        const alertData: Alerts = req.body;
+        const alertId: number = parseInt(req.params.id);
 
-//         try {
-//             const categoryUpdate: Categories = await categoryMethod.updateOneCategory(categoryId, categoryData)
-//             res.json(categoryUpdate)
-//         } catch (error) {
-//             const errMsg={
-//                 status: 500,
-//                 error: error,
-//                 message: "Fail to update category"
-//             }
-//             res.status(500).send(errMsg);
-//         }
-//     }
+        try {
+            const alertUpdate: Alerts = await alertMethod.updateOneAlert(alertId, alertData)
+            res.json(alertUpdate)
+        } catch (error){
+            const errMsg={
+                status: 500,
+                error: error,
+                message: "Fail to update alert"
+            }
+            res.status(500).send(errMsg);
+        }
+    }
 
-//     async deleteOneCategory(req: Request, res:Response){
-//         const categoryMethod: CategoryService = new CategoryService();
-//         const categoryId : number = parseInt(req.params.id)
+     async deleteOneAlert(req: Request, res:Response){
+        const alertMethod: AlertService = new AlertService();
+        const alertId : number = parseInt(req.params.id)
 
-//         try {
-//             const categoryDeleted: Categories = await categoryMethod.deleteOneUser(categoryId);
-//             res.json(categoryDeleted);
-//         } catch (error) {
-//             const errMsg = {
-//                 status: 500,
-//                 error: error,
-//                 message: "Fail to delete category in database"
-//             }
-//             res.status(500).send(errMsg);
-//         }
-//     }
+        try {
+            const alertDeleted: Alerts = await alertMethod.deleteOneAlert(alertId);
+            res.json(alertDeleted);
+        } catch (error) {
+            const errMsg = {
+                status: 500,
+                error: error,
+                message: "Fail to delete category in database"
+            }
+            res.status(500).send(errMsg);
+        }
+    }
  }
