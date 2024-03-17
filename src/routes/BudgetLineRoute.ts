@@ -14,12 +14,8 @@ budgetLineRoute.get('/user/:userId', (req: Request, res: Response): void => {
     throw new UnimplementedError();
 });
 
-budgetLineRoute.patch('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
+budgetLineRoute.patch('/:id', budgetLineController.updateOneBudgetLine);
 
-budgetLineRoute.delete('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
+budgetLineRoute.delete('/:id', budgetLineController.deleteOneBudgebudgetLine);
 
 export default budgetLineRoute
