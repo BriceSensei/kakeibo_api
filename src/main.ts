@@ -34,7 +34,7 @@ app.use('/budgetLine', budgetLineRoute);
 app.use('/epargnes', iconRoute);
 app.use('/frequency', subCategoryRoute);
 app.use('/icon', tipsRoute);
-app.use('/tips', tokenRoute);
+app.use('/tips', tipsRoute);
 app.use('/user', userRoute);
 
 const port = parseInt(ENV.PORT ?? "3000");

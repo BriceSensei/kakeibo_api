@@ -15,7 +15,6 @@ budgetLineRoute.get('/user/:userId', (req: Request, res: Response): void => {
 });
 
 budgetLineRoute.patch('/:id', budgetLineController.updateOneBudgetLine);
-
 budgetLineRoute.delete('/:id', budgetLineController.deleteOneBudgebudgetLine);
 
 export default budgetLineRoute
