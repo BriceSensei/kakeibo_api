@@ -28,12 +28,12 @@ app.use('/alerts', alertsRoute);
 app.use('/category', categoryRoute);
 app.use('/fbToken', categoryRoute);
 app.use('/groups', epargnesRoute);
-app.use('/subCategory', fbTokenRoute);
+app.use('/subCategory', subCategoryRoute);
 app.use('/token', frequencyRoute);
 app.use('/budgetLine', budgetLineRoute);
 app.use('/epargnes', iconRoute);
 app.use('/frequency', subCategoryRoute);
-app.use('/icon', tipsRoute);
+app.use('/icon', iconRoute);
 app.use('/tips', tipsRoute);
 app.use('/user', userRoute);
 
