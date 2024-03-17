@@ -11,7 +11,7 @@ class TipsService{
         const allTips : Tips[] = await prisma.tips.findMany();
     
         return allTips;
-       }
+    }
 
     async getOneTip(tipId : number) : Promise<Tips>{
         const oneTip : Tips = await prisma.tips.findUniqueOrThrow({where :{id: tipId}});
@@ -23,7 +23,7 @@ class TipsService{
         const createTip : Tips = await prisma.tips.create({data: tipData});
     
         return createTip;
-       }
+    }
 
 
     async updateTip(tipId: number, tipData: Tips): Promise<Tips>{

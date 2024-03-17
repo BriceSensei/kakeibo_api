@@ -15,7 +15,7 @@ export class SubCategoriesController{
             const errMsg = {
                 status: 500,
                 error: error,
-                message: "Fail to get all tips"               
+                message: "Fail to get all subcategories"               
             }
 
             res.status(500).send(errMsg);
@@ -34,7 +34,7 @@ export class SubCategoriesController{
             const errMsg = {
                 status: 500,
                 error: error,
-                message: "Impossible de récuperer l'id d'un conseil"
+                message: "Impossible de récuperer l'id d'une sous catégorie"
             }
             res.status(500).send(errMsg);
         }
@@ -52,7 +52,7 @@ export class SubCategoriesController{
             const errMsg = {
                 status: 500,
                 error: error,
-                message: "Echec leur de la creation d'un nouveau conseil"
+                message: "Echec leur de la creation d'une nouvelle sous-catégorie"
             }
             res.status(500).send(errMsg);
         }
@@ -71,7 +71,7 @@ export class SubCategoriesController{
             const errMsg={
                 status: 500,
                 error: error,
-                message: "Fail to update one advice"
+                message: "Fail to update one subcategory"
             }
             res.status(500).send(errMsg);
         }      
@@ -89,7 +89,7 @@ export class SubCategoriesController{
             const errMsg = {
                 status: 500,
                 error: error,
-                message: "Fail to delete tip in database"
+                message: "Fail to delete subcategory in database"
             }
             res.status(500).send(errMsg);
         }
