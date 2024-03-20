@@ -1,6 +1,10 @@
 import { Users } from "@prisma/client";
 import { UserService } from "../services/userService";
 import { Request, Response } from "express";
+import bcrypt from "bcrypt";
+import prisma from "@prisma/prisma";
+
+
 
 export class UserController{
 
@@ -37,8 +41,7 @@ export class UserController{
 
         async createNewUser(req: Request, res:Response): Promise<void>{
             const userMethod: UserService = new UserService();
-            const userData: Users = { ...req.body};
-            console.log(userData);
+            const userData: Users = { ...req.body};         
             try {
                 const user :Users = await userMethod.createNewUser(userData)
                 res.json(user)
@@ -84,5 +87,27 @@ export class UserController{
                res.status(500).send(errMsg);
             }
         }
+
+
+        async HashPassword(req: Request, res: Response){
+
+            const userMethod : UserService = new UserService();
+            const userData: Users = { ...req.body}
+            
+            try {
+                const hashPasswordUser : Users = await userMethod.hashPassword(userData)
+                console.log(hashPasswordUser);
+                res.status(201).send({id: hashPasswordUser.id});
+                
+            } catch (error) {
+                const errMsg = {
+                    status: 500,
+                    error: error,
+                    message: "Error during registration"
+                }            
+                res.status(500).send(errMsg);
+            }
+        }
+
  
 }

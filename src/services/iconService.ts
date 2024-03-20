@@ -28,8 +28,9 @@ class IconsService{
     }
 
     async updateIicon(iconId: number, iconData: Icons): Promise<Icons>{
-        const icon : Icons = await prisma.icons.update({where:{id: iconId},
-                data: iconData
+        const icon : Icons = await prisma.icons.update({
+            where:{id: iconId},
+            data: iconData
         })
 
         return icon;

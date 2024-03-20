@@ -3,6 +3,7 @@ import swaggerUi from 'swagger-ui-express';
 import { specs } from './swagger';
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 
 import alertsRoute from '@route/AlertsRoute';
 import budgetLineRoute from '@route/BudgetLineRoute';
@@ -16,13 +17,15 @@ import subCategoryRoute from '@route/SubCategoryRoute';
 import tipsRoute from '@route/TipsRoute';
 import tokenRoute from '@route/TokenRoute';
 import userRoute from '@route/UserRoute';
+import loginRoute from "@routeloginRoute";
 
 dotenv.config();
 const ENV: NodeJS.ProcessEnv = process.env;
 const app = express();
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use('/alerts', alertsRoute);
 app.use('/category', categoryRoute);
@@ -36,6 +39,7 @@ app.use('/frequency', subCategoryRoute);
 app.use('/icon', iconRoute);
 app.use('/tips', tipsRoute);
 app.use('/user', userRoute);
+app.use('/login', loginRoute);
 
 const port = parseInt(ENV.PORT ?? "3000");
 

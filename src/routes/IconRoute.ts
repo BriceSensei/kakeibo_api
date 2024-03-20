@@ -18,4 +18,4 @@ iconRoute.get('/user/:userId', (req: Request, res: Response): void => {
 iconRoute.patch('/:id', iconsController.updateOneIcon);
 iconRoute.delete('/:id', iconsController.deleteOneIcon);
 
-export default iconRoute
+export default iconRoute;
