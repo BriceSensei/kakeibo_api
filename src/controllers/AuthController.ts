@@ -10,42 +10,48 @@ export class AuthController{
 
     async login(req: Request, res:Response) : Promise<void>{
 
-        const userEmail : AuthService = new AuthService;
+        const authMethod : AuthService = new AuthService;
+        const {email, password} = req.body;
 
+        const token = authMethod.generateAccessToken(email)
+        //res.json(token);
+        console.log(email, password);
+        console.log(token);
         try{
-            const {email, password} = req.body;
-            
-            
+                        
             //Validation de l'email
             if(!validator.isEmail(email)){
                 res.status(400).json({message: "incorrect email"});
                 return;
             }
-            const user: Users = await userEmail.getOneEmail(email)
-            
+            //validation user
+            const user = await authMethod.checkUserExist(email)
             if(!user){
                 res.status(404).json({message: "User not found"});
                 return;
             }
+            //validation mdp
             const isValidPassword = await bcrypt.compare(password, user.password);
-            
             if(!isValidPassword){
                 res.status(401).json({message: "incorrect password"});
                 return;
             }
 
-            //authentification reussie
-            res.status(200).json({message: "Authentication successful."})
-
         }catch(error){
             const errMsg = {
                 status: 500,
                 error: error,
-                message: "Internal server error."
+                message: "Database connection failed."
             }
 
             res.status(500).send(errMsg);
         }
     };
 
+
+    
+
+
 }
+
+

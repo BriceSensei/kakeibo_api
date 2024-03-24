@@ -59,9 +59,15 @@ export class UserController{
             const userMethod: UserService = new UserService();
             const userData: Users = req.body;
             const userId: number = parseInt(req.params.id);
+            //const userPassword = req.body.password;
+
+           // console.log(userPassword);
+             
             try {
-                const userUpdate:Users = await userMethod.updateOneUser(userId,userData) 
+                //const hashUserPassword = await userMethod.hashPassword(userPassword); 
+                const userUpdate:Users = await userMethod.updateOneUser(userId,userData)
                 res.json(userUpdate)
+                //console.log(userUpdate);
             } catch (error) {
                 const errMsg={
                     status: 500,
@@ -74,7 +80,8 @@ export class UserController{
 
         async deleteOneUser(req: Request, res:Response){
             const userMethod: UserService = new UserService();
-            const userId: number = parseInt(req.params.id)
+            const userId: number = parseInt(req.params.id);
+          
             try {
                 const userDelete:Users = await userMethod.deleteOneUser(userId);
                 res.json(userDelete)
@@ -108,6 +115,6 @@ export class UserController{
                 res.status(500).send(errMsg);
             }
         }
+        
 
- 
 }
