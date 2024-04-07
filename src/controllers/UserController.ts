@@ -96,13 +96,13 @@ export class UserController{
         }
 
 
-        async HashPassword(req: Request, res: Response){
+        async register(req: Request, res: Response){
 
             const userMethod : UserService = new UserService();
             const userData: Users = { ...req.body}
-            
+
             try {
-                const hashPasswordUser : Users = await userMethod.hashPassword(userData)
+                const hashPasswordUser : Users = await userMethod.register(userData)
                 console.log(hashPasswordUser);
                 res.status(201).send({id: hashPasswordUser.id});
                 

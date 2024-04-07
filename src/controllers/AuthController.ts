@@ -1,5 +1,6 @@
 import { Users } from "@prisma/client";
 import { AuthService } from "../services/authService";
+import {UserService} from "../services/userService"
 import { Request, Response } from "express";
 import prisma from "@prisma/prisma";
 import bcrypt from "bcrypt";
@@ -11,31 +12,29 @@ export class AuthController{
     async login(req: Request, res:Response) : Promise<void>{
 
         const authMethod : AuthService = new AuthService;
+        const userMethod : UserService = new UserService;
         const {email, password} = req.body;
+        
+        try{       
 
-        const token = authMethod.generateAccessToken(email)
-        //res.json(token);
-        console.log(email, password);
-        console.log(token);
-        try{
-                        
-            //Validation de l'email
-            if(!validator.isEmail(email)){
-                res.status(400).json({message: "incorrect email"});
-                return;
-            }
-            //validation user
-            const user = await authMethod.checkUserExist(email)
-            if(!user){
-                res.status(404).json({message: "User not found"});
+            const user = await userMethod.getUserByEmail(email);
+            if(!user || !password){
+                res.status(404).json({message: "Email and password are required"});
                 return;
             }
             //validation mdp
             const isValidPassword = await bcrypt.compare(password, user.password);
+            console.log(isValidPassword);
             if(!isValidPassword){
                 res.status(401).json({message: "incorrect password"});
                 return;
             }
+
+            //si l'authentification réussit, générer un token jwt et le renvoyer en réponse
+            const token = authMethod.generateAccessToken(user)
+            console.log(token);
+
+            res.status(200).json({token});
 
         }catch(error){
             const errMsg = {
@@ -47,10 +46,6 @@ export class AuthController{
             res.status(500).send(errMsg);
         }
     };
-
-
-    
-
 
 }
 

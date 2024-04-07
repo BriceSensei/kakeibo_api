@@ -3,6 +3,8 @@ import {Users} from "@prisma/client";
 import prisma from "@prisma/prisma";
 //import * as crypto from "crypto";
 import bcrypt from "bcrypt";
+import validator from "validator";
+
 
 
 class UserService{
@@ -43,14 +45,24 @@ class UserService{
         return user
     }
 
-    async hashPassword(userData: Users) : Promise<Users>{
+    async register(userData: Users) : Promise<Users>{
+
+        // Validation de l'email
+        if (!validator.isEmail(userData.email)) {
+            throw new Error('Invalid email format');
+        }
+
+        // Validation du mot de passe
+        if (!validator.isLength(userData.password, { min: 8 })) {
+            throw new Error('Password must be at least 8 characters long');
+        }
 
         //génère un sel aléatoire
         const salt = await bcrypt.genSaltSync(10);
         //crée un hachage du mdp en utilisant SHA-512 et le sel
         const hash = await bcrypt.hash(userData.password, salt);
 
-        const hashedPassword = `${salt}$${hash}`;
+        const hashedPassword = `${hash}`;
     
         const newUser : Users = await prisma?.users.create({
             data: {
@@ -73,6 +85,12 @@ class UserService{
         return newUser;
     }
 
+
+    //fct pour récupérer un utilisateur en fct de son email
+    async getUserByEmail(email:string): Promise<Users | undefined> {
+        const allUsers: Users[] = await prisma.users.findMany();
+        return allUsers.find(user => user.email === email);
+    }
     
 
 }

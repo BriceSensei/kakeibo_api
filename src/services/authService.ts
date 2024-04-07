@@ -11,22 +11,25 @@ const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 class AuthService{
 
     constructor(){
-
+        
     }
 
-   async checkUserExist(userEmail: string) : Promise<{email: string; password: string} | null>{
-    const getUserEmail = await prisma.users.findUniqueOrThrow({
-        where: {email: userEmail}
-    });
+     // async checkUserExist(userEmail: string) : Promise<{email: string; password: string} | null>{
+     //      const getUserEmail = await prisma.users.findUniqueOrThrow({
+     //           where: {email: userEmail}
+     //      });
+     //      return getUserEmail;
+     // }
 
-    return getUserEmail;
-   }
+     //fct pour générer un token jwt basé sur les info de l'utilisateur
+     async generateAccessToken(user: Users) :Promise<string>{
+          return jwt.sign({id: user.id, email: user.email}, accessTokenSecret as Secret, {expiresIn: '1800s'});
+     }
 
+     
 
-   async generateAccessToken(username: string) :Promise<string>{
-        return jwt.sign(username, accessTokenSecret as Secret, {expiresIn: '1800s'});
-   }
    
-
 }
 export {AuthService};
+
+

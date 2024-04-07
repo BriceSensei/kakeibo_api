@@ -10,7 +10,7 @@ userRoute.get("/", userController.getAllUsers);
 userRoute.get("/:id", userController.getUserById);
 userRoute.patch("/:id", userController.updateOneUser);
 userRoute.delete("/:id", userController.deleteOneUser);
+userRoute.post("/register", userController.register);
 
-userRoute.post("/register", userController.HashPassword);
 
 export default userRoute

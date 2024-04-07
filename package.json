@@ -41,6 +41,7 @@
     "express-validator": "^7.0.1",
     "glob": "^10.3.10",
     "jsonwebtoken": "^9.0.2",
+    "passport-jwt": "^4.0.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   },
