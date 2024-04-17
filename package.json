@@ -9,7 +9,8 @@
     "build": "npx tsc --project tsconfig.json && npx tsc-alias -p tsconfig.json",
     "start:prod": "node dist/src/main.js",
     "migrate": "npx prisma migrate dev --schema ./prisma/schema.prisma",
-    "seed": "npx tsx ./prisma/seed.ts"
+    "seed": "npx tsx ./prisma/seed.ts",
+    "drop": "npx tsx ./prisma/drop.ts"
   },
   "keywords": [],
   "author": "",
