@@ -1,11 +1,29 @@
 import { glob } from "glob";
 
-async function main() {
-  const seedFiles = (await glob("./prisma/seeders/*.seed.ts")).sort((a, b) => numb(a) < numb(b) ? -1 : 1);
+const orderSeed: Array<string> = [
+  'curency',
+  'icon',
+  'category',
+  'budgetTypes',
+  'tips',
+  'users',
+  'tokens',
+  'fbTokens',
+  'alerts',
+  'frequency',
+  'budget',
+  'epargnes',
+  'userGroups',
+  'relationUserGroupsOnUsers',
+]
 
-  for (let file of seedFiles) {
+async function main() {
+  for (const index in orderSeed) {
+
+    const file = orderSeed[index];
+    
     let success = true;
-    const { seed } = await import(`../${file}`);
+    const { seed } = await import(`./seeders/${file}.seed.ts`);
     
     (await seed()) && (success = false);
     
