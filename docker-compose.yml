@@ -9,7 +9,7 @@ services:
       - '3000:3000'
     environment:
       NODE_ENV: production
-      DATABASE_URL: "mysql://root:@localhost:3306/kakeibo"
+      DATABASE_URL: "mysql://db:3306/kakeibo"
     depends_on:
       - db
 
@@ -26,3 +26,7 @@ services:
 
 volumes:
   mysql_data:
+
+networks:
+  mysql:
+    driver: bridge

@@ -1,30 +1,3 @@
-# FROM node:20 AS builder
-
-# # Create app directory
-# WORKDIR /app
-
-# COPY . .
-
-# # Install app dependencies
-# RUN npm install
-
-
-# RUN npx run build
-
-# # as build step❓
-
-# FROM node:20
-
-# # Set the working directory to /app
-# WORKDIR /app
-
-
-# EXPOSE 3306
-# # or during execution ❓
-# CMD [ "npm", "run", "start:prod" ]
-
-
-
 FROM node:18-alpine
 
 WORKDIR /app
@@ -36,5 +9,8 @@ RUN npm ci
 RUN npm run build
 
 USER node
+
+EXPOSE 3306
+EXPOSE 3000
 
 CMD ["npm", "run", "start:prod"]
