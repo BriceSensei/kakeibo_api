@@ -103,7 +103,6 @@ export class UserController{
 
             try {
                 const hashPasswordUser : Users = await userMethod.register(userData)
-                console.log(hashPasswordUser);
                 res.status(201).send({id: hashPasswordUser.id});
                 
             } catch (error) {

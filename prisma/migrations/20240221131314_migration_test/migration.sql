@@ -1,12 +1,4 @@
 -- CreateTable
-CREATE TABLE `Todo_Relation` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `Epargnes` BOOLEAN NOT NULL,
-    `Frequencies` BOOLEAN NOT NULL,
-    `SubCategories` BOOLEAN NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Users` (

@@ -18,14 +18,18 @@ import tipsRoute from '@route/TipsRoute';
 import tokenRoute from '@route/TokenRoute';
 import userRoute from '@route/UserRoute';
 import loginRoute from "@routeloginRoute";
+import registerRoute from "@routeRegisterRoute";
+import helmet from "helmet";
 
 dotenv.config();
 const ENV: NodeJS.ProcessEnv = process.env;
 const app = express();
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(helmet());
 
 app.use('/alerts', alertsRoute);
 app.use('/category', categoryRoute);
@@ -40,6 +44,7 @@ app.use('/icon', iconRoute);
 app.use('/tips', tipsRoute);
 app.use('/user', userRoute);
 app.use('/login', loginRoute);
+app.use('/register',registerRoute)
 
 
 

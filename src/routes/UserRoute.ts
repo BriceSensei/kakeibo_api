@@ -1,16 +1,19 @@
-import express, { Request, Response, Router } from 'express';
-import { UnimplementedError } from '../exceptions/UnimplementedError';
+import express, { Router } from 'express';
 import { UserController } from '@controller/UserController';
+import {authentificateToken} from '../middlewares/authentificateToken'
+import { CheckUserRole } from '../middlewares/CheckUserRole';
 
 const userRoute: Router = express.Router()
 const userController: UserController = new UserController();
 
+userRoute.use(authentificateToken)
+
 userRoute.post("/", userController.createNewUser);
-userRoute.get("/", userController.getAllUsers);
+userRoute.get("/", CheckUserRole(1), userController.getAllUsers);
 userRoute.get("/:id", userController.getUserById);
 userRoute.patch("/:id", userController.updateOneUser);
 userRoute.delete("/:id", userController.deleteOneUser);
-userRoute.post("/register", userController.register);
+
 
 
 export default userRoute

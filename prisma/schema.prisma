@@ -10,12 +10,6 @@ generator client {
     url      = env("DATABASE_URL")
   }
   
-  model Todo_Relation {
-    id            Int     @id @default(autoincrement())
-    Epargnes      Boolean
-    Frequencies   Boolean
-    SubCategories Boolean
-  }
   
   model Users {
     id                 Int      @id @default(autoincrement())
@@ -30,7 +24,7 @@ generator client {
     lastLoginDate      DateTime @map("last_login_date")
     connectionAttempts Int      @default(0)
     isActive           Boolean  @default(false)
-    role               Int      @default(0)
+    roleId             Int      @default(0)
     curencyId          Int?
   
     curency Curencies? @relation(fields: [curencyId], references: [id], onDelete: SetNull)
@@ -43,6 +37,7 @@ generator client {
     subCategories              SubCategories[]
     ownedGroups                UserGroups[]
     relation_UserGroupsOnUsers Relation_UserGroupsOnUsers[]
+     role     Role?     @relation(fields: [roleId], references: [id])
   }
   
   model Curencies {
@@ -261,4 +256,15 @@ generator client {
   
     @@id([userGroupsId, usersId])
   }
+
+  model Role {
+    id        Int       @id @default(autoincrement())
+    name      String    @unique
+
+    Users     Users[] 
+  }
   
+
+ 
+
+ 
