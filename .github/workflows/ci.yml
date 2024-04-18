@@ -13,8 +13,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: Login Dockerhub
         env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: bricesensei
+          DOCKER_PASSWORD: dckr_pat_-mcduoFMsag41isEbO3tX8Mz030
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
       - name: Build the Docker image
@@ -68,4 +68,4 @@ jobs:
 #     sudo systemctl status docker
 #     se connecter à docker hub
 #     sudo docker login -u bricesensei -p password
-#     si ok on peut pull l'image docker via le cd github action cd.yml
+#     si ok on peut pull l'image docker via le cd github action cd..
