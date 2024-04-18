@@ -12,4 +12,3 @@ const options = {
 };
 
 export const specs = swaggerJsdoc(options);
-// test('should first', () => { second })

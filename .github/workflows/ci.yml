@@ -13,11 +13,57 @@ jobs:
       - uses: actions/checkout@v3
       - name: Login Dockerhub
         env: 
-          DOCKER_USERNAME/ ${{secrets.DOCKER_USERNAME}}
-          DOCKER_PASSWORD/ ${{secrets.DOCKER_PASSWORD}}
-        run: docker login -u $DOCKER_USERNAME -p DOCKER_PASSWORD
+          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
       - name: Build the Docker image
         run: docker build -t kakeibo_api .
       - name: Push to Dockerhub
         run: docker push bricesensei/kakeibo_api
+
+
+# Faire un repo docker hub et pusher l'image dessus avec les secrets DOCKER_USERNAME et DOCKER_PASSWORD
+# qui se configurent dans les secrets du repo github dans settings > secrets > new repository secret > DOCKER_USERNAME et DOCKER_PASSWORD (qui sont les identifiants docker hub)
+# ensuite on peut pull l'image sur le serveur avec docker pull bricesensei/kakeibo_api dans une action github cd.yml
+# il faut se connecter au server en ssh 
+# lancer sudo apt update && sudo apt-get upgrade -y
+# ensuite aller dans le setting du repo github et crée new runner et suivre les instructions
+# Download
+# # Create a folder
+# $ mkdir actions-runner && cd actions-runner# Download the latest runner package
+# $ curl -o actions-runner-linux-x64-2.315.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.315.0/actions-runner-linux-x64-2.315.0.tar.gz# Optional: Validate the hash
+# $ echo "6362646b67613c6981db76f4d25e68e463a9af2cc8d16e31bfeabe39153606a0  actions-runner-linux-x64-2.315.0.tar.gz" | shasum -a 256 -c# Extract the installer
+# $ tar xzf ./actions-runner-linux-x64-2.315.0.tar.gz
+# Configure
+# # Create the runner and start the configuration experience
+# $ ./config.sh --url https://github.com/BriceSensei/kakeibo_api --token ARGZCDZ6K73343IXXTGKL2TGEDTSG# Last step, run it!
+# $ ./run.sh
+
+# installer docker sur ec2 
+# sudo apt update && sudo apt-get upgrade -y
+# installer les dépendances
+# # Add Docker's official GPG key:
+#   sudo apt-get update
+#   Désinstallez les anciennes versions de Docker : Avant d’installer Docker Engine, vous devez désinstaller toutes les versions de Docker qui pourraient entrer en conflit. Exécutez la commande suivante pour supprimer les paquets en conflit :
+#     $ for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+    
+#     Configurez le référentiel APT de Docker : Pour installer Docker Engine, vous devez configurer le référentiel APT de Docker. Voici comment faire :
+#     Ajoutez la clé GPG officielle de Docker :
+#     sudo apt-get update
+#     sudo apt-get install ca-certificates curl
+#     sudo install -m 0755 -d /etc/apt/keyrings
+#     sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+#     sudo chmod a+r /etc/apt/keyrings/docker.asc
+    
+#     Ajoutez le référentiel Docker à vos sources APT :
+#     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+#     sudo apt-get update
+    
+#     Installez Docker Engine : Maintenant que vous avez configuré le référentiel, installez Docker Engine avec la commande suivante :
+#     sudo apt-get install docker-ce
+    
+#     Vérifiez que Docker est en cours d’exécution : Vous pouvez vérifier si Docker est en cours d’exécution avec la commande :
+#     sudo systemctl status docker
+#     se connecter à docker hub
+#     sudo docker login -u bricesensei -p password
