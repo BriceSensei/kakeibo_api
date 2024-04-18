@@ -21,11 +21,3 @@ jobs:
         run: docker build -t kakeibo_api .
       - name: Push to Dockerhub
         run: docker push bricesensei/kakeibo_api
-    # - name: Checkout repository
-    #   uses: actions/checkout@v2
-
-    # - name: Set up Docker Buildx
-    #   uses: docker/setup-buildx-action@v1
-
-    # - name: Build Docker image
-    #   run: docker-compose build api
