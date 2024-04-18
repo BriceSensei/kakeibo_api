@@ -67,3 +67,4 @@ jobs:
 #     sudo systemctl status docker
 #     se connecter à docker hub
 #     sudo docker login -u bricesensei -p password
+#     si ok on peut pull l'image docker via le cd github action cd.yml
