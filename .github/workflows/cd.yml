@@ -17,4 +17,4 @@ jobs:
             - name: Delete old docker container
               run: sudo docker rm -f kakeibo_api || true
             - name: Run new docker container
-            run: sudo docker run -d -p 8080:8080 --name kakeibo_api bricesensei/kakeibo_api 
+              run: sudo docker run -d -p 8080:8080 --name kakeibo_api bricesensei/kakeibo_api 
