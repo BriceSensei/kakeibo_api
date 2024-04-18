@@ -21,3 +21,4 @@ jobs:
         run: docker build -t kakeibo_api .
       - name: Push to Dockerhub
         run: docker push bricesensei/kakeibo_api
+        #  run: docker push $DOCKER_USERNAME/kakeibo_api
