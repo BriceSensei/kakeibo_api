@@ -69,3 +69,4 @@ jobs:
 #     se connecter à docker hub
 #     sudo docker login -u bricesensei -p password
 #     si ok on peut pull l'image docker via le cd github action cd.yml
+#     sudo docker pull bricesensei/kakeibo_api:lastest
