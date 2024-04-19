@@ -12,7 +12,7 @@ jobs:
 
         steps: 
             - name: Pull Docker image
-              run: sudo docker pull bricesensei/kakeibo_api:latest
+              run: sudo docker pull bricesensei/kakeibo_api:lastest
             - name: Delete old docker container
               run: sudo docker rm -f bricesensei/kakeibo_api || true
             - name: Run new docker container
