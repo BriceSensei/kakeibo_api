@@ -44,3 +44,4 @@ services:
     environment:
       NODE_ENV: production
       # DATABASE_URL: "mysql://<AWS_RDS_ENDPOINT>:<PORT>/<DATABASE_NAME>"
+      
