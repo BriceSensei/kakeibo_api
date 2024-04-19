@@ -1,8 +1,9 @@
 
-import { Alerts } from "@prisma/client";
 import  prisma  from "@prisma/prisma";
 
-class AlertService{
+import { Alerts } from "@prisma/client";
+
+export class AlertService{
     constructor(){}
 
     async getAllAlerts(): Promise<Alerts[]>{
@@ -11,8 +12,16 @@ class AlertService{
         return allAlerts;
     }
 
-    async getOneAlert(alertId : number) : Promise<Alerts>{
-        const alert : Alerts = await prisma.alerts.findUniqueOrThrow({
+    /**
+     * Get one alert from alertId
+     * 
+     * @param alertId: number
+     * 
+     * @returns: Promise<Alert>
+     * 
+     */
+    async getOneAlert(alertId: number) : Promise<Alerts>{
+        const alert: Alerts = await prisma.alerts.findUniqueOrThrow({
             where: {id: alertId},
         })
         
@@ -20,7 +29,7 @@ class AlertService{
     }
 
     async createNewAlert(alertData: Alerts) : Promise<Alerts>{
-        const alert : Alerts = await prisma.alerts.create({data: alertData})
+        const alert: Alerts = await prisma.alerts.create({data: alertData})
 
         return alert;
     }
@@ -40,5 +49,3 @@ class AlertService{
         return alert;
     }
 }
-
-export{AlertService};

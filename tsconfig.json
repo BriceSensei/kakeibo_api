@@ -13,7 +13,9 @@
       "@route*": ["./src/routes/*"],
       "@controller/*": ["./src/controllers/*"],
       "@class/*": ["./src/classes/*"],
-      "@prisma/*": ["./prisma/*"]
+      "@prisma/*": ["./prisma/*"],
+      "@exception/*": ["./src/exceptions/*"],
+      "@services/*": ["./src/services/*"],
     }
   },
   "tsc-alias": {

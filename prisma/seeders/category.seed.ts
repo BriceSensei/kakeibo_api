@@ -1,5 +1,6 @@
 import { Categories } from "@prisma/client";
 import { faker } from '@faker-js/faker';
+import { Helper } from '../../src/helper'
 import prisma from "../prisma";
 
 export async function seed() {
@@ -7,11 +8,13 @@ export async function seed() {
 
   const categories: Categories[] = [];
 
+  const icons = (await prisma.icons.findMany()).map(icon => icon.id);
+
   for (let i = 0; i < 10; i++) {
     categories.push({
       id: 0,
       name: `cat_${faker.number.int()}`,
-      iconId: faker.number.int({min:1, max: 15}),
+      iconId: Helper.getRandomFromArray(icons),
       color: faker.color.rgb(),
       creationDate: new Date,
       updateDate: new Date(0),
@@ -19,7 +22,5 @@ export async function seed() {
     
   }
 
-  const addCategories = async () => await prisma.categories.createMany({ data: categories.map((x, i)=>{x.id = i+1; return x})});
-
-  addCategories();
+  await prisma.categories.createMany({ data: categories})
 }

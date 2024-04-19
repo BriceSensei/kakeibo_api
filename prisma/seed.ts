@@ -6,6 +6,7 @@ const orderSeed: Array<string> = [
   'category',
   'budgetTypes',
   'tips',
+  'role',
   'users',
   'tokens',
   'fbTokens',

@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker';
 import prisma from "../prisma";
 
 export async function seed() {
+  
   await prisma.icons.deleteMany({});
 
   const icons: Icons[] = [];
@@ -17,7 +18,5 @@ export async function seed() {
     
   }
 
-  const addIcons = async () => await prisma.icons.createMany({ data: icons.map((x, i)=>{x.id = i+1; return x})});
-
-  addIcons();
+  await prisma.icons.createMany({ data: icons});
 }

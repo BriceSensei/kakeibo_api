@@ -1,8 +1,10 @@
 import { Users } from "@prisma/client";
 import { faker } from '@faker-js/faker';
 import prisma from "../prisma";
+import { Helper } from "../../src/helper"
 
 export async function seed() {
+
   await prisma.users.deleteMany({});
 
   const users: Users[] = [];
@@ -10,6 +12,9 @@ export async function seed() {
   for (let i = 0; i < 30; i++) {
     
     const name = faker.internet.userName();
+
+    const roles = (await prisma.role.findMany()).map(role => role.id)
+    const curencies = (await prisma.curencies.findMany()).map(curencies => curencies.id)
 
     users.push({
       id: 0,
@@ -24,13 +29,11 @@ export async function seed() {
       lastLoginDate: faker.date.recent(),
       connectionAttempts: faker.number.int({min: 0, max: 2}),
       isActive: true,
-      role: 0,
-      curencyId: faker.number.int({min: 1, max: 109}),
+      roleId: Helper.getRandomFromArray(roles),
+      curencyId: Helper.getRandomFromArray(curencies),
     })
     
   }
-
-  const addUsers = async () => await prisma.users.createMany({ data: users.map((x, i)=>{x.id = i+1; return x})});
-
-  addUsers();
+  
+  await prisma.users.createMany({ data: users });
 }

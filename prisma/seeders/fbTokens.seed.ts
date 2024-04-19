@@ -1,11 +1,14 @@
 import { Tokens } from "@prisma/client";
 import { faker } from '@faker-js/faker';
 import prisma from "../prisma";
+import { Helper } from "../../src/helper";
 
 export async function seed() {
   await prisma.tokens.deleteMany({});
 
   const tokens: Tokens[] = [];
+
+  const user = (await prisma.users.findMany()).map(user => user.id);
 
   for (let i = 0; i < 30; i++) {
     
@@ -15,13 +18,12 @@ export async function seed() {
       id: 0,
       token: faker.string.nanoid(120),
       userAgent: faker.internet.userAgent(),
-      userId: faker.number.int({min: 1, max: 30})
+      userId: Helper.getRandomFromArray(user)
     })
     
   }
 
-  const addTokens = async () => await prisma.tokens.createMany({ data: tokens.map((x, i)=>{x.id = i+1; return x})});
+  await prisma.tokens.createMany({ data: tokens});
 
-  addTokens();
   prisma.$disconnect()
 }

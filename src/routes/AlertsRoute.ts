@@ -1,6 +1,8 @@
 import express, { Request, Response, Router } from 'express';
-import { UnimplementedError } from '../exceptions/UnimplementedError';
+
 import { AlertController } from '@controller/AlertsController';
+
+import { UnimplementedError } from '@exception/UnimplementedError';
 
 
 const alertsRoute: Router = express.Router()

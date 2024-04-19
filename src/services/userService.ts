@@ -77,7 +77,7 @@ class UserService{
                 lastLoginDate: new Date(),
                 connectionAttempts: 0,
                 isActive: false,
-                role: 0,
+                roleId: 0,
                 curencyId: userData.curencyId,                
             }
         });

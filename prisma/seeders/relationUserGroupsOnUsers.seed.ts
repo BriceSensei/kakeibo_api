@@ -1,13 +1,17 @@
 import { Relation_UserGroupsOnUsers } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import prisma from "../prisma";
+import { Helper } from "../../src/helper";
 
 export async function seed() {
   await prisma.relation_UserGroupsOnUsers.deleteMany({});
 
   let groups = (await prisma.userGroups.findMany()).map(group => { return group.id; })
 
-  const relation_UserGroupsOnUsers: Relation_UserGroupsOnUsers[] = []
+  const relation_UserGroupsOnUsers: Relation_UserGroupsOnUsers[] = [];
+
+  const user = (await prisma.users.findMany()).map(user => user.id);
+  
 
   for (let i = 0; i < 8; i++) {
 
@@ -15,7 +19,7 @@ export async function seed() {
     
     const data = {
       userGroupsId: groups[groupNumb],
-      usersId: faker.number.int({min: 15, max: 30}),
+      usersId: Helper.getRandomFromArray(user),
       assignedAt: new Date(),
     };
 
@@ -24,11 +28,9 @@ export async function seed() {
     relation_UserGroupsOnUsers.push(data);
   }
 
-  const addRelation_UserGroupsOnUsers = async () =>
     await prisma.relation_UserGroupsOnUsers.createMany({
       data: relation_UserGroupsOnUsers
     });
 
-  addRelation_UserGroupsOnUsers();
   prisma.$disconnect()
 }

@@ -23,6 +23,7 @@ async function main() {
     await prisma.$executeRawUnsafe("DROP TABLE IF EXISTS UserGroups")
     await prisma.$executeRawUnsafe("DROP TABLE IF EXISTS Users")
     await prisma.$executeRawUnsafe("DROP TABLE IF EXISTS Curencies")
+    await prisma.$executeRawUnsafe("DROP TABLE IF EXISTS Role")
     await prisma.$disconnect();
 }
 main();

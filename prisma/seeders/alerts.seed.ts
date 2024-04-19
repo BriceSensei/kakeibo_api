@@ -1,11 +1,17 @@
 import { Alerts } from "@prisma/client";
 import { faker } from '@faker-js/faker';
 import prisma from "../prisma";
+import { Helper } from "../../src/helper";
 
 export async function seed() {
   await prisma.alerts.deleteMany({});
 
   const alerts: Alerts[] = [];
+
+  const user = (await prisma.users.findMany()).map(user => user.id);
+  const category = (await prisma.categories.findMany()).map(category => category.id);
+  // const subcategories= (await prisma.subCategories.findMany()).map(subcategories => subcategories.id);
+  // const budget =(await prisma.budgetLines.findMany()).map(budget => budget.id);
 
   for (let i = 0; i < 30; i++) {
     alerts.push({
@@ -14,8 +20,8 @@ export async function seed() {
       seuil: faker.number.float({min: 10, max: 100, fractionDigits: 2}),
       description: faker.lorem.sentence(),
       type: ["PCT","VAL"][faker.number.int({min: 0, max: 1})],
-      userId: faker.number.int({min: 1, max: 30}),
-      categoryId: faker.number.int({min:1, max: 10}),
+      userId: Helper.getRandomFromArray(user),
+      categoryId: Helper.getRandomFromArray(category),
       subCategoriesId: null,
       budgetId: 0
     })

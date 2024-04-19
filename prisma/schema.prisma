@@ -24,7 +24,7 @@ generator client {
     lastLoginDate      DateTime @map("last_login_date")
     connectionAttempts Int      @default(0)
     isActive           Boolean  @default(false)
-    roleId             Int      @default(0)
+    roleId             Int?      @default(0)
     curencyId          Int?
   
     curency Curencies? @relation(fields: [curencyId], references: [id], onDelete: SetNull)
@@ -37,7 +37,7 @@ generator client {
     subCategories              SubCategories[]
     ownedGroups                UserGroups[]
     relation_UserGroupsOnUsers Relation_UserGroupsOnUsers[]
-     role     Role?     @relation(fields: [roleId], references: [id])
+     role     Role?     @relation(fields: [roleId], references: [id], onDelete: SetNull, onUpdate: SetNull)
   }
   
   model Curencies {
