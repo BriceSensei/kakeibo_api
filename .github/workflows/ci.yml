@@ -21,7 +21,7 @@ jobs:
         run: docker build -t bricesensei/kakeibo_api:lastest .
         
       - name: Push to Dockerhub
-        run: docker push bricesensei/kakeibo_api-api:lastest
+        run: docker push bricesensei/kakeibo_api:lastest
 
 
 # Faire un repo docker hub et pusher l'image dessus avec les secrets DOCKER_USERNAME et DOCKER_PASSWORD
