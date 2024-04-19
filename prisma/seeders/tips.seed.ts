@@ -1,6 +1,7 @@
+import prisma from "../prisma";
+
 import { Tips } from "@prisma/client";
 import { faker } from '@faker-js/faker';
-import prisma from "../prisma";
 
 export async function seed() {
   await prisma.tips.deleteMany({});

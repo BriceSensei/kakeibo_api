@@ -16,6 +16,7 @@
       "@prisma/*": ["./prisma/*"],
       "@exception/*": ["./src/exceptions/*"],
       "@services/*": ["./src/services/*"],
+      "@helper/*" : ["./src/helpers/*"]
     }
   },
   "tsc-alias": {

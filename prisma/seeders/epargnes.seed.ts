@@ -1,7 +1,8 @@
+import prisma from "../prisma";
+
 import { Epargnes } from "@prisma/client";
 import { faker } from "@faker-js/faker";
-import prisma from "../prisma";
-import { Helper } from "../../src/helper";
+import { Helper } from "@helper/helper";
 
 export async function seed() {
   await prisma.epargnes.deleteMany({});

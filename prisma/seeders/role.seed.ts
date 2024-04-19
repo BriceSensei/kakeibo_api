@@ -1,6 +1,6 @@
-import { Role } from "@prisma/client";
-import { faker } from '@faker-js/faker';
 import prisma from "../prisma";
+
+import { Role } from "@prisma/client";
 
 
 export async function seed(){
