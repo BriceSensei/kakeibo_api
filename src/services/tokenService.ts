@@ -1,7 +1,9 @@
+import prisma from "@prisma/prisma";
+
 import { Request, Response } from "express";
+
 import { UsersInterface } from "../interfaces/Users";
 import { UnimplementedError} from "../exceptions/UnimplementedError";
-import prisma from "@prisma/prisma";
 import { Tokens } from "@prisma/client";
 import { isMain } from "./helperService";
 export class TokenClass{

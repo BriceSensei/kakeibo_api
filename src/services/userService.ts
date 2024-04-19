@@ -1,38 +1,61 @@
 
-import {Users} from "@prisma/client";
 import prisma from "@prisma/prisma";
-//import * as crypto from "crypto";
+
+import {Users} from "@prisma/client";
 import bcrypt from "bcrypt";
 import validator from "validator";
 
 
-
-class UserService{
+export class UserService{
 
     constructor(){}
 
-
-   async getAllUsers() : Promise<Users[]> {
-
+    /**
+     * Get all users from users table
+     * 
+     * @returns Promise<User>
+     */
+    async getAllUsers() : Promise<Users[]> {
         const allUsers: Users[] = await prisma.users.findMany();
         return allUsers;               
            
     };
 
-     async getOneUser(userId: number) : Promise<Users>{
-        
+    /**
+     * Get one user from user table
+     * 
+     * @param userId number
+     * 
+     * @returns Promise<Users>
+     */
+    async getOneUser(userId: number) : Promise<Users>{
         const user: Users = await prisma.users.findUniqueOrThrow({
             where: {id: userId},
             })          
         return user; 
     }
 
-   async createNewUser(userData: Users) : Promise<Users>{
+    /**
+     * Create a new user from users table
+     * 
+     * @param userData type Users
+     * 
+     * @returns Promise<Users>
+     */
+    async createNewUser(userData: Users) : Promise<Users>{
         const user: Users =  await prisma.users.create({data: userData})     
         return user
     }
 
-   async updateOneUser(userId: number, userData:Users) : Promise<Users>{
+    /**
+     *Updating the user corresponding to the entered ID parameter from users table
+     * 
+     * @param userId number
+     * @param userData type Users
+     * 
+     * @returns Promise<Users>
+     */
+    async updateOneUser(userId: number, userData:Users) : Promise<Users>{
         const user: Users = await prisma.users.update({
             where:{id: userId},
             data: userData
@@ -40,11 +63,25 @@ class UserService{
         return user
     }
 
-   async deleteOneUser(userId: number) : Promise<Users >{
+    /**
+     *Deleting the user corresponding to the entered ID parameter from users table
+     * 
+     * @param userId number
+     * 
+     * @returns user objet had been deleted
+     */
+    async deleteOneUser(userId: number) : Promise<Users >{
         const user : Users = await prisma.users.delete({where:{id:userId}})
         return user
     }
 
+    /**
+     * Create new user with a hashed password and check user's informations (email, password length)
+     * 
+     * @param userData type Users
+     * 
+     * @returns Promise<Users>
+     */
     async register(userData: Users) : Promise<Users>{
 
         // Validation de l'email
@@ -87,11 +124,16 @@ class UserService{
 
 
     //fct pour récupérer un utilisateur en fct de son email
+
+    /**
+     * Get all user and check if the email corresponding to the entered mail parameter and check if the email is the present from users table
+     * 
+     * @param email string
+     * 
+     * @returns Promise<User> or undefined
+     */
     async getUserByEmail(email:string): Promise<Users | undefined> {
         const allUsers: Users[] = await prisma.users.findMany();
         return allUsers.find(user => user.email === email);
     }
-    
-
 }
-export{UserService};
