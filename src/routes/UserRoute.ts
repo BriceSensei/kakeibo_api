@@ -7,7 +7,7 @@ const userRoute: Router = express.Router();
 const userController: UserController = new UserController();
 
 userRoute.use(authentificateToken);
-userRoute.get("/", CheckUserRole(1), userController.getAllUsers);
+userRoute.get("/", CheckUserRole(5), userController.getAllUsers);
 
 userRoute.post("/", userController.createNewUser);
 userRoute.get("/:id", userController.getUserById);

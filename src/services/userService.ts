@@ -72,28 +72,29 @@ export class UserService {
   }
 
   /**
-   * Create new user with a hashed password and check user's informations (email, password length)
+   * Create new user with a hashed password and check user's informations (email, password length, etc...)
    *
    * @param userData type Users
    *
    * @returns Promise<Users>
    */
   async register(userData: Users): Promise<Users> {
+    // Validation du pseudo
     if (!validator.isLength(userData.name, { max: 20 })) {
       throw new Error("Password must be at maximun 20 characters long");
     }
+    // Validation du firstname
     if (!validator.isAlpha(userData.firstName)) {
       throw new Error("firstname must contain only letters");
     }
+    // Validation du lastname
     if (!validator.isAlpha(userData.lastName)) {
       throw new Error("lastname must contain only letters");
     }
-
     // Validation de l'email
     if (!validator.isEmail(userData.email)) {
       throw new Error("Invalid email format");
     }
-
     // Validation du mot de passe
     if (!validator.isLength(userData.password, { min: 8 })) {
       throw new Error("Password must be at least 8 characters long");
@@ -119,8 +120,10 @@ export class UserService {
         lastLoginDate: new Date(),
         connectionAttempts: 0,
         isActive: false,
-        roleId: 0,
-        curencyId: userData.curencyId,
+        // roleId: userData.roleId,
+        roleId: 5,
+        //curencyId: userData.curencyId,
+        curencyId: 10,
       },
     });
 
