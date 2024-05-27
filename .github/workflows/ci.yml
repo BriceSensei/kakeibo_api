@@ -29,6 +29,18 @@ jobs:
       - name: Push to Dockerhub
         run: docker push bricesensei/kakeibo_api:lastest
 
+      - name: Pull Docker image
+        run: docker pull bricesensei/kakeibo_api:latest
+
+      - name: Remove existing Docker container
+        run: |
+          if [ $(docker ps -a -q -f name=kakeibo_api) ]; then
+            docker rm -f kakeibo_api
+          fi
+          
+      - name: Run Docker image
+        run: docker run -d -p 8080:8080 --name kakeibo_api bricesensei/kakeibo_api:latest
+
       - name: Check running containers
         run: docker ps -a
 
