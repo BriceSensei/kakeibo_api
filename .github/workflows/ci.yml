@@ -33,7 +33,7 @@ jobs:
         run: docker ps -a
 
 
-# Faire un repo docker hub et pusher l'image dessus avec les secrets DOCKER_USERNAME et DOCKER_PASSWORD
+# Faire un repo docker hub et pusher l'image dessus avec les secrets DOCKER_USERNAME et DOCKER_PASSWORD qui sont les identifiants docker hub
 # qui se configurent dans les secrets du repo github dans settings > secrets > new repository secret > DOCKER_USERNAME et DOCKER_PASSWORD (qui sont les identifiants docker hub)
 # ensuite on peut pull l'image sur le serveur avec docker pull bricesensei/kakeibo_api dans une action github cd.yml
 # il faut se connecter au server en ssh 
