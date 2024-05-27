@@ -1,4 +1,4 @@
-name: Build Docker Container
+name: CI pipeline
 
 on:
   push:
@@ -20,10 +20,10 @@ jobs:
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
       - name: Build the Docker image
-        run: docker build -t kakeibo_api .
+        run: docker build -t bricesensei/kakeibo_api:lastest .
         
       - name: Push to Dockerhub
-        run: docker push bricesensei/kakeibo_api:latest
+        run: docker push bricesensei/kakeibo_api:lastest
 
 
 # Faire un repo docker hub et pusher l'image dessus avec les secrets DOCKER_USERNAME et DOCKER_PASSWORD
@@ -70,4 +70,7 @@ jobs:
 #     sudo systemctl status docker
 #     se connecter à docker hub
 #     sudo docker login -u bricesensei -p password
-#     si ok on peut pull l'image docker via le cd github action cd..
+
+#     si ok on peut pull l'image docker via le cd github action cd.yml
+#     sudo docker pull bricesensei/kakeibo_api:lastest
+
