@@ -22,12 +22,18 @@ jobs:
 
       - name: Build the Docker image
         run: docker build -t bricesensei/kakeibo_api:lastest .
+
+      - name: List Docker images
+        run: docker images
         
       - name: Push to Dockerhub
         run: docker push bricesensei/kakeibo_api:lastest
 
+      - name: Check running containers
+        run: docker ps -a
 
-# Faire un repo docker hub et pusher l'image dessus avec les secrets DOCKER_USERNAME et DOCKER_PASSWORD
+
+# Faire un repo docker hub et pusher l'image dessus avec les secrets DOCKER_USERNAME et DOCKER_PASSWORD qui sont les identifiants docker hub
 # qui se configurent dans les secrets du repo github dans settings > secrets > new repository secret > DOCKER_USERNAME et DOCKER_PASSWORD (qui sont les identifiants docker hub)
 # ensuite on peut pull l'image sur le serveur avec docker pull bricesensei/kakeibo_api dans une action github cd.yml
 # il faut se connecter au server en ssh 
@@ -41,7 +47,7 @@ jobs:
 # $ tar xzf ./actions-runner-linux-x64-2.315.0.tar.gz
 # Configure
 # # Create the runner and start the configuration experience
-# $ ./config.sh --url https://github.com/BriceSensei/kakeibo_api --token ARGZCDZ6K73343IXXTGKL2TGEDTSG# Last step, run it!
+# $ ./config.sh --url https://github.com/BriceSensei/kakeibo_api --token ARGZCD6VSTJWDQSWKRAZWCTGKSD7A# Last step, run it!
 # $ ./run.sh
 
 # installer docker sur ec2 
