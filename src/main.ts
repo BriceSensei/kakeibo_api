@@ -35,7 +35,7 @@ app.use('/icon', tipsRoute);
 app.use('/tips', tokenRoute);
 app.use('/user', userRoute);
 
-const port = parseInt(ENV.PORT ?? "3000");
+const port = parseInt(ENV.PORT ?? "8080");
 
 // Modification de la ligne pour écouter sur toutes les interfaces réseau Brice
 app.listen(port, '0.0.0.0', () => {
