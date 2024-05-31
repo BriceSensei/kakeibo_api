@@ -10,7 +10,9 @@ export interface CustomRequest extends Request {
 // const roles = ["admin","moderator","user"];
 
 export function CheckUserRole(role: number){
-    return (req: CustomRequest, res:Response, next: NextFunction) => {
+  console.log(role)
+  return (req: CustomRequest, res:Response, next: NextFunction) => {
+      console.log(req.body.role)
         if(!req.body || req.body.role !== role){
             return res.status(403).json({message: "Accès interdit"});
         }

@@ -100,12 +100,44 @@ export class BudgetLineController {
 
     async getAnnualExpenses(req: CustomRequest, res:Response){
         const budgetLineMethod: BudgetLineService = new BudgetLineService();
-        try{
+        const { year } = req.query      
+        try{         
+            if(!year || isNaN(Number(year))){
+                return res.status(400).json({message: "Invalid year parameter"});
+            }
+
             const userId: number | undefined = req.user?.id;
             if(userId === undefined){
                 return res.status(401).json({message: 'User not authentificated'});
             }
-            const expenses = await budgetLineMethod.getAnnualExpress(userId);
+
+            const expenses = await budgetLineMethod.getAnnualExpenses(userId, Number(year));
+            if(expenses.length === 0){
+                return res.status(200).json({message: 'No expenses found for the specified year'});
+            }
+            return res.status(200).json(expenses);
+        }catch(error){
+            return res.status(500).json({message: 'Failed to retrieve annual expenses'});
+        }
+    }
+
+    async getMonthlyExpenses(req: CustomRequest, res:Response){
+        const budgetLineMethod: BudgetLineService = new BudgetLineService();
+        const { year, month } = req.query      
+        try{         
+            if(!year || !month || isNaN(Number(year)) || isNaN(Number(month))){
+                return res.status(400).json({message: "Invalid year parameter"});
+            }
+
+            const userId: number | undefined = req.user?.id;
+            if(userId === undefined){
+                return res.status(401).json({message: 'User not authentificated'});
+            }
+            
+            const expenses = await budgetLineMethod.getAnnualExpenses(userId, Number(year));
+            if(expenses.length === 0){
+                return res.status(200).json({message: 'No expenses found for the specified year'});
+            }
             return res.status(200).json(expenses);
         }catch(error){
             return res.status(500).json({message: 'Failed to retrieve annual expenses'});

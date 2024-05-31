@@ -91,9 +91,9 @@ export class BudgetLineService{
     }
 
 
-    async getAnnualExpress(userId:number):Promise<any>{
-        const startOfYear = new Date(new Date().getFullYear(), 0, 1);
-        const endOfYear = new Date(new Date().getFullYear() + 1, 0, 1);
+    async getAnnualExpenses(userId:number, year: number):Promise<any>{
+        const startOfYear = new Date(year, 0, 1);
+        const endOfYear = new Date(year + 1, 0, 1);
 
         const expenses = await prisma.budgetLines.findMany({
             where: {
@@ -106,6 +106,23 @@ export class BudgetLineService{
             orderBy:{
                 date: 'asc'
             }
+        });
+
+        return expenses;
+    }
+
+    async getMonthExpress(userId: number, year: number, month: number):Promise<any>{
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 1);
+
+        const expenses = await prisma.budgetLines.findMany({
+            where: {
+                userId: userId,
+                date: {
+                  gte: startDate,
+                  lt: endDate,
+                },
+              },
         });
 
         return expenses;

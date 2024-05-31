@@ -22,5 +22,6 @@ budgetLineRoute.patch('/:id', budgetLineController.updateOneBudgetLine);
 budgetLineRoute.delete('/:id', budgetLineController.deleteOneBudgebudgetLine);
 
 budgetLineRoute.get('/expenses/annual', authentificateToken, budgetLineController.getAnnualExpenses);
+budgetLineRoute.get('/expenses/annual', authentificateToken, budgetLineController.getMonthlyExpenses);
 
 export default budgetLineRoute

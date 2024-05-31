@@ -1,6 +1,7 @@
 import { Users } from "@prisma/client";
 import { UserService } from "../services/userService";
 import { Request, Response } from "express";
+import { error } from "console";
 
 export class UserController {
   async getAllUsers(req: Request, res: Response): Promise<void> {
@@ -21,6 +22,7 @@ export class UserController {
   async getUserById(req: Request, res: Response): Promise<void> {
     const userMethod: UserService = new UserService();
     const userId: number = parseInt(req.params.id);
+    
     try {
       const users: Users = await userMethod.getOneUser(userId);
       res.json(users);
