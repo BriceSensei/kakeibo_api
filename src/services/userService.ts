@@ -120,54 +120,13 @@ export class UserService {
         lastLoginDate: new Date(),
         connectionAttempts: 0,
         isActive: false,
-        // roleId: userData.roleId,
-        roleId: 5,
-        //curencyId: userData.curencyId,
-        curencyId: 10,
+        roleId: 15,
+        curencyId: userData.curencyId,
       },
     });
 
     return newUser;
   }
-
-        // Validation de l'email
-        if (!validator.isEmail(userData.email)) {
-            throw new Error('Invalid email format');
-        }
-
-        // Validation du mot de passe
-        if (!validator.isLength(userData.password, { min: 8 })) {
-            throw new Error('Password must be at least 8 characters long');
-        }
-
-        //génère un sel aléatoire
-        const salt = await bcrypt.genSaltSync(10);
-        //crée un hachage du mdp en utilisant SHA-512 et le sel
-        const hash = await bcrypt.hash(userData.password, salt);
-
-        const hashedPassword = `${hash}`;
-    
-        const newUser : Users = await prisma?.users.create({
-            data: {
-                name: userData.name,
-                firstName: userData.firstName,
-                lastName: userData.lastName,
-                email: userData.email,
-                password: hashedPassword,
-                creationDate: new Date(),
-                updateDate: new Date(),
-                passwordUpdateDate: new Date(),
-                lastLoginDate: new Date(),
-                connectionAttempts: 0,
-                isActive: false,
-                roleId: 15,
-                curencyId: userData.curencyId,                
-            }
-        });
-
-        return newUser;
-    }
-
 
     //fct pour récupérer un utilisateur en fct de son email
 

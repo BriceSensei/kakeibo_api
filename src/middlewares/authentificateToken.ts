@@ -18,7 +18,6 @@ export async function authentificateToken(req:CustomRequest, res:Response, next:
     const authHeader = req.headers['authorization'];
     //extraction du token jwt depuis l'en-tête Authorization
     const token = authHeader && authHeader.split(' ')[1];
-    console.log(token)
     //Si aucun token n'est fourni, renvoyer une réponse 401 Unauthorized
     if(token == null){
         return res.status(401).json({message: 'Access token is missing'});
@@ -26,9 +25,7 @@ export async function authentificateToken(req:CustomRequest, res:Response, next:
     try {
         //vérification et decodage du token jwt
         const decoded:any = jwt.verify(token, accessTokenSecret as string);
-        console.log(28, ": ", decoded)
         const user = await prisma?.users.findUnique({where: {id: decoded.id}})
-        console.log(30, ": ", "user" + user)
         if(!user){
             console.log("invalid token")
             return res.status(401).json({message: 'Invalid token'});
