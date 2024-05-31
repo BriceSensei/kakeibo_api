@@ -8,7 +8,7 @@ import  jwt, { Secret }  from "jsonwebtoken";
 import {config} from "dotenv";
 import { Request } from "express";
 
-config()
+config();
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
 
@@ -75,6 +75,3 @@ export class AuthService{
           return refreshToken.user;
      }   
 }
-
-
-

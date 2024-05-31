@@ -38,7 +38,7 @@ generator client {
     subCategories              SubCategories[]
     ownedGroups                UserGroups[]
     relation_UserGroupsOnUsers Relation_UserGroupsOnUsers[]
-     role     Role?     @relation(fields: [roleId], references: [id], onDelete: SetNull, onUpdate: SetNull)
+    role     Role?     @relation(fields: [roleId], references: [id], onDelete: SetNull, onUpdate: SetNull)
   }
   
   model Curencies {

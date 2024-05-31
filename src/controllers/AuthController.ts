@@ -1,14 +1,32 @@
 
 import { AuthService } from "../services/authService";
-import {UserService} from "../services/userService"
+import { UserService } from "../services/userService";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import validator from "validator";
 
+export class AuthController {
+  async login(req: Request, res: Response): Promise<void> {
+    const authMethod: AuthService = new AuthService();
+    const userMethod: UserService = new UserService();
+    const { email, password } = req.body;
 
-export class AuthController{
+    try {
+      const user = await userMethod.getUserByEmail(email);
+      if (!user || !password) {
+        res.status(404).json({ message: "Email and password are required" });
+        return;
+      }
+      //validation mdp
+      const isValidPassword = await bcrypt.compare(password, user.password);
+      console.log(isValidPassword);
+      if (!isValidPassword) {
+        res.status(401).json({ message: "incorrect password" });
+        return;
+      }
 
-    async login(req: Request, res:Response) : Promise<void>{
+      //si l'authentification réussit, générer un token jwt et le renvoyer en réponse
+      const token = authMethod.generateAccessToken(user);
+      console.log(token);
 
         const authMethod : AuthService = new AuthService;
         const userMethod : UserService = new UserService;
@@ -42,5 +60,3 @@ export class AuthController{
         }
     };
 }
-
-
