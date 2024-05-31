@@ -2,10 +2,14 @@ import express, { Request, Response, Router } from 'express';
 import { UnimplementedError } from '../exceptions/UnimplementedError';
 import { BudgetLineController } from '@controller/BudgetLineController';
 
-const budgetLineRoute: Router = express.Router()
-const budgetLineController : BudgetLineController= new BudgetLineController;
+import { authentificateToken } from '../middlewares/authentificateToken';
 
-budgetLineRoute.post('/', budgetLineController.createNewBudgetLine);
+const budgetLineRoute: Router = express.Router()
+const budgetLineController : BudgetLineController = new BudgetLineController;
+
+
+
+budgetLineRoute.post('/:id', budgetLineController.createNewBudgetLine);
 budgetLineRoute.get('/', budgetLineController.getAllBudgetLines);
 budgetLineRoute.get('/:id', budgetLineController.getBudgetLineById);
 
@@ -16,5 +20,7 @@ budgetLineRoute.get('/user/:userId', (req: Request, res: Response): void => {
 
 budgetLineRoute.patch('/:id', budgetLineController.updateOneBudgetLine);
 budgetLineRoute.delete('/:id', budgetLineController.deleteOneBudgebudgetLine);
+
+budgetLineRoute.get('/expenses/annual', authentificateToken, budgetLineController.getAnnualExpenses);
 
 export default budgetLineRoute

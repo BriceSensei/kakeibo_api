@@ -1,6 +1,9 @@
-export interface Tokens {
-    id: number
-    token: string
-    userAgent: string
-    userId: number
+import { Request, Response } from "express";
+
+export class TokenController{
+
+    async refreshToken(req: Request, res: Response):  Promise<void> {
+        
+    }
+
 }

@@ -114,7 +114,7 @@ export class UserService{
                 lastLoginDate: new Date(),
                 connectionAttempts: 0,
                 isActive: false,
-                roleId: 0,
+                roleId: 15,
                 curencyId: userData.curencyId,                
             }
         });

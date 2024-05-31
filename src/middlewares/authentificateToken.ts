@@ -1,35 +1,49 @@
+
 import{ Request, Response, NextFunction } from 'express';
+import { PrismaClient, Users } from "@prisma/client";
+
 import  jwt  from "jsonwebtoken";
 import {config} from "dotenv";
 
 config()
+const prisma = new PrismaClient();
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 
+interface CustomRequest extends Request{
+    // Utilisation de l'interface Users pour annoter le type de la propriété 'user'
+    user?: Users
+}
 
-async function authentificateToken(req:Request, res:Response, next:NextFunction){
+export async function authentificateToken(req:CustomRequest, res:Response, next:NextFunction){
     const authHeader = req.headers['authorization'];
     //extraction du token jwt depuis l'en-tête Authorization
-    const token = authHeader && authHeader.split('')[1];
+    const token = authHeader && authHeader.split(' ')[1];
+    console.log(token)
     //Si aucun token n'est fourni, renvoyer une réponse 401 Unauthorized
     if(token == null){
-        return res.sendStatus(401);
+        return res.status(401).json({message: 'Access token is missing'});
     }
-
     try {
         //vérification et decodage du token jwt
         const decoded:any = jwt.verify(token, accessTokenSecret as string);
-        const user = await prisma?.users.findUnique({where: {id: decoded.userId}})
+        console.log(28, ": ", decoded)
+        const user = await prisma?.users.findUnique({where: {id: decoded.id}})
+        console.log(30, ": ", "user" + user)
         if(!user){
-            return res.sendStatus(401);
+            console.log("invalid token")
+            return res.status(401).json({message: 'Invalid token'});
         }
+        //ajouter les informations de l'utilisateur à la requête
+        req.user = user;
         //appel au middlewaresuivant
         next();
     } catch (error) {
-        return res.sendStatus(403).json({
+        console.error(error)
+        return res.status(403).json({
             error: true,
             message: "Authentification error",
         });
     }
-}
-export{authentificateToken};
+};
+
 

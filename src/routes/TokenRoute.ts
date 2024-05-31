@@ -1,11 +1,10 @@
 import express, { Request, Response, Router } from 'express';
 import { UnimplementedError } from '../exceptions/UnimplementedError';
+import {TokenController} from "@controller/TokenController";
 
 const tokenRoute: Router = express.Router()
 
-tokenRoute.post('/', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
+tokenRoute.post('/token');
 
 // Get all alerts
 tokenRoute.get('/', (req: Request, res: Response): void => {

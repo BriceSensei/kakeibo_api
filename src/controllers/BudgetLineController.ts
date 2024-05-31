@@ -2,6 +2,12 @@
 import { Request, Response } from "express";
 import { BudgetLineService } from "../services/budgetLineService";
 import { BudgetLines } from "@prisma/client";
+import { Users } from "@prisma/client";
+
+interface CustomRequest extends Request{
+    // Utilisation de l'interface Users pour annoter le type de la propriété 'user'
+    user?: Users
+}
 export class BudgetLineController {
 
 
@@ -45,7 +51,7 @@ export class BudgetLineController {
 
         try {
            const budgetLine : BudgetLines = await budgetLineMethod.createOneBudgetLine(budgetLineData);
-           res.json(budgetLine); 
+           res.status(201).json(budgetLine); 
         } catch (error) {
             const errMsg = {
                 status: 500,
@@ -81,14 +87,28 @@ export class BudgetLineController {
 
         try {
             const budgetLineDeleted: BudgetLines = await budgetLineMethod.deleteOneBudgetLine(budgetLineId);
-            res.json(budgetLineDeleted);
+            return res.json(budgetLineDeleted);
         } catch (error) {
             const errMsg = {
                 status: 500,
                 error: error,
                 message: "Fail to delete budgetLine in database"
             }
-            res.status(500).send(errMsg);
+           res.status(500).send(errMsg);
+        }
+    }
+
+    async getAnnualExpenses(req: CustomRequest, res:Response){
+        const budgetLineMethod: BudgetLineService = new BudgetLineService();
+        try{
+            const userId: number | undefined = req.user?.id;
+            if(userId === undefined){
+                return res.status(401).json({message: 'User not authentificated'});
+            }
+            const expenses = await budgetLineMethod.getAnnualExpress(userId);
+            return res.status(200).json(expenses);
+        }catch(error){
+            return res.status(500).json({message: 'Failed to retrieve annual expenses'});
         }
     }
 }
