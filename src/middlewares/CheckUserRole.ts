@@ -9,17 +9,14 @@ export interface CustomRequest extends Request {
 
 // const roles = ["admin","moderator","user"];
 
-export function CheckUserRole(role: number){
-  console.log(role)
-  return (req: CustomRequest, res:Response, next: NextFunction) => {
-      console.log(req.body.role)
-        if(!req.body || req.body.role !== role){
-            return res.status(403).json({message: "Accès interdit"});
-        }
-        next();
-    };
-};
-
+export function CheckUserRole(role: number) {
+  return (req: CustomRequest, res: Response, next: NextFunction) => {
+    if (!req.body || req.body.role !== role) {
+      return res.status(403).json({ message: "Accès interdit" });
+    }
+    next();
+  };
+}
 
 // async function CheckUserRole(req: Request, res:Response, next: NextFunction){
 //     try {
@@ -29,7 +26,6 @@ export function CheckUserRole(role: number){
 //             include: {role: true},
 //         })
 //     } catch (error) {
-        
+
 //     }
 //}
-

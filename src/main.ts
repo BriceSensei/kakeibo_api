@@ -37,7 +37,7 @@ app.use("/fbToken", categoryRoute);
 app.use("/groups", epargnesRoute);
 app.use("/subCategory", subCategoryRoute);
 app.use("/token", frequencyRoute);
-app.use("/budgetLine", budgetLineRoute);
+app.use("/budgetLines", budgetLineRoute);
 app.use("/epargnes", iconRoute);
 app.use("/frequency", subCategoryRoute);
 app.use("/icons", iconRoute);

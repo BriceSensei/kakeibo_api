@@ -182,4 +182,84 @@ export class BudgetLineController {
       res.status(500).json({ message: "Failed to retrieve weekly expenses" });
     }
   }
+
+  async getMonthlyExpensesByCategory(req: CustomRequest, res: Response) {
+    const budgetLineMethod: BudgetLineService = new BudgetLineService();
+    const { categoryId } = req.params;
+    const userId: number | undefined = req.user?.id;
+
+    if (userId === undefined) {
+      return res.status(401).json({ message: "User not authentificated" });
+    }
+
+    // Validation du paramètre categoryId
+    if (!categoryId || isNaN(Number(categoryId))) {
+      return res.status(400).json({ message: "Invalid category ID" });
+    }
+
+    try {
+      const expensesByCategory =
+        await budgetLineMethod.getMonthExpensesByCategory(
+          userId,
+          Number(categoryId)
+        );
+      if (expensesByCategory.length === 0) {
+        return res
+          .status(200)
+          .json({ message: "No expenses found for the current month" });
+      }
+
+      res.status(200).json(expensesByCategory);
+    } catch (error) {
+      console.error("Error retrieving monthly expenses by category:", error);
+      res
+        .status(500)
+        .json({ message: "Failed to retrieve monthly expenses by category" });
+    }
+  }
+
+  async getExpensesByMonthAndCategory(req: CustomRequest, res: Response) {
+    const budgetLineMethod: BudgetLineService = new BudgetLineService();
+    const { year, month, categoryId } = req.query;
+    console.log(year, month, categoryId);
+    const userId: number | undefined = req.user?.id;
+
+    if (userId === undefined) {
+      return res.status(401).json({ message: "User not authentificated" });
+    }
+
+    // Validation des paramètres year, month et categoryId
+    if (
+      !year ||
+      !month ||
+      !categoryId ||
+      isNaN(Number(year)) ||
+      isNaN(Number(month)) ||
+      isNaN(Number(categoryId))
+    ) {
+      return res
+        .status(400)
+        .json({ message: "Invalid year, month, or categoryId parameter" });
+    }
+
+    try {
+      const expenses = await budgetLineMethod.getExpensesByMonthAndCategory(
+        userId,
+        Number(year),
+        Number(month),
+        Number(categoryId)
+      );
+      if (expenses.length === 0) {
+        return res
+          .status(200)
+          .json({ message: "No expenses found for the current month" });
+      }
+      res.status(200).json(expenses);
+    } catch (error) {
+      res.status(500).json({
+        message:
+          "Failed to retrieve expenses for the selected month and category",
+      });
+    }
+  }
 }

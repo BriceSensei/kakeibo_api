@@ -1,8 +1,6 @@
 import prisma from "@prisma/prisma";
 
-import { BudgetLines } from "@prisma/client";
-import { promises } from "dns";
-
+import { BudgetLines, Categories } from "@prisma/client";
 export class BudgetLineService {
   constructor() {}
 
@@ -132,6 +130,9 @@ export class BudgetLineService {
           lt: endDate,
         },
       },
+      orderBy: {
+        date: "asc",
+      },
     });
 
     return expenses;
@@ -150,6 +151,57 @@ export class BudgetLineService {
         date: {
           gte: startOfWeek,
           lte: endOfWeek,
+        },
+      },
+      orderBy: {
+        date: "asc",
+      },
+    });
+
+    return expenses;
+  }
+
+  async getMonthExpensesByCategory(
+    userId: number,
+    categoryId: number
+  ): Promise<BudgetLines[]> {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    const expenses = await prisma.budgetLines.findMany({
+      where: {
+        userId: userId,
+        categoryId: categoryId,
+        date: {
+          gte: startOfMonth,
+          lt: endOfMonth,
+        },
+      },
+      orderBy: {
+        date: "asc",
+      },
+    });
+
+    return expenses;
+  }
+
+  async getExpensesByMonthAndCategory(
+    userId: number,
+    year: number,
+    month: number,
+    categoryId: number
+  ): Promise<BudgetLines[]> {
+    const startOfMonth = new Date(year, month - 1, 1);
+    const endOfMonth = new Date(year, month, 1);
+
+    const expenses = await prisma.budgetLines.findMany({
+      where: {
+        userId: userId,
+        categoryId: categoryId,
+        date: {
+          gte: startOfMonth,
+          lt: endOfMonth,
         },
       },
       orderBy: {

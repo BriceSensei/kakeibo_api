@@ -35,4 +35,16 @@ budgetLineRoute.get(
   authentificateToken,
   budgetLineController.getWeeklyExpenses
 );
+
+budgetLineRoute.get(
+  "/expenses/category/:categoryId/current-month",
+  authentificateToken,
+  budgetLineController.getMonthlyExpensesByCategory
+);
+
+budgetLineRoute.get(
+  "/expenses/category",
+  authentificateToken,
+  budgetLineController.getExpensesByMonthAndCategory
+);
 export default budgetLineRoute;
