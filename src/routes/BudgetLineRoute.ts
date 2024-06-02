@@ -1,27 +1,38 @@
-import express, { Request, Response, Router } from 'express';
-import { UnimplementedError } from '../exceptions/UnimplementedError';
-import { BudgetLineController } from '@controller/BudgetLineController';
+import express, { Request, Response, Router } from "express";
+import { UnimplementedError } from "../exceptions/UnimplementedError";
+import { BudgetLineController } from "@controller/BudgetLineController";
 
-import { authentificateToken } from '../middlewares/authentificateToken';
+import { authentificateToken } from "../middlewares/authentificateToken";
 
-const budgetLineRoute: Router = express.Router()
-const budgetLineController : BudgetLineController = new BudgetLineController;
+const budgetLineRoute: Router = express.Router();
+const budgetLineController: BudgetLineController = new BudgetLineController();
 
-
-
-budgetLineRoute.post('/:id', budgetLineController.createNewBudgetLine);
-budgetLineRoute.get('/', budgetLineController.getAllBudgetLines);
-budgetLineRoute.get('/:id', budgetLineController.getBudgetLineById);
+budgetLineRoute.post("/:id", budgetLineController.createNewBudgetLine);
+budgetLineRoute.get("/", budgetLineController.getAllBudgetLines);
+budgetLineRoute.get("/:id", budgetLineController.getBudgetLineById);
 
 // Get all alerts from user
-budgetLineRoute.get('/user/:userId', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
+budgetLineRoute.get("/user/:userId", (req: Request, res: Response): void => {
+  throw new UnimplementedError();
 });
 
-budgetLineRoute.patch('/:id', budgetLineController.updateOneBudgetLine);
-budgetLineRoute.delete('/:id', budgetLineController.deleteOneBudgebudgetLine);
+budgetLineRoute.patch("/:id", budgetLineController.updateOneBudgetLine);
+budgetLineRoute.delete("/:id", budgetLineController.deleteOneBudgebudgetLine);
 
-budgetLineRoute.get('/expenses/annual', authentificateToken, budgetLineController.getAnnualExpenses);
-budgetLineRoute.get('/expenses/annual', authentificateToken, budgetLineController.getMonthlyExpenses);
+budgetLineRoute.get(
+  "/expenses/annual",
+  authentificateToken,
+  budgetLineController.getAnnualExpenses
+);
+budgetLineRoute.get(
+  "/expenses/monthly",
+  authentificateToken,
+  budgetLineController.getMonthlyExpenses
+);
 
-export default budgetLineRoute
+budgetLineRoute.get(
+  "/expenses/weekly",
+  authentificateToken,
+  budgetLineController.getWeeklyExpenses
+);
+export default budgetLineRoute;
