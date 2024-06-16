@@ -7,6 +7,7 @@ interface CustomRequest extends Request {
   // Utilisation de l'interface Users pour annoter le type de la propriété 'user'
   user?: Users;
 }
+
 export class BudgetLineController {
   async getAllBudgetLines(req: Request, res: Response): Promise<void> {
     const allBudgetLines: BudgetLineService = new BudgetLineService();
@@ -221,7 +222,6 @@ export class BudgetLineController {
   async getExpensesByMonthAndCategory(req: CustomRequest, res: Response) {
     const budgetLineMethod: BudgetLineService = new BudgetLineService();
     const { year, month, categoryId } = req.query;
-    console.log(year, month, categoryId);
     const userId: number | undefined = req.user?.id;
 
     if (userId === undefined) {
@@ -262,4 +262,21 @@ export class BudgetLineController {
       });
     }
   }
+
+  // async getWeeklyExpensesStats(req: CustomRequest, res: Response) {
+  //   const budgetLineMethod: BudgetLineService = new BudgetLineService();
+
+  //   const userId: number | undefined = req.user?.id;
+
+  //   if (userId === undefined) {
+  //     return res.status(401).json({ message: "User not authentificated" });
+  //   }
+
+  //   try {
+  //     const stats = await budgetLineMethod.getWeeklyExpensesStats(userId);
+  //     res.status(200).json(stats);
+  //   } catch (error) {
+  //     res.status(500).json({ message: "Failed to retrieve weekly expenses" });
+  //   }
+  // }
 }
