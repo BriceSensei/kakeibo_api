@@ -263,20 +263,20 @@ export class BudgetLineController {
     }
   }
 
-  // async getWeeklyExpensesStats(req: CustomRequest, res: Response) {
-  //   const budgetLineMethod: BudgetLineService = new BudgetLineService();
+  async getWeeklyExpensesStats(req: CustomRequest, res: Response) {
+    const budgetLineMethod: BudgetLineService = new BudgetLineService();
 
-  //   const userId: number | undefined = req.user?.id;
+    const userId: number | undefined = req.user?.id;
 
-  //   if (userId === undefined) {
-  //     return res.status(401).json({ message: "User not authentificated" });
-  //   }
+    if (userId === undefined) {
+      return res.status(401).json({ message: "User not authentificated" });
+    }
 
-  //   try {
-  //     const stats = await budgetLineMethod.getWeeklyExpensesStats(userId);
-  //     res.status(200).json(stats);
-  //   } catch (error) {
-  //     res.status(500).json({ message: "Failed to retrieve weekly expenses" });
-  //   }
-  // }
+    try {
+      const stats = await budgetLineMethod.getWeeklyExpensesStats(userId);
+      res.status(200).json(stats);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to retrieve weekly expenses" });
+    }
+  }
 }

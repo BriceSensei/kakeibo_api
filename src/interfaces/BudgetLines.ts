@@ -10,12 +10,12 @@ export interface BudgetLinesInterface {
   description: string | null;
   date: Date;
   type: string;
-  frequencyId: number | null;
+  frequencyId?: number | null;
   categoryId: number;
   subCategoryId: number | null;
   updateDate: Date;
   creationDate: Date;
-  frequency: FrequenciesInterface;
+  frequency?: FrequenciesInterface;
   category: CategoriesInterface;
   subCategory: SubCategoriesInterface;
 }

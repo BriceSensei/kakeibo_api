@@ -1,8 +1,8 @@
-import { BudgetLinesInterface } from "./BudgetLines";
 
+import { BudgetLines } from "@prisma/client";
 export interface WeeklyExpenseStats {
   totalExpenses: number;
   numberOfTransactions: number;
   averageDailyExpenses: number;
-  expenses: BudgetLinesInterface[];
+  expenses: BudgetLines[];
 }

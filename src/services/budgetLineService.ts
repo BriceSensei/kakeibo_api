@@ -3,7 +3,6 @@ import prisma from "@prisma/prisma";
 import { BudgetLines } from "@prisma/client";
 import { startOfWeek, endOfWeek } from "date-fns";
 import { WeeklyExpenseStats } from "../interfaces/WeeklyExpenseStats";
-import { BudgetLinesInterface } from "../interfaces/BudgetLines";
 
 export class BudgetLineService {
   constructor() {}
@@ -216,50 +215,49 @@ export class BudgetLineService {
     return expenses;
   }
 
-  // async getWeeklyExpensesStats(userId: number): Promise<WeeklyExpenseStats> {
-  //   const now = new Date();
-  //   //commence le lundi
-  //   const startOfWeekDate = startOfWeek(now, { weekStartsOn: 1 });
-  //   //termine le dimanche
-  //   const endOfWeekDate = endOfWeek(now, { weekStartsOn: 1 });
+  async getWeeklyExpensesStats(userId: number): Promise<WeeklyExpenseStats> {
+    const now = new Date();
+    //commence le lundi
+    const startOfWeekDate = startOfWeek(now, { weekStartsOn: 1 });
+    //termine le dimanche
+    const endOfWeekDate = endOfWeek(now, { weekStartsOn: 1 });
 
-  //   try {
-  //     const expenses =
-  //       await prisma.budgetLines.findMany({
-  //         where: {
-  //           userId: userId,
-  //           date: {
-  //             gte: startOfWeekDate,
-  //             lte: endOfWeekDate,
-  //           },
-  //         },
-  //         orderBy: {
-  //           date: "asc",
-  //         },
-  //         include: {
-  //           frequency: true,
-  //           category: true,
-  //           subCategory: true,
-  //         },
-  //       });
+    try {
+      const expenses =
+        await prisma.budgetLines.findMany({
+          where: {
+            userId: userId,
+            date: {
+              gte: startOfWeekDate,
+              lte: endOfWeekDate,
+            },
+          },
+          orderBy: {
+            date: "asc",
+          },
+          include: {
+            category: true,
+            subCategory: true,
+          },
+        });
 
-  //     // Calculer les statistiques
-  //     const totalExpenses = expenses.reduce(
-  //       (total, expense) => total + expense.value,
-  //       0
-  //     );
-  //     const numberOfTransactions = expenses.length;
-  //     const averageDailyExpenses = totalExpenses / 7;
+      // Calculer les statistiques
+      const totalExpenses = expenses.reduce(
+        (total, expense) => total + expense.value,
+        0
+      );
+      const numberOfTransactions = expenses.length;
+      const averageDailyExpenses = totalExpenses / 7;
 
-  //     return {
-  //       totalExpenses,
-  //       numberOfTransactions,
-  //       averageDailyExpenses,
-  //       expenses,
-  //     };
+      return {
+        totalExpenses,
+        numberOfTransactions,
+        averageDailyExpenses,
+        expenses,
+      };
 
-  //   } catch (error) {
-  //     throw new Error("Failed to retrieve weekly expenses");
-  //   }
-  // }
+    } catch (error) {
+      throw new Error("Failed to retrieve weekly expenses");
+    }
+  }
 }
