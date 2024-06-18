@@ -4,15 +4,14 @@ import { Request, Response } from "express";
 
 import { UsersInterface } from "../interfaces/Users";
 import { UnimplementedError} from "../exceptions/UnimplementedError";
-import { Tokens } from "@prisma/client";
 import { isMain } from "./helperService";
 export class TokenClass{
 
-    async getAllUsers() : Promise<Tokens[]> {
-        const tokens: Tokens[] = await prisma.tokens.findMany()
+    // async getAllUsers() : Promise<Tokens[]> {
+    //     //const tokens: Tokens[] = await prisma.tokens.findMany()
 
-        return tokens;
-    }
+    //     //return tokens;
+    // }
 
     getOneUser = (req: Request, res: Response) : UsersInterface | undefined =>{
         throw new UnimplementedError();
@@ -34,5 +33,5 @@ export class TokenClass{
 if (isMain()) {
     const tokenClass: TokenClass = new TokenClass();
 
-    console.log(tokenClass.getAllUsers());
+    ///console.log(tokenClass.getAllUsers());
 }

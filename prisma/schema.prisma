@@ -29,8 +29,7 @@ generator client {
   
     curency Curencies? @relation(fields: [curencyId], references: [id], onDelete: SetNull)
   
-    refreshToken                RefreshToken[]
-    tokens                     Tokens[]
+  
     fbTokens                   FbTokens[]
     alerts                     Alerts[]
     epargnes                   Epargnes[]
@@ -47,25 +46,6 @@ generator client {
     devise String
   
     Users Users[]
-  }
-  
-  model RefreshToken{
-    id        Int      @id @default(autoincrement())
-    token     String   @unique
-    userAgent String
-    userId    Int
-    expiresAt DateTime
-
-    user      Users     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  }
-
-  model Tokens {
-    id        Int    @id @default(autoincrement())
-    token     String @unique
-    userAgent String
-    userId    Int
-  
-    user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
   }
   
   model FbTokens {

@@ -64,7 +64,6 @@ export class UserController {
         userData
       );
       res.json(userUpdate);
-      //console.log(userUpdate);
     } catch (error) {
       const errMsg = {
         status: 500,

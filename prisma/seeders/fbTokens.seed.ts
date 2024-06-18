@@ -1,13 +1,13 @@
 import prisma from "../prisma";
 
-import { Tokens } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import { Helper } from "@helper/helper";
+import { FbTokens } from "@prisma/client";
 
 export async function seed() {
-  await prisma.tokens.deleteMany({});
+  await prisma.fbTokens.deleteMany({});
 
-  const tokens: Tokens[] = [];
+  const tokens: FbTokens[] = [];
 
   const user = (await prisma.users.findMany()).map((user) => user.id);
 
@@ -22,7 +22,7 @@ export async function seed() {
     });
   }
 
-  await prisma.tokens.createMany({ data: tokens });
+  await prisma.fbTokens.createMany({ data: tokens });
 
   prisma.$disconnect();
 }

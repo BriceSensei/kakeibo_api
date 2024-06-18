@@ -41,7 +41,18 @@ export class SubCategoriesService{
      * @returns Promise<SubCategories>
      */
     async createOneSubCategory(subCategoryData: SubCategories) : Promise<SubCategories>{
-        const createSubCategory : SubCategories = await prisma.subCategories.create({data: subCategoryData});
+        const createSubCategory : SubCategories = await prisma.subCategories.create({
+            data:{
+            name: subCategoryData.name,
+            iconId: subCategoryData.iconId,
+            color: subCategoryData.color,
+            creationDate: new Date(),
+            updateDate: new Date(),
+            parentId: subCategoryData.parentId,
+            userId: subCategoryData.userId,
+            //userGroups: subCategoryData.userGroupsId,
+            },
+        });
     
         return createSubCategory;
        }
