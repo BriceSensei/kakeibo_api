@@ -45,6 +45,9 @@ budgetLineRoute.get(
 
 budgetLineRoute.get("/expenses/weekly/CategoryStatsWeek/:categoryId", authentificateToken, budgetLineController.getCategoryStatsForWeek);
 
+budgetLineRoute.get("/expenses/weekly/BudgetLineHistory/:categoryId", authentificateToken, budgetLineController.getBudgetLineHistory);
+
+
 ///////////////////////////////////////////
 
 

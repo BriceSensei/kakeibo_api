@@ -4,6 +4,7 @@ import { BudgetLines } from "@prisma/client";
 import { startOfWeek, endOfWeek } from "date-fns";
 import { WeeklyExpenseStatsOne} from "../interfaces/WeeklyExpenseStatsOne";
 import { CategoryStats, subCategoryStats} from "../interfaces/getCategoryStatsForWeek";
+import {BudgetLineResponse} from "../interfaces/getBudgetLineHistory"
 
 export class BudgetLineService {
   constructor() {}
@@ -371,6 +372,91 @@ export class BudgetLineService {
       } catch (error) {
         throw new Error("Failed to retrieve category stats for the week");
       }
-    }
+  }
   
-}
+
+  async getBudgetLineHistory(userId: number, categoryId?: number, subCategoryId?: number) : Promise<BudgetLineResponse>{
+    const now = new Date();
+    const startOfWeekDate = startOfWeek(now, { weekStartsOn: 1 });
+    const endOfWeekDate = endOfWeek(now, { weekStartsOn: 1 });
+  
+    try {
+      const whereClause: any = {
+        userId: userId,
+        date: {
+          gte: startOfWeekDate,
+          lte: endOfWeekDate,
+        },
+      };
+  
+      if (categoryId !== undefined) {
+        whereClause.categoryId = categoryId;
+      }
+  
+      if (subCategoryId !== undefined) {
+        whereClause.subCategoryId = subCategoryId;
+      }
+  
+      const budgetLines = await prisma.budgetLines.findMany({
+        where: whereClause,
+        orderBy: {
+          date: "asc",
+        },
+        select: {
+          id: true,
+          userId: true,
+          value: true,
+          title: true,
+          description: true,
+          date: true,
+          type: true,
+          frequencyId: true,
+          categoryId: true,
+          subCategoryId: true,
+          updateDate: true,
+          creationDate: true,
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          subCategory: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      });
+  
+      const totalValue = budgetLines.reduce((total, line) => total + line.value, 0);
+      const numberOfTransactions = budgetLines.length;
+      const averageDailyExpenses = totalValue / 7;
+  
+      return {
+        budgetLines: budgetLines.map(line => ({
+          id: line.id,
+          userId: line.userId,
+          value: line.value,
+          title: line.title,
+          description: line.description,
+          date: line.date,
+          type: line.type,
+          frequencyId: line.frequencyId,
+          categoryId: line.categoryId,
+          subCategoryId: line.subCategoryId,
+          updateDate: line.updateDate,
+          creationDate: line.creationDate,
+        })),
+        totalValue,
+        numberOfTransactions,
+        averageDailyExpenses,
+      };
+  
+    } catch (error) {
+      throw new Error("Failed to retrieve budget lines");
+    }
+  }
+  }
+
