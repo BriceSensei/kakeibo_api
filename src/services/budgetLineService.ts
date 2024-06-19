@@ -2,7 +2,8 @@ import prisma from "@prisma/prisma";
 
 import { BudgetLines } from "@prisma/client";
 import { startOfWeek, endOfWeek } from "date-fns";
-import { WeeklyExpenseStats } from "../interfaces/WeeklyExpenseStats";
+import { WeeklyExpenseStatsOne} from "../interfaces/WeeklyExpenseStatsOne";
+import { CategoryStats, subCategoryStats} from "../interfaces/getCategoryStatsForWeek";
 
 export class BudgetLineService {
   constructor() {}
@@ -215,7 +216,9 @@ export class BudgetLineService {
     return expenses;
   }
 
-  async getWeeklyExpensesStats(userId: number): Promise<WeeklyExpenseStats> {
+  /**********DASHBOARD***********/
+
+  async getWeeklyExpensesStatsOne(userId: number): Promise<WeeklyExpenseStatsOne> {
     const now = new Date();
     //commence le lundi
     const startOfWeekDate = startOfWeek(now, { weekStartsOn: 1 });
@@ -235,13 +238,23 @@ export class BudgetLineService {
           orderBy: {
             date: "asc",
           },
-          include: {
-            category: true,
-            subCategory: true,
-          },
+          //  include: {
+          //    category: true,
+          // //   subCategory: true,
+          //  },
+          select: {
+            id: true,
+            value: true,
+            category: {
+              select: {
+                id: true,
+                name: true,
+              }
+            },
+          }
         });
 
-      // Calculer les statistiques
+      // Calculer les statistiques globales
       const totalExpenses = expenses.reduce(
         (total, expense) => total + expense.value,
         0
@@ -249,11 +262,32 @@ export class BudgetLineService {
       const numberOfTransactions = expenses.length;
       const averageDailyExpenses = totalExpenses / 7;
 
+ // Calculer les statistiques par catégorie
+ const categoryStats = expenses.reduce((stats, expense) => {
+  const categoryId = expense.category.id;
+  const categoryName = expense.category.name;
+  if (!stats[categoryName]) {
+    stats[categoryName] = { categoryId, totalValue: 0, transactions: 0 };
+  }
+  stats[categoryName].totalValue += expense.value;
+  stats[categoryName].transactions += 1;
+  return stats;
+}, {} as Record<string, { categoryId: number, totalValue: number, transactions: number }>);
+
+   // Transformer les dépenses pour ne garder que les informations nécessaires
+   const transformedExpenses = expenses.map(expense => ({
+    id: expense.id,
+    value: expense.value,
+    categoryId: expense.category.id,
+    categoryName: expense.category.name,
+  }));
+
       return {
         totalExpenses,
         numberOfTransactions,
         averageDailyExpenses,
-        expenses,
+        expenses: transformedExpenses,
+        categoryStats,
       };
 
     } catch (error) {
@@ -262,5 +296,81 @@ export class BudgetLineService {
   }
 
 
+  async getCategoryStatsForWeek(userId: number, categoryId: number): Promise<CategoryStats> {
+    const now = new Date();
+    //commence le lundi
+    const startOfWeekDate = startOfWeek(now, { weekStartsOn: 1 });
+    //termine le dimanche
+    const endOfWeekDate = endOfWeek(now, { weekStartsOn: 1 });
+
+    try {
+      const expenses  =
+        await prisma.budgetLines.findMany({
+          where: {
+            userId: userId,
+            categoryId: categoryId,
+            date: {
+              gte: startOfWeekDate,
+              lte: endOfWeekDate,
+            },
+          },
+          orderBy: {
+            date: "asc",
+          },
+          select: {
+            value: true,
+            subCategory: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            category: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },    
+        });
+    
+    // Initialisation des valeurs par défaut pour les statistiques globales
+    let totalValue = 0;
+    let transactions = 0;
+    const subCategoryStats: Record<string, subCategoryStats> = {};
+
+    if (expenses.length > 0) {
+      // Calcul du total des dépenses et du nombre de transactions
+      totalValue = expenses.reduce((total, expense) => total + expense.value, 0);
+      transactions = expenses.length;
+
+      // Calcul des statistiques par sous-catégorie
+      expenses.forEach((expense) => {
+        const subCategoryId = expense.subCategory?.id ?? 0; // Si la sous-catégorie est nulle, utiliser 0
+        const subCategoryName = expense.subCategory?.name ?? "Uncategorized"; // Si le nom de la sous-catégorie est nul, utiliser "Uncategorized"
+        if (!subCategoryStats[subCategoryName]) {
+          subCategoryStats[subCategoryName] = { subCategoryId, totalValue: 0, transactions: 0 };
+        }
+        subCategoryStats[subCategoryName].totalValue += expense.value;
+        subCategoryStats[subCategoryName].transactions += 1;
+      });
+    }
+
+    // Calcul de la moyenne des dépenses journalières
+    const averageDaily= totalValue / 7;
+    const categoryName = expenses[0]?.category?.name ?? "Unknown"; // Si le nom de la catégorie est nul, utiliser "Unknown"
+
+        return {
+          categoryId,
+          categoryName,
+          totalValue,
+          transactions,
+          averageDaily,
+          subCategoryStats,
+        };
+      } catch (error) {
+        throw new Error("Failed to retrieve category stats for the week");
+      }
+    }
   
 }

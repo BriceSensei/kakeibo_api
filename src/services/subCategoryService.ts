@@ -50,7 +50,7 @@ export class SubCategoriesService{
             updateDate: new Date(),
             parentId: subCategoryData.parentId,
             userId: subCategoryData.userId,
-            //userGroups: subCategoryData.userGroupsId,
+           // userGroups: subCategoryData.userGroupsId,
             },
         });
     

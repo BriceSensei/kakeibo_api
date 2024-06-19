@@ -36,11 +36,17 @@ budgetLineRoute.get(
   budgetLineController.getWeeklyExpenses
 );
 
+//**************Dashboard***************///
 budgetLineRoute.get(
-  "/expenses/weekly/stats",
+  "/expenses/weekly/statsOne",
   authentificateToken,
-  budgetLineController.getWeeklyExpensesStats
+  budgetLineController.getWeeklyExpensesStatsOne
 );
+
+budgetLineRoute.get("/expenses/weekly/CategoryStatsWeek/:categoryId", authentificateToken, budgetLineController.getCategoryStatsForWeek);
+
+///////////////////////////////////////////
+
 
 budgetLineRoute.get(
   "/expenses/category/:categoryId/current-month",
