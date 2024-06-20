@@ -312,10 +312,10 @@ async getBudgetLineHistory(req: CustomRequest, res: Response){
   const budgetLineMethod: BudgetLineService = new BudgetLineService();
 
     const userId: number | undefined = req.user?.id;
-    const { categoryId , subCategoryId} = req.params;
+    const { categoryId , subCategoryId} = req.query;
     console.log(categoryId, subCategoryId)
 
-    if (userId === undefined) {
+    if (userId === undefined || isNaN(Number(userId))) {
       return res.status(401).json({ message: "User not authentificated" });
     }
 
@@ -329,7 +329,7 @@ async getBudgetLineHistory(req: CustomRequest, res: Response){
     }
 
     try {
-      const stats = await budgetLineMethod.getCategoryStatsForWeek(userId, Number(categoryId));
+      const stats = await budgetLineMethod.getBudgetLineHistory(userId, Number(categoryId), Number(subCategoryId));
       res.status(200).json(stats);
     } catch (error) {
       res.status(500).json({ message: "Failed to retrieve category stats for week" });

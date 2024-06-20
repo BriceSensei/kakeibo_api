@@ -5,4 +5,4 @@ export interface BudgetLineResponse {
     totalValue: number;
     numberOfTransactions: number;
     averageDailyExpenses: number;
-  }
+}
