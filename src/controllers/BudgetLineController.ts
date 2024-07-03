@@ -12,9 +12,22 @@ export class BudgetLineController {
   async getAllBudgetLines(req: Request, res: Response): Promise<void> {
     const allBudgetLines: BudgetLineService = new BudgetLineService();
 
+    // Récupération des paramètres optionnels de la requête
+    const limit = req.query.limit
+      ? parseInt(req.query.limit as string)
+      : undefined;
+    const order = (req.query.order as "asc" | "desc") || "asc";
+    const begin = req.query.begin
+      ? new Date(req.query.begin as string)
+      : undefined;
+    console.log(limit, order, begin);
+
     try {
-      const budgetLines: BudgetLines[] =
-        await allBudgetLines.getAllBudgetLines();
+      const budgetLines: BudgetLines[] = await allBudgetLines.getAllBudgetLines(
+        limit,
+        order,
+        begin
+      );
       res.json(budgetLines);
     } catch (error) {
       const errMsg = {
@@ -263,7 +276,7 @@ export class BudgetLineController {
     }
   }
 
-/**************DASHBOARD******************/
+  /**************DASHBOARD******************/
 
   async getWeeklyExpensesStatsOne(req: CustomRequest, res: Response) {
     const budgetLineMethod: BudgetLineService = new BudgetLineService();
@@ -282,13 +295,11 @@ export class BudgetLineController {
     }
   }
 
-
   async getCategoryStatsForWeek(req: CustomRequest, res: Response) {
     const budgetLineMethod: BudgetLineService = new BudgetLineService();
 
     const userId: number | undefined = req.user?.id;
     const { categoryId } = req.params;
-    
 
     if (userId === undefined) {
       return res.status(401).json({ message: "User not authentificated" });
@@ -300,20 +311,24 @@ export class BudgetLineController {
     }
 
     try {
-      const stats = await budgetLineMethod.getCategoryStatsForWeek(userId, Number(categoryId));
+      const stats = await budgetLineMethod.getCategoryStatsForWeek(
+        userId,
+        Number(categoryId)
+      );
       res.status(200).json(stats);
     } catch (error) {
-      res.status(500).json({ message: "Failed to retrieve category stats for week" });
+      res
+        .status(500)
+        .json({ message: "Failed to retrieve category stats for week" });
     }
   }
 
-
-async getBudgetLineHistory(req: CustomRequest, res: Response){
-  const budgetLineMethod: BudgetLineService = new BudgetLineService();
+  async getBudgetLineHistory(req: CustomRequest, res: Response) {
+    const budgetLineMethod: BudgetLineService = new BudgetLineService();
 
     const userId: number | undefined = req.user?.id;
-    const { categoryId , subCategoryId} = req.query;
-    console.log(categoryId, subCategoryId)
+    const { categoryId, subCategoryId } = req.query;
+    console.log(categoryId, subCategoryId);
 
     if (userId === undefined || isNaN(Number(userId))) {
       return res.status(401).json({ message: "User not authentificated" });
@@ -329,13 +344,17 @@ async getBudgetLineHistory(req: CustomRequest, res: Response){
     }
 
     try {
-      const stats = await budgetLineMethod.getBudgetLineHistory(userId, Number(categoryId), Number(subCategoryId));
+      const stats = await budgetLineMethod.getBudgetLineHistory(
+        userId,
+        Number(categoryId),
+        Number(subCategoryId)
+      );
       res.status(200).json(stats);
     } catch (error) {
-      res.status(500).json({ message: "Failed to retrieve category stats for week" });
+      res
+        .status(500)
+        .json({ message: "Failed to retrieve category stats for week" });
     }
   }
   ////////////////////////////////////////////////////////////////
-
 }
-

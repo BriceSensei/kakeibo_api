@@ -120,7 +120,7 @@ export class UserService {
         lastLoginDate: new Date(),
         connectionAttempts: 0,
         isActive: false,
-        roleId: 5,
+        roleId: 1,
         curencyId: userData.curencyId,
       },
     });
@@ -128,17 +128,17 @@ export class UserService {
     return newUser;
   }
 
-    //fct pour récupérer un utilisateur en fct de son email
+  //fct pour récupérer un utilisateur en fct de son email
 
-    /**
-     * Get all user and check if the email corresponding to the entered mail parameter and check if the email is the present from users table
-     * 
-     * @param email string
-     * 
-     * @returns Promise<User> or undefined
-     */
-    async getUserByEmail(email:string): Promise<Users | undefined> {
-        const allUsers: Users[] = await prisma.users.findMany();
-        return allUsers.find(user => user.email === email);
-    }
+  /**
+   * Get all user and check if the email corresponding to the entered mail parameter and check if the email is the present from users table
+   *
+   * @param email string
+   *
+   * @returns Promise<User> or undefined
+   */
+  async getUserByEmail(email: string): Promise<Users | undefined> {
+    const allUsers: Users[] = await prisma.users.findMany();
+    return allUsers.find((user) => user.email === email);
+  }
 }

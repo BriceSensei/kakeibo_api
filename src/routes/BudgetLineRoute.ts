@@ -8,7 +8,10 @@ const budgetLineRoute: Router = express.Router();
 const budgetLineController: BudgetLineController = new BudgetLineController();
 
 budgetLineRoute.post("/:id", budgetLineController.createNewBudgetLine);
-budgetLineRoute.get("/", budgetLineController.getAllBudgetLines);
+budgetLineRoute.get(
+  "/",
+  budgetLineController.getAllBudgetLines.bind(budgetLineController)
+);
 budgetLineRoute.get("/:id", budgetLineController.getBudgetLineById);
 
 // Get all alerts from user
@@ -37,19 +40,26 @@ budgetLineRoute.get(
 );
 
 //**************Dashboard***************///
+
 budgetLineRoute.get(
   "/expenses/weekly/statsOne",
   authentificateToken,
   budgetLineController.getWeeklyExpensesStatsOne
 );
 
-budgetLineRoute.get("/expenses/weekly/CategoryStatsWeek/:categoryId", authentificateToken, budgetLineController.getCategoryStatsForWeek);
+budgetLineRoute.get(
+  "/expenses/weekly/CategoryStatsWeek/:categoryId",
+  authentificateToken,
+  budgetLineController.getCategoryStatsForWeek
+);
 
-budgetLineRoute.get("/expenses/weekly/BudgetLineHistory", authentificateToken, budgetLineController.getBudgetLineHistory);
-
+budgetLineRoute.get(
+  "/expenses/weekly/BudgetLineHistory",
+  authentificateToken,
+  budgetLineController.getBudgetLineHistory
+);
 
 ///////////////////////////////////////////
-
 
 budgetLineRoute.get(
   "/expenses/category/:categoryId/current-month",

@@ -9,7 +9,7 @@ export async function seed() {
 
   const frequencies: Frequencies[] = [];
 
-  const user = (await prisma.users.findMany()).map(user => user.id);
+  const user = (await prisma.users.findMany()).map((user) => user.id);
 
   for (let i = 0; i < 100; i++) {
     frequencies.push({
@@ -17,15 +17,12 @@ export async function seed() {
       userId: Helper.getRandomFromArray(user),
       startTime: faker.date.recent(),
       endTime: faker.date.future(),
-      type: 'd',
-      days: 'M______'
+      type: "d",
+      days: "M______",
     });
   }
 
-  
-    await prisma.frequencies.createMany({
-      data: frequencies
-    });
-
-
+  await prisma.frequencies.createMany({
+    data: frequencies,
+  });
 }

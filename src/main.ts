@@ -15,7 +15,7 @@ import groupsRoute from "@route/GroupsRoute";
 import iconRoute from "@route/IconRoute";
 import subCategoryRoute from "@route/SubCategoryRoute";
 import tipsRoute from "@route/TipsRoute";
-import tokenRoute from "@route/TokenRoute";
+import refreshTokenRoute from "@route/refreshTokenRoute";
 import userRoute from "@route/UserRoute";
 import loginRoute from "@routeloginRoute";
 import registerRoute from "@routeRegisterRoute";
@@ -44,6 +44,7 @@ app.use("/icons", iconRoute);
 app.use("/tips", tipsRoute);
 app.use("/users", userRoute);
 app.use("/login", loginRoute);
+app.use("/token", refreshTokenRoute);
 app.use("/register", registerRoute);
 
 const port = parseInt(ENV.PORT ?? "3000");
