@@ -323,7 +323,7 @@ export class BudgetLineController {
     }
   }
 
-  async getBudgetLineHistory(req: CustomRequest, res: Response) {
+  async getBudgetLineHistoryCurrentWeek(req: CustomRequest, res: Response) {
     const budgetLineMethod: BudgetLineService = new BudgetLineService();
 
     const userId: number | undefined = req.user?.id;
@@ -344,7 +344,7 @@ export class BudgetLineController {
     }
 
     try {
-      const stats = await budgetLineMethod.getBudgetLineHistory(
+      const stats = await budgetLineMethod.getBudgetLineHistoryCurrentWeek(
         userId,
         Number(categoryId),
         Number(subCategoryId)

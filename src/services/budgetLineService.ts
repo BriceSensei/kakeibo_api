@@ -7,7 +7,7 @@ import {
   CategoryStats,
   subCategoryStats,
 } from "../interfaces/getCategoryStatsForWeek";
-import { BudgetLineResponse } from "../interfaces/getBudgetLineHistory";
+import { BudgetLineHistoryCurrentWeek } from "../interfaces/getBudgetLineHistoryCurrentWeek";
 
 export class BudgetLineService {
   constructor() {}
@@ -399,11 +399,11 @@ export class BudgetLineService {
     }
   }
 
-  async getBudgetLineHistory(
+  async getBudgetLineHistoryCurrentWeek(
     userId: number,
     categoryId?: number,
     subCategoryId?: number
-  ): Promise<BudgetLineResponse> {
+  ): Promise<BudgetLineHistoryCurrentWeek> {
     const now = new Date();
     const startOfWeekDate = startOfWeek(now, { weekStartsOn: 1 });
     const endOfWeekDate = endOfWeek(now, { weekStartsOn: 1 });
@@ -436,13 +436,13 @@ export class BudgetLineService {
           value: true,
           title: true,
           description: true,
-          date: true,
+         // date: true,
           type: true,
           frequencyId: true,
           categoryId: true,
           subCategoryId: true,
-          updateDate: true,
-          creationDate: true,
+         // updateDate: true,
+          //creationDate: true,
           category: {
             select: {
               id: true,
@@ -465,25 +465,28 @@ export class BudgetLineService {
       const numberOfTransactions = budgetLines.length;
       const averageDailyExpenses = totalValue / 7;
 
+
+      const TransformedExpenses = budgetLines.map((budgetLines)=> ({
+        id: budgetLines.id,
+        userId: budgetLines.userId,
+        value: budgetLines.value,
+        title: budgetLines.title,
+        description: budgetLines.description,
+        //date: budgetLines.date,
+        type: budgetLines.type,
+        frequencyId: budgetLines.frequencyId,
+        categoryId: budgetLines.categoryId,
+        subCategoryId: budgetLines.subCategoryId,
+        //updateDate: line.updateDate,
+        //creationDate: line.creationDate,
+      }));
       return {
-        budgetLines: budgetLines.map((line) => ({
-          id: line.id,
-          userId: line.userId,
-          value: line.value,
-          title: line.title,
-          description: line.description,
-          date: line.date,
-          type: line.type,
-          frequencyId: line.frequencyId,
-          categoryId: line.categoryId,
-          subCategoryId: line.subCategoryId,
-          updateDate: line.updateDate,
-          creationDate: line.creationDate,
-        })),
+        budgetLines: TransformedExpenses,
         totalValue,
         numberOfTransactions,
-        averageDailyExpenses,
-      };
+        averageDailyExpenses,     
+        };
+      
     } catch (error) {
       throw new Error("Failed to retrieve budget lines");
     }

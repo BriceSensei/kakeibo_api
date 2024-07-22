@@ -54,9 +54,9 @@ budgetLineRoute.get(
 );
 
 budgetLineRoute.get(
-  "/expenses/weekly/BudgetLineHistory",
+  "/expenses/weekly/BudgetLineHistoryCurrentWeek",
   authentificateToken,
-  budgetLineController.getBudgetLineHistory
+  budgetLineController.getBudgetLineHistoryCurrentWeek
 );
 
 ///////////////////////////////////////////
