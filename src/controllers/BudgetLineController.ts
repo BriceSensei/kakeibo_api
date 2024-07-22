@@ -295,6 +295,23 @@ export class BudgetLineController {
     }
   }
 
+  async getMonthlyExpensesStatsOne(req: CustomRequest, res: Response) {
+    const budgetLineMethod: BudgetLineService = new BudgetLineService();
+
+    const userId: number | undefined = req.user?.id;
+
+    if (userId === undefined) {
+      return res.status(401).json({ message: "User not authentificated" });
+    }
+
+    try {
+      const stats = await budgetLineMethod.getWeeklyExpensesStatsOne(userId);
+      res.status(200).json(stats);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to retrieve weekly expenses" });
+    }
+  }
+
   async getCategoryStatsForWeek(req: CustomRequest, res: Response) {
     const budgetLineMethod: BudgetLineService = new BudgetLineService();
 
@@ -323,6 +340,38 @@ export class BudgetLineController {
     }
   }
 
+
+  async getCategoryStatsForMonth(req: CustomRequest, res: Response) {
+    const budgetLineMethod: BudgetLineService = new BudgetLineService();
+
+    const userId: number | undefined = req.user?.id;
+    const { categoryId } = req.params;
+
+    if (userId === undefined) {
+      return res.status(401).json({ message: "User not authentificated" });
+    }
+
+    // Validation du paramètre categoryId
+    if (!categoryId || isNaN(Number(categoryId))) {
+      return res.status(400).json({ message: "Invalid category ID" });
+    }
+
+    try {
+      const stats = await budgetLineMethod.getCategoryStatsForWeek(
+        userId,
+        Number(categoryId)
+      );
+      res.status(200).json(stats);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Failed to retrieve category stats for week" });
+    }
+  }
+
+
+
+
   async getBudgetLineHistoryCurrentWeek(req: CustomRequest, res: Response) {
     const budgetLineMethod: BudgetLineService = new BudgetLineService();
 
@@ -345,6 +394,41 @@ export class BudgetLineController {
 
     try {
       const stats = await budgetLineMethod.getBudgetLineHistoryCurrentWeek(
+        userId,
+        Number(categoryId),
+        Number(subCategoryId)
+      );
+      res.status(200).json(stats);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Failed to retrieve category stats for week" });
+    }
+  }
+
+
+  async getBudgetLineHistoryCurrentMonth(req: CustomRequest, res: Response) {
+    const budgetLineMethod: BudgetLineService = new BudgetLineService();
+
+    const userId: number | undefined = req.user?.id;
+    const { categoryId, subCategoryId } = req.query;
+    console.log(categoryId, subCategoryId);
+
+    if (userId === undefined || isNaN(Number(userId))) {
+      return res.status(401).json({ message: "User not authentificated" });
+    }
+
+    // Validation du paramètre categoryId
+    if (!categoryId || isNaN(Number(categoryId))) {
+      return res.status(400).json({ message: "Invalid category ID" });
+    }
+
+    if (!subCategoryId || isNaN(Number(subCategoryId))) {
+      return res.status(400).json({ message: "Invalid subcategory ID" });
+    }
+
+    try {
+      const stats = await budgetLineMethod.getBudgetLineHistoryCurrentMonth(
         userId,
         Number(categoryId),
         Number(subCategoryId)

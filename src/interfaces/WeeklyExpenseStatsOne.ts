@@ -1,6 +1,6 @@
 
 //mport { BudgetLines } from "@prisma/client";
-export interface WeeklyExpenseStatsOne {
+export interface ExpenseStatsOne {
   totalExpenses: number;
   numberOfTransactions: number;
   averageDailyExpenses: number;

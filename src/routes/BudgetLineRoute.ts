@@ -48,9 +48,21 @@ budgetLineRoute.get(
 );
 
 budgetLineRoute.get(
+  "/expenses/monthly/statsOne",
+  authentificateToken,
+  budgetLineController.getMonthlyExpensesStatsOne
+);
+
+budgetLineRoute.get(
   "/expenses/weekly/CategoryStatsWeek/:categoryId",
   authentificateToken,
   budgetLineController.getCategoryStatsForWeek
+);
+
+budgetLineRoute.get(
+  "/expenses/weekly/CategoryStatsMonth/:categoryId",
+  authentificateToken,
+  budgetLineController.getCategoryStatsForMonth
 );
 
 budgetLineRoute.get(
@@ -59,6 +71,11 @@ budgetLineRoute.get(
   budgetLineController.getBudgetLineHistoryCurrentWeek
 );
 
+budgetLineRoute.get(
+  "/expenses/weekly/BudgetLineHistoryCurrentMonth",
+  authentificateToken,
+  budgetLineController.getBudgetLineHistoryCurrentMonth
+);
 ///////////////////////////////////////////
 
 budgetLineRoute.get(
