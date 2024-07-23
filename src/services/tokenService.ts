@@ -32,6 +32,4 @@ export class TokenClass{
 
 if (isMain()) {
     const tokenClass: TokenClass = new TokenClass();
-
-    ///console.log(tokenClass.getAllUsers());
 }

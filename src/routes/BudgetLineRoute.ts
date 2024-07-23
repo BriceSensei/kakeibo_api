@@ -8,10 +8,84 @@ const budgetLineRoute: Router = express.Router();
 const budgetLineController: BudgetLineController = new BudgetLineController();
 
 budgetLineRoute.post("/:id", budgetLineController.createNewBudgetLine);
-budgetLineRoute.get(
-  "/",
-  budgetLineController.getAllBudgetLines.bind(budgetLineController)
+
+
+/**
+ * @swagger
+ * tags:
+ *    name: BudgetLines
+ *    description: API endpoints to manage BudgetLines
+ */
+
+/**
+ * @swagger
+ *  /budgetlines:
+ *    get:
+ *       summary: Get all budgetLines
+ *       tags: [BudgetLines]
+ *       security:
+ *          - bearerAuth: []
+ *       parameters:
+ *         - $ref: '#/components/parameters/limit'
+ *         - $ref: '#/components/parameters/order'
+ *         - $ref: '#/components/parameters/begin'
+ *       responses:
+*          "200":
+*            description: The list of all BudgetLines
+*            contents:
+*              application/json:
+*                schema:
+*                  type: array
+*                  items: 
+*                    $ref: '#/components/schemas/budgetLineRoute'                
+*          "400":
+*             $ref: '#/components/responses/400'
+*          "401":
+*             $ref: '#/components/responses/401'
+* 
+*/
+budgetLineRoute.get("/",budgetLineController.getAllBudgetLines.bind(budgetLineController)
 );
+
+
+
+
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: BudgetLines
+ *   description: API endpoints to manage BudgetLines
+ */
+
+/**
+ * @swagger
+ *  /budgetLines/{id}:
+ *    get:
+ *      summary: Get one budgetLine
+ *      tags: [BudgetLines]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: The budget line ID
+ *      responses:
+ *        "200":
+ *          description: The budget line data
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/budgetLineRoute'
+ *        "400":
+ *          $ref: '#/components/responses/400'
+ *        "401":
+ *          $ref: '#/components/responses/401'
+ *        "404":
+ *          $ref: '#/components/responses/404'
+ */
 budgetLineRoute.get("/:id", budgetLineController.getBudgetLineById);
 
 // Get all alerts from user
@@ -89,5 +163,13 @@ budgetLineRoute.get(
   authentificateToken,
   budgetLineController.getExpensesByMonthAndCategory
 );
+
+
+
+
+
+/****************** SWAGGER **************/
+
+
 
 export default budgetLineRoute;

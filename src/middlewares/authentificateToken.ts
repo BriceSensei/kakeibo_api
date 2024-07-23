@@ -15,6 +15,7 @@ interface CustomRequest extends Request{
 }
 
 export async function authentificateToken(req:CustomRequest, res:Response, next:NextFunction){
+
     const authHeader = req.headers['authorization'];
     //extraction du token jwt depuis l'en-tête Authorization
     const token = authHeader && authHeader.split(' ')[1];
