@@ -108,26 +108,26 @@ budgetLineRoute.get("/:id", authentificateToken, budgetLineController.getBudgetL
  * @swagger
  *  /budgetLines/{id}:
  *    patch:
- *      summary: modify one budgetLine
+ *      summary: Modify one budgetLine
  *      tags: [BudgetLines]
  *      parameters:
  *        - in: path
  *          name: id
  *          schema:
- *            type: integer
+ *            type: string
  *          required: true
- *          description: The budgetline ID
-  *      requestBody:
-  *         required: true
-  *         content:
-  *           application/json:
-  *             schema:
-  *               $ref: '#/components/schemas/budgetLineRoute'              
+ *          description: Id of the budgetLine
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/budgetLineRoute'
  *      responses:
  *        "204":
- *          description: budgetline updated successfully
+ *          description: Budget line updated successfully
  *          content:
- *            application/json:
+ *            application/json: {}
  *        "400":
  *          $ref: '#/components/responses/400'
  *        "401":
@@ -136,10 +136,33 @@ budgetLineRoute.get("/:id", authentificateToken, budgetLineController.getBudgetL
  *          $ref: '#/components/responses/404'
  */
 budgetLineRoute.patch("/:id", authentificateToken, budgetLineController.updateOneBudgetLine);
+budgetLineRoute.patch("/:id", authentificateToken, budgetLineController.updateOneBudgetLine);
 
-
-
-
+/**
+ * @swagger
+ *  /budgetLines/{id}:
+ *    delete:
+ *      summary: delete one budgetLine
+ *      tags: [BudgetLines]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: Id of the budgetLine
+ *      responses:
+ *        "204":
+ *          description: Budget line deleted successfully
+ *          content:
+ *            application/json: {}
+ *        "400":
+ *          $ref: '#/components/responses/400'
+ *        "401":
+ *          $ref: '#/components/responses/401'
+ *        "404":
+ *          $ref: '#/components/responses/404'
+ */
 budgetLineRoute.delete("/:id", budgetLineController.deleteOneBudgebudgetLine);
 
 budgetLineRoute.get(

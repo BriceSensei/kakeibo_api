@@ -4,6 +4,7 @@ import { specs } from "./swagger";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import alertsRoute from "@route/AlertsRoute";
 import budgetLineRoute from "@route/BudgetLineRoute";
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(helmet());
+app.use(cors());
 
 app.use("/alerts", alertsRoute);
 app.use("/category", categoryRoute);

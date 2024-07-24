@@ -65,7 +65,8 @@ const options = {
                             description: "user id",
                         },
                         value:{
-                            type:'float',
+                            type:'number',
+                            format: 'float',
                             description: 'the value of the expense',
                         },
                         title:{
@@ -83,7 +84,7 @@ const options = {
                         },
                         type:{
                             type:'string',
-                            description:'type of the expense',
+                            description:'type of the expense (expense or income)',
                         },
                         frequencyId:{
                             type:'integer',
@@ -100,29 +101,69 @@ const options = {
                         updateDate:{
                             type:'string',
                             format:'date',
-                            description:'the update of the expense',
+                            description:'The date when the expense was last updated',
                         },
                         creationDate:{
                             type:'string',
                             format:'date-time',
-                            description:'the creation of the expense',
+                            description:'The date when the expense was created',
                         }
+                    },
+                    example: {
+                        userId: 62,
+                        value: 20,
+                        title:"Test",
+                        type:"outcome",
+                        categoryId: 41
                     }
                 }
             },
             responses:{
-                400:{
-                    description: "Missing API key - include it in the Authorization header",
-                    contents: 'application/json',
-                },
-                401:{
-                    description: "Unauthorized - incorrect API key or incorrect format",
-                    contents: 'application/json',
-                },
-                404:{
-                    description: "Not found - the expense was not found",
-                    contents: 'application/json',
-                },
+                400: {
+                    description: 'Bad Request - Invalid input data',
+                    content: {
+                      'application/json': {
+                        schema: {
+                          type: 'object',
+                          properties: {
+                            message: {
+                              type: 'string',
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },        
+                  401: {
+                    description: 'Unauthorized - Authentication failed or token expired',
+                    content: {
+                      'application/json': {
+                        schema: {
+                          type: 'object',
+                          properties: {
+                            message: {
+                              type: 'string',
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },            
+                404: {
+                    description: 'Not Found - The resource was not found',
+                    content: {
+                      'application/json': {
+                        schema: {
+                          type: 'object',
+                          properties: {
+                            message: {
+                              type: 'string',
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
             }
         },
         security:[
