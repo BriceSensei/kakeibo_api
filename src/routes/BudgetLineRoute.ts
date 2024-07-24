@@ -7,8 +7,6 @@ import { authentificateToken } from "../middlewares/authentificateToken";
 const budgetLineRoute: Router = express.Router();
 const budgetLineController: BudgetLineController = new BudgetLineController();
 
-budgetLineRoute.post("/:id", budgetLineController.createNewBudgetLine);
-
 
 /**
  * @swagger
@@ -16,6 +14,36 @@ budgetLineRoute.post("/:id", budgetLineController.createNewBudgetLine);
  *    name: BudgetLines
  *    description: API endpoints to manage BudgetLines
  */
+
+/**
+ * @swagger
+ *  /budgetlines:
+ *    post:
+ *       summary: create a budgetLine
+ *       tags: [BudgetLines]
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/budgetLineRoute'
+ *             example:
+ *                userId: 72
+ *                value: 150.50
+ *                title: "Grocery Shopping"               
+ *                type: "outcome/income"
+ *                categoryId: 3
+ *       responses:
+ *          "201":
+ *             description: Budget line created successfully
+ *             contents:
+ *               application/json
+ *          "400":
+ *             $ref: '#/components/responses/400'
+ *          "401":
+ *             $ref: '#/components/responses/401'
+ */
+budgetLineRoute.post("/", budgetLineController.createNewBudgetLine);
 
 /**
  * @swagger
@@ -44,20 +72,8 @@ budgetLineRoute.post("/:id", budgetLineController.createNewBudgetLine);
 *             $ref: '#/components/responses/401'
 * 
 */
-budgetLineRoute.get("/",budgetLineController.getAllBudgetLines.bind(budgetLineController)
+budgetLineRoute.get("/", authentificateToken ,budgetLineController.getAllBudgetLines.bind(budgetLineController)
 );
-
-
-
-
-
-
-/**
- * @swagger
- * tags:
- *   name: BudgetLines
- *   description: API endpoints to manage BudgetLines
- */
 
 /**
  * @swagger
@@ -71,7 +87,7 @@ budgetLineRoute.get("/",budgetLineController.getAllBudgetLines.bind(budgetLineCo
  *          schema:
  *            type: integer
  *          required: true
- *          description: The budget line ID
+ *          description: The budgetline ID
  *      responses:
  *        "200":
  *          description: The budget line data
@@ -86,14 +102,44 @@ budgetLineRoute.get("/",budgetLineController.getAllBudgetLines.bind(budgetLineCo
  *        "404":
  *          $ref: '#/components/responses/404'
  */
-budgetLineRoute.get("/:id", budgetLineController.getBudgetLineById);
+budgetLineRoute.get("/:id", authentificateToken, budgetLineController.getBudgetLineById);
 
-// Get all alerts from user
-budgetLineRoute.get("/user/:userId", (req: Request, res: Response): void => {
-  throw new UnimplementedError();
-});
+/**
+ * @swagger
+ *  /budgetLines/{id}:
+ *    patch:
+ *      summary: modify one budgetLine
+ *      tags: [BudgetLines]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: The budgetline ID
+  *      requestBody:
+  *         required: true
+  *         content:
+  *           application/json:
+  *             schema:
+  *               $ref: '#/components/schemas/budgetLineRoute'              
+ *      responses:
+ *        "204":
+ *          description: budgetline updated successfully
+ *          content:
+ *            application/json:
+ *        "400":
+ *          $ref: '#/components/responses/400'
+ *        "401":
+ *          $ref: '#/components/responses/401'
+ *        "404":
+ *          $ref: '#/components/responses/404'
+ */
+budgetLineRoute.patch("/:id", authentificateToken, budgetLineController.updateOneBudgetLine);
 
-budgetLineRoute.patch("/:id", budgetLineController.updateOneBudgetLine);
+
+
+
 budgetLineRoute.delete("/:id", budgetLineController.deleteOneBudgebudgetLine);
 
 budgetLineRoute.get(

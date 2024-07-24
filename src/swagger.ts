@@ -12,6 +12,7 @@ const options = {
         servers:[
             {
                 url: 'http://localhost:3000',
+               
             }, 
         ],
         
@@ -131,7 +132,7 @@ const options = {
         ],
        
     },
-    apis: ['./src/routes/BudgetLineRoute.ts'], // Point to your route files
+    apis: ['./src/routes/*.ts'], // Point to your route files
 };
 
 export const specs = swaggerJsdoc(options);
