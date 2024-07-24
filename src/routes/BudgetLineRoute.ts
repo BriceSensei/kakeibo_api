@@ -136,7 +136,6 @@ budgetLineRoute.get("/:id", authentificateToken, budgetLineController.getBudgetL
  *          $ref: '#/components/responses/404'
  */
 budgetLineRoute.patch("/:id", authentificateToken, budgetLineController.updateOneBudgetLine);
-budgetLineRoute.patch("/:id", authentificateToken, budgetLineController.updateOneBudgetLine);
 
 /**
  * @swagger
@@ -165,6 +164,45 @@ budgetLineRoute.patch("/:id", authentificateToken, budgetLineController.updateOn
  */
 budgetLineRoute.delete("/:id", budgetLineController.deleteOneBudgebudgetLine);
 
+/**
+ * @swagger
+ *  /budgetlines/expenses/annual:
+ *    get:
+ *      summary: Get annual expenses
+ *      tags: [BudgetLines]
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *        - in: query
+ *          name: year
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: Year for which to retrieve expenses
+ *      responses:
+ *        "200":
+ *          description: Annual expenses retrieved successfully
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/budgetLineRoute'
+ *        "400":
+ *          $ref: '#/components/responses/400'
+ *        "401":
+ *          $ref: '#/components/responses/401'
+ *        "500":
+ *          description: Failed to retrieve annual expenses
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    example: Failed to retrieve annual expenses
+ */
 budgetLineRoute.get(
   "/expenses/annual",
   authentificateToken,
