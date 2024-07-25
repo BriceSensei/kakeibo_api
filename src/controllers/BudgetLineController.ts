@@ -305,7 +305,7 @@ export class BudgetLineController {
     }
 
     try {
-      const stats = await budgetLineMethod.getWeeklyExpensesStatsOne(userId);
+      const stats = await budgetLineMethod.getMonthlyExpensesStatsOne(userId);
       res.status(200).json(stats);
     } catch (error) {
       res.status(500).json({ message: "Failed to retrieve weekly expenses" });
@@ -357,7 +357,7 @@ export class BudgetLineController {
     }
 
     try {
-      const stats = await budgetLineMethod.getCategoryStatsForWeek(
+      const stats = await budgetLineMethod.getCategoryStatsForMonth(
         userId,
         Number(categoryId)
       );
@@ -388,15 +388,10 @@ export class BudgetLineController {
       return res.status(400).json({ message: "Invalid category ID" });
     }
 
-    if (!subCategoryId || isNaN(Number(subCategoryId))) {
-      return res.status(400).json({ message: "Invalid subcategory ID" });
-    }
-
     try {
       const stats = await budgetLineMethod.getBudgetLineHistoryCurrentWeek(
         userId,
-        Number(categoryId),
-        Number(subCategoryId)
+        Number(categoryId),Number(subCategoryId) ? Number(subCategoryId) : undefined
       );
       res.status(200).json(stats);
     } catch (error) {
@@ -412,7 +407,7 @@ export class BudgetLineController {
 
     const userId: number | undefined = req.user?.id;
     const { categoryId, subCategoryId } = req.query;
-    console.log(categoryId, subCategoryId);
+    console.log(categoryId, subCategoryId)
 
     if (userId === undefined || isNaN(Number(userId))) {
       return res.status(401).json({ message: "User not authentificated" });
@@ -423,16 +418,16 @@ export class BudgetLineController {
       return res.status(400).json({ message: "Invalid category ID" });
     }
 
-    if (!subCategoryId || isNaN(Number(subCategoryId))) {
-      return res.status(400).json({ message: "Invalid subcategory ID" });
-    }
+    // if (!subCategoryId && isNaN(Number(subCategoryId))) {
+    //   return res.status(400).json({ message: "Invalid subcategory ID" });
+    // }
 
     try {
       const stats = await budgetLineMethod.getBudgetLineHistoryCurrentMonth(
         userId,
         Number(categoryId),
-        Number(subCategoryId)
-      );
+        Number(subCategoryId) ? Number(subCategoryId) : undefined);
+      
       res.status(200).json(stats);
     } catch (error) {
       res

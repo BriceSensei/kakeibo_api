@@ -116,6 +116,68 @@ const options = {
                         type:"outcome",
                         categoryId: 41
                     }
+                },
+                userRoute:{
+                    type: 'object',
+                    required:['name', 'firstName', 'lastName', 'email', 'password'],
+                    properties:{
+                        name:{
+                            type:'string',
+                            description: 'user pseudo',
+                        },
+                        firstName:{
+                            type:'string',
+                            description: 'user firstName',
+                        },
+                        lastName:{
+                            type:'string',
+                            description: 'user lastName',
+                        },
+                        email:{
+                            type:'string',
+                            description: 'user email',
+                        },
+                        password:{
+                            type:'string',
+                            description: 'user password',
+                        },
+                        creattionDate:{
+                            type:'string',
+                            format:'date',
+                            description:'date of the creation user',
+                        },
+                        updateDate:{
+                            type:'string',
+                            format:'date',
+                            description:'The date when the user was last updated',
+                        },
+                        passwordUpdateDate:{
+                            type:'string',
+                            description: 'the date when the password was last updated',
+                        },
+                        lastLoginDate:{
+                            type:'string',
+                            format:'date',
+                            description:'The date when the user was last login',
+                        },
+                        connectionAttempts:{
+                            type:'integer',
+                            description:'connection attempts',
+                        },
+                        isActive:{
+                            type:'boolean',
+                            description:"active account",
+                        },
+                        roleId:{
+                            type:'integer',
+                            description: "role id",
+                        },
+                        currencyId:{
+                            type:'integer',
+                            description: "currency id",
+                        },
+                       
+                    },              
                 }
             },
             responses:{

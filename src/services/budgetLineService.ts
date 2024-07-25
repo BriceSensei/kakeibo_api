@@ -576,11 +576,8 @@ export class BudgetLineService {
           gte: startOfWeekDate,
           lte: endOfWeekDate,
         },
+        categoryId: categoryId,
       };
-
-      if (categoryId !== undefined) {
-        whereClause.categoryId = categoryId;
-      }
 
       if (subCategoryId !== undefined) {
         whereClause.subCategoryId = subCategoryId;
@@ -655,7 +652,7 @@ export class BudgetLineService {
 
   async getBudgetLineHistoryCurrentMonth(
     userId: number,
-    categoryId?: number,
+    categoryId: number,
     subCategoryId?: number
   ): Promise<BudgetLineHistory> {
     const now = new Date();
@@ -669,12 +666,9 @@ export class BudgetLineService {
           gte: startOfMonthDate,
           lte: endOfMonthDate,
         },
+        categoryId: categoryId,
       };
-  
-      if (categoryId !== undefined) {
-        whereClause.categoryId = categoryId;
-      }
-  
+
       if (subCategoryId !== undefined) {
         whereClause.subCategoryId = subCategoryId;
       }
