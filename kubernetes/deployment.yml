@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kakeibo-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kakeibo-api
+  template:
+    metadata:
+      labels:
+        app: kakeibo-api
+    spec:
+      containers:
+      - name: kakeibo-api
+        image: bricesensei/kakeibo_api:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: "production"

@@ -1,37 +1,3 @@
-# version: '3.8'
-
-# services:
-#   api:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile
-#     ports:
-#       - '3000:3000'
-#     environment:
-#       NODE_ENV: production
-#       DATABASE_URL: "mysql://db:3306/kakeibo"
-#     depends_on:
-#       - db
-
-#   db:
-#     image: mysql:latest
-#     restart: always
-#     environment:
-#       MYSQL_DATABASE: kakeibo
-#       MYSQL_ALLOW_EMPTY_PASSWORD: 1
-#     ports:
-#       - '3306:3306'
-#     volumes:
-#       - mysql_data:/var/lib/mysql
-
-# volumes:
-#   mysql_data:
-
-# networks:
-#   mysql:
-#     driver: bridge 
-
-
 version: '3.8'
 
 services:
@@ -44,4 +10,24 @@ services:
     environment:
       NODE_ENV: production
       # DATABASE_URL: "mysql://<AWS_RDS_ENDPOINT>:<PORT>/<DATABASE_NAME>"
-      
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+volumes:
+  grafana-storage:

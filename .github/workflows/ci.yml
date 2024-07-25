@@ -11,38 +11,31 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Login Dockerhub
         env:
-          # DOCKER_USERNAME: bricesensei
-          # DOCKER_PASSWORD: dckr_pat_-mcduoFMsag41isEbO3tX8Mz030
-          # a changer si besoin
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
       - name: Build the Docker image
-        run: docker build -t bricesensei/kakeibo_api:lastest .
+        run: docker build -t bricesensei/kakeibo_api:latest .
 
       - name: List Docker images
         run: docker images
-        
+
       - name: Push to Dockerhub
-        run: docker push bricesensei/kakeibo_api:lastest
+        run: docker push bricesensei/kakeibo_api:latest
 
-      - name: Pull Docker image
-        run: docker pull bricesensei/kakeibo_api:latest
+      # - name: Configure kubectl
+      #   run: |
+      #     mkdir -p $HOME/.kube
+      #     echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
 
-      - name: Remove existing Docker container
-        run: |
-          if [ $(docker ps -a -q -f name=kakeibo_api) ]; then
-            docker rm -f kakeibo_api
-          fi
-          
-      - name: Run Docker image
-        run: docker run -d -p 8080:8080 --name kakeibo_api bricesensei/kakeibo_api:latest
-
-      - name: Check running containers
-        run: docker ps -a
+      # - name: Apply Kubernetes manifests
+      #   run: |
+      #     kubectl apply -f deployment.yml
+      #     kubectl apply -f service.yml
 
 
 # Faire un repo docker hub et pusher l'image dessus avec les secrets DOCKER_USERNAME et DOCKER_PASSWORD qui sont les identifiants docker hub
