@@ -1,0 +1,55 @@
+- hosts: localhost
+  connection: local
+  become: yes
+  tasks:
+    - name: Update apt repository and cache
+      apt:
+        update_cache: yes
+
+    - name: Install packages to allow apt to use a repository over HTTPS
+      apt:
+        name: ['apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common']
+        state: present
+
+    - name: Add Docker's official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt repository and cache again
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+      ignore_errors: yes  # Ignorer les erreurs d'installation pour la vérification
+
+    - name: Vérifier que Docker est installé
+      command: docker --version
+      register: docker_version
+      changed_when: false
+
+    - debug:
+        var: docker_version.stdout_lines
+
+    - name: Redémarrer le service Docker si nécessaire
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      when: docker_version.stdout is not defined  # Redémarrer seulement si Docker n'est pas installé correctement
+
+    - name: Afficher le statut du service Docker
+      command: systemctl status docker
+      register: docker_status
+      changed_when: false
+
+    - debug:
+        var: docker_status.stdout_lines
