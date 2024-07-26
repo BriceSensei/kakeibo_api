@@ -108,7 +108,7 @@ budgetLineRoute.get("/:id", authentificateToken, budgetLineController.getBudgetL
  * @swagger
  *  /budgetLines/{id}:
  *    patch:
- *      summary: Modify one budgetLine
+ *      summary: Modify a budgetLine
  *      tags: [BudgetLines]
  *      parameters:
  *        - in: path
