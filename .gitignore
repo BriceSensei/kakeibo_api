@@ -3,5 +3,7 @@ node_modules
 .env
 .env.*
 !.env.example
-
+terraform
 dist/*
+main_old.tf
+.terraform.lock.hcl

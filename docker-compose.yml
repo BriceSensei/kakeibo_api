@@ -9,20 +9,25 @@ services:
       - '3000:3000'
     environment:
       NODE_ENV: production
-      DATABASE_URL: "mysql://root:@localhost:3306/kakeibo"
-    depends_on:
-      - db
+      # DATABASE_URL: "mysql://<AWS_RDS_ENDPOINT>:<PORT>/<DATABASE_NAME>"
 
-  db:
-    image: mysql:latest
-    restart: always
-    environment:
-      MYSQL_DATABASE: kakeibo
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    ports:
-      - '3306:3306'
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./prometheus:/etc/prometheus
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
 
 volumes:
-  mysql_data:
+  grafana-storage:
