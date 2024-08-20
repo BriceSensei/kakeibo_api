@@ -2,7 +2,7 @@
   connection: local
   become: yes
   vars:
-    github_runner_token: "ARGZCD343T5H3NPVXPI6FVTGUJGZQ"
+    github_runner_token: "ARGZCD34LJ42M77YBLGBPTLGYRYRU"
   tasks:
     - name: Create actions runner directory
       file:

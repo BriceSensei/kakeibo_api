@@ -1,5 +1,5 @@
 ---
-- name: Install kubectl
+- name: Install Minikube and kubectl
   hosts: kubectl_nodes
   become: true
   tasks:
@@ -8,24 +8,19 @@
         name:
           - curl
           - apt-transport-https
+          - ca-certificates
         state: present
         update_cache: yes
 
-    - name: Download the latest version of kubectl
-      get_url:
-        url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
-        dest: /tmp/kubectl
-        mode: '0755'
-      vars:
-        kubectl_version: "{{ lookup('url', 'https://dl.k8s.io/release/stable.txt') }}"
+    - name: Install kubectl
+      shell: |
+        curl -Lo /usr/local/bin/kubectl https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
+        chmod +x /usr/local/bin/kubectl
 
-    - name: Move kubectl to /usr/local/bin
-      command: mv /tmp/kubectl /usr/local/bin/kubectl
+    - name: Install Minikube
+      shell: |
+        curl -Lo /usr/local/bin/minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        chmod +x /usr/local/bin/minikube
 
-    - name: Verify kubectl installation
-      command: kubectl version --client
-      register: kubectl_version_output
-
-    - name: Print kubectl version
-      debug:
-        msg: "{{ kubectl_version_output.stdout }}"
+    - name: Start Minikube
+      shell: minikube start --driver=docker
