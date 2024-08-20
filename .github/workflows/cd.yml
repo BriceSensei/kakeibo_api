@@ -30,6 +30,11 @@ jobs:
         run: |
           docker run -d -p 8080:8080 --name kakeibo_api bricesensei/kakeibo_api:latest
 
+      - name: run grafana and prometheus
+        run: |
+          docker run -d -p 3000:3000 --name grafana grafana/grafana:latest
+          docker run -d -p 9090:9090 --name prometheus prom/prometheus:latest
+
       # - name: Configure kubectl
       #   run: |
       #     mkdir -p $HOME/.kube

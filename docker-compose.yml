@@ -31,3 +31,17 @@ services:
 
 volumes:
   grafana-storage:
+
+# // attention mon container docker grafana et prometheus doivent être démarer manuellement avec 
+# # Démarrer Grafana
+# docker run -d -p 3000:3000 --name grafana grafana/grafana:latest
+
+# # Démarrer Prometheus
+# docker run -d -p 9090:9090 --name prometheus prom/prometheus:latest
+
+# et docker ps pour vérifier que les containers sont bien démarrer
+
+# Une fois les conteneurs démarrés, accédez aux services via les URLs suivantes :
+
+# Grafana : http://35.180.32.62:3000
+# Prometheus : http://35.180.32.62:9090
