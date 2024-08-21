@@ -1,4 +1,4 @@
-import prisma from "@prisma/prisma";
+import prisma from "@@prisma/prisma";
 
 import { BudgetLines } from "@prisma/client";
 import { startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";

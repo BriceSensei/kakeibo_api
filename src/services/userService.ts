@@ -1,4 +1,4 @@
-import prisma from "@prisma/prisma";
+import prisma from "@@prisma/prisma";
 
 import { Users } from "@prisma/client";
 import bcrypt from "bcrypt";
@@ -78,26 +78,31 @@ export class UserService {
    *
    * @returns Promise<Users>
    */
-  async register(userData: Users): Promise<Users> {
+  async register(userData: Users): Promise<Users|{ error: string, code: number }> {
     // Validation du pseudo
     if (!validator.isLength(userData.name, { max: 20 })) {
-      throw new Error("Password must be at maximun 20 characters long");
+      return { error: 'Password must be at maximun 20 characters long', code: 0};
+      //throw new Error("Password must be at maximun 20 characters long");
     }
     // Validation du firstname
     if (!validator.isAlpha(userData.firstName)) {
-      throw new Error("firstname must contain only letters");
+      return { error: 'firstname must contain only letters', code: 0};
+      //throw new Error("firstname must contain only letters");
     }
     // Validation du lastname
     if (!validator.isAlpha(userData.lastName)) {
-      throw new Error("lastname must contain only letters");
+      return { error: 'lastname must contain only letters', code: 0};
+      //throw new Error("lastname must contain only letters");
     }
     // Validation de l'email
     if (!validator.isEmail(userData.email)) {
-      throw new Error("Invalid email format");
+      return { error: 'Invalid email format', code: 0};
+      //throw new Error("Invalid email format");
     }
     // Validation du mot de passe
     if (!validator.isLength(userData.password, { min: 8 })) {
-      throw new Error("Password must be at least 8 characters long");
+      return { error: 'Password must be at least 8 characters long', code: 0};
+      //throw new Error("Password must be at least 8 characters long");
     }
 
     //génère un sel aléatoire
