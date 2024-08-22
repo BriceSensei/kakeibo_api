@@ -30,10 +30,23 @@ jobs:
         run: |
           docker run -d -p 8080:8080 --name kakeibo_api bricesensei/kakeibo_api:latest
 
-      - name: run grafana and prometheus
+      - name: Delete existing Grafana container if it exists
         run: |
-          docker run -d -p 3000:3000 --name grafana grafana/grafana:latest
-          docker run -d -p 9090:9090 --name prometheus prom/prometheus:latest
+          if [ $(docker ps -a -q -f name=grafana) ]; then
+            docker rm -f grafana
+          fi
+
+      - name: Run Grafana
+        run: docker run -d -p 3000:3000 --name grafana grafana/grafana:latest
+
+      - name: Delete existing Prometheus container if it exists
+        run: |
+          if [ $(docker ps -a -q -f name=prometheus) ]; then
+            docker rm -f prometheus
+          fi
+
+      - name: Run Prometheus
+        run: docker run -d -p 9090:9090 --name prometheus prom/prometheus:latest
 
       - name: Configure kubectl
         run: |
