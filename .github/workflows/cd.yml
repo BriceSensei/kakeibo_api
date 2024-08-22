@@ -52,12 +52,11 @@ jobs:
 
       - name: Verify Kubernetes manifests
         run: |
-          ls -la kakeibo_api/kubernetes
-          cat kakeibo_api/kubernetes/deployment.yml
-          cat kakeibo_api/kubernetes/service.yml
+          ls -la kubernetes
+          cat kubernetes/deployment.yml
+          cat kubernetes/service.yml
 
       - name: Apply Kubernetes manifests
         run: |
-          cd kakeibo_api/kubernetes
-          kubectl apply -f deployment.yml
-          kubectl apply -f service.yml
+          kubectl apply -f kubernetes/deployment.yml
+          kubectl apply -f kubernetes/service.yml
