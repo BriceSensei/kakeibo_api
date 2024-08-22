@@ -35,12 +35,12 @@ jobs:
           docker run -d -p 3000:3000 --name grafana grafana/grafana:latest
           docker run -d -p 9090:9090 --name prometheus prom/prometheus:latest
 
-      # - name: Configure kubectl
-      #   run: |
-      #     mkdir -p $HOME/.kube
-      #     echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+      - name: Configure kubectl
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
 
-      # - name: Apply Kubernetes manifests
-      #   run: |
-      #     kubectl apply -f deployment.yml
-      #     kubectl apply -f service.yml
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -f deployment.yml
+          kubectl apply -f service.yml
