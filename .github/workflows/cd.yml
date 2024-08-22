@@ -50,6 +50,12 @@ jobs:
           mkdir -p $HOME/.kube
           echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
 
+      - name: Verify Kubernetes manifests
+        run: |
+          ls -la kakeibo_api/kubernetes
+          cat kakeibo_api/kubernetes/deployment.yml
+          cat kakeibo_api/kubernetes/service.yml
+
       - name: Apply Kubernetes manifests
         run: |
           cd kakeibo_api/kubernetes
