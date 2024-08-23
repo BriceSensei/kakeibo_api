@@ -50,8 +50,9 @@ app.use("/token", refreshTokenRoute);
 app.use("/register", registerRoute);
 
 const port = parseInt(ENV.PORT ?? "8080");
+const host = ENV.HOST ?? "localhost";
 
 // Modification de la ligne pour écouter sur toutes les interfaces réseau Brice
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Hello! Server started on ${ENV.SCHEME??'http'}://0.0.0.0:${port}`);
+app.listen(port, host, () => {
+  console.log(`Hello! Server started on ${ENV.SCHEME??'http'}://${host}:${port}`);
 });
