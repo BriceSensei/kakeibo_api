@@ -11,7 +11,7 @@ RUN npm run build
 USER node
 
 EXPOSE 3306
-EXPOSE 3000
+EXPOSE 8080
 
 CMD ["npm", "run", "start:prod"]
 # ```

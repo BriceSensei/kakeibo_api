@@ -6,10 +6,12 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '3000:3000'
+      - '8080:8080'
     environment:
       NODE_ENV: production
-      # DATABASE_URL: "mysql://<AWS_RDS_ENDPOINT>:<PORT>/<DATABASE_NAME>"
+    env_file:
+      - path: ./.env
+        required: true
 
   prometheus:
     image: prom/prometheus
