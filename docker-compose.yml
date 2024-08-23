@@ -6,9 +6,12 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '3000:3000'
+      - '8080:8080'
     environment:
       NODE_ENV: production
+    env_file:
+    - path: ./.env
+      required: true
       # DATABASE_URL: "mysql://<AWS_RDS_ENDPOINT>:<PORT>/<DATABASE_NAME>"
 
   prometheus:
@@ -45,3 +48,6 @@ volumes:
 
 # Grafana : http://35.180.32.62:3000
 # Prometheus : http://35.180.32.62:9090
+
+
+# docker start $(docker ps -a -q) pour démarrer tous les containers ou redemarer les containers
