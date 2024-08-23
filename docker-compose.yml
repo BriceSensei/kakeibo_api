@@ -10,9 +10,8 @@ services:
     environment:
       NODE_ENV: production
     env_file:
-    - path: ./.env
-      required: true
-      # DATABASE_URL: "mysql://<AWS_RDS_ENDPOINT>:<PORT>/<DATABASE_NAME>"
+      - path: ./.env
+        required: true
 
   prometheus:
     image: prom/prometheus

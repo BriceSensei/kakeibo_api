@@ -73,6 +73,12 @@ jobs:
           cat kubernetes/deployment.yml
           cat kubernetes/service.yml
 
+      - name: Verify Kubernetes manifests
+        run: |
+          ls -la kubernetes
+          cat kubernetes/deployment.yml
+          cat kubernetes/service.yml
+
       - name: Apply Kubernetes manifests
         run: |
           kubectl apply -f kubernetes/deployment.yml
