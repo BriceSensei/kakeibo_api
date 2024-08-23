@@ -45,33 +45,11 @@ jobs:
           fi
           docker run -d -p 9090:9090 --name prometheus prom/prometheus:latest
 
-      - name: Set up kubeconfig
+      - name: Configure kubectl
         run: |
-          echo "apiVersion: v1
-          clusters:
-          - cluster:
-              certificate-authority-data: ${{ secrets.KUBE_CA_CERT }}
-              server: https://192.168.49.2:8443
-            name: minikube
-          contexts:
-          - context:
-              cluster: minikube
-              user: minikube
-            name: minikube
-          current-context: minikube
-          kind: Config
-          preferences: {}
-          users:
-          - name: minikube
-            user:
-              client-certificate-data: ${{ secrets.KUBE_CLIENT_CERT }}
-              client-key-data: ${{ secrets.KUBE_CLIENT_KEY }}" > $HOME/.kube/config  
-
-      - name: Verify Kubernetes manifests
-        run: |
-          ls -la kubernetes
-          cat kubernetes/deployment.yml
-          cat kubernetes/service.yml
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
+          cat $HOME/.kube/config  # Vérifiez le contenu pour le debug        
 
       - name: Verify Kubernetes manifests
         run: |
