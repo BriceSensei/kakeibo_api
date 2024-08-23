@@ -45,11 +45,18 @@ jobs:
           fi
           docker run -d -p 9090:9090 --name prometheus prom/prometheus:latest
 
-      - name: Configure kubectl
+      - name: Set up kubeconfig
         run: |
           mkdir -p $HOME/.kube
           echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
-          cat $HOME/.kube/config  # Vérifiez le contenu pour le debug        
+          chmod 600 $HOME/.kube/config
+          cat $HOME/.kube/config  # Optionnel : pour déboguer, supprimer ou commenter en production
+        shell: bash
+    
+      - name: Test kubectl
+        run: |
+          kubectl get nodes
+        shell: bash
 
       - name: Verify Kubernetes manifests
         run: |
