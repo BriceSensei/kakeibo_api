@@ -1,11 +1,12 @@
 import prisma from "@@prisma/prisma";
+import { Mail } from "@helper/mail";
 
 import { Users } from "@prisma/client";
 import bcrypt from "bcrypt";
 import validator from "validator";
 
 export class UserService {
-  constructor() {}
+  constructor() { }
 
   /**
    * Get all users from users table
@@ -78,35 +79,40 @@ export class UserService {
    *
    * @returns Promise<Users>
    */
-  async register(userData: Users): Promise<Users|{ error: string, code: number }> {
+  async register(userData: Users): Promise<Users> {
     // Validation du pseudo
     if (!validator.isLength(userData.name, { max: 20 })) {
-      return { error: 'Password must be at maximun 20 characters long', code: 0};
+      console.error('Password must be at maximun 20 characters long')
+      throw new Error('Password must be at maximun 20 characters long');
       //throw new Error("Password must be at maximun 20 characters long");
     }
     // Validation du firstname
     if (!validator.isAlpha(userData.firstName)) {
-      return { error: 'firstname must contain only letters', code: 0};
+      console.error('firstname must contain only letters')
+      throw new Error('firstname must contain only letters');
       //throw new Error("firstname must contain only letters");
     }
     // Validation du lastname
     if (!validator.isAlpha(userData.lastName)) {
-      return { error: 'lastname must contain only letters', code: 0};
+      console.error('lastname must contain only letters')
+      throw new Error('lastname must contain only letters');
       //throw new Error("lastname must contain only letters");
     }
     // Validation de l'email
     if (!validator.isEmail(userData.email)) {
-      return { error: 'Invalid email format', code: 0};
+      console.error('Invalid email format')
+      throw new Error('Invalid email format');
       //throw new Error("Invalid email format");
     }
     // Validation du mot de passe
     if (!validator.isLength(userData.password, { min: 8 })) {
-      return { error: 'Password must be at least 8 characters long', code: 0};
+      console.error('Password must be at least 8 characters long')
+      throw new Error('Password must be at least 8 characters long');
       //throw new Error("Password must be at least 8 characters long");
     }
 
     //génère un sel aléatoire
-    const salt = await bcrypt.genSaltSync(10);
+    const salt = bcrypt.genSaltSync(10);
     //crée un hachage du mdp en utilisant SHA-512 et le sel
     const hash = await bcrypt.hash(userData.password, salt);
 
@@ -126,10 +132,22 @@ export class UserService {
         connectionAttempts: 0,
         isActive: false,
         //roleId: 1,
-        roleId: 7,
-        curencyId: userData.curencyId,
+        roleId: await prisma?.role.findUnique({ where: { name: "user" } }).then((user) => user?.id),
+        curencyId: 1,
       },
     });
+
+    try {
+      const mail = new Mail()
+      mail.to = userData.email;
+      mail.body = {
+        path: "./src/mailer/confirmEmail.twig", variables: { firstname: userData.firstName, code: "1234", host: "https://api.kakeibo.pandacrp.com" }
+      }
+      console.log(await mail.send());
+    } catch (e) {
+      console.error("Error during sending email", e);
+      throw new Error("Error during sending email");
+    }
 
     return newUser;
   }
