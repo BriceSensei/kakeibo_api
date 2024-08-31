@@ -2,6 +2,7 @@
   "compilerOptions": {
     "types": ["node", "jest"],
     "target": "es6",
+    "lib": ["ES2021.String"],
     "module": "ESNext",
     "moduleResolution": "node",
     "outDir": "dist",
@@ -16,7 +17,7 @@
       "@@prisma/*": ["./prisma/*"],
       "@exception/*": ["./src/exceptions/*"],
       "@services/*": ["./src/services/*"],
-      "@helper/*" : ["./src/helpers/*"]
+      "@helper/*": ["./src/helpers/*"]
     }
   },
   "tsc-alias": {
