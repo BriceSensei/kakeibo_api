@@ -82,33 +82,44 @@ export class UserService {
   async register(userData: Users): Promise<Users> {
     // Validation du pseudo
     if (!validator.isLength(userData.name, { max: 20 })) {
-      console.error('Password must be at maximun 20 characters long')
       throw new Error('Password must be at maximun 20 characters long');
-      //throw new Error("Password must be at maximun 20 characters long");
     }
+
     // Validation du firstname
     if (!validator.isAlpha(userData.firstName)) {
-      console.error('firstname must contain only letters')
       throw new Error('firstname must contain only letters');
-      //throw new Error("firstname must contain only letters");
     }
+
     // Validation du lastname
     if (!validator.isAlpha(userData.lastName)) {
-      console.error('lastname must contain only letters')
       throw new Error('lastname must contain only letters');
-      //throw new Error("lastname must contain only letters");
     }
+
     // Validation de l'email
     if (!validator.isEmail(userData.email)) {
-      console.error('Invalid email format')
       throw new Error('Invalid email format');
-      //throw new Error("Invalid email format");
     }
+
     // Validation du mot de passe
     if (!validator.isLength(userData.password, { min: 8 })) {
-      console.error('Password must be at least 8 characters long')
       throw new Error('Password must be at least 8 characters long');
-      //throw new Error("Password must be at least 8 characters long");
+    }
+
+    //Verification email déjà existant
+    if (await prisma.users.findFirst({
+      where:
+        { email: userData.email }
+    })) {
+      throw new Error('Email already exists');
+    }
+
+    //Verification pseudo déjà existant
+    if (await prisma.users.findFirst({
+      where: {
+        name: userData.name
+      }
+    })) {
+      throw new Error('This username already exists');
     }
 
     //génère un sel aléatoire
@@ -145,7 +156,6 @@ export class UserService {
       }
       console.log(await mail.send());
     } catch (e) {
-      console.error("Error during sending email", e);
       throw new Error("Error during sending email");
     }
 

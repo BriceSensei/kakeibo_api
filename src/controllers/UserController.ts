@@ -1,7 +1,6 @@
 import { Users } from "@prisma/client";
 import { UserService } from "../services/userService";
 import { Request, Response } from "express";
-import { error } from "console";
 
 export class UserController {
   async getAllUsers(req: Request, res: Response): Promise<void> {
@@ -22,7 +21,7 @@ export class UserController {
   async getUserById(req: Request, res: Response): Promise<void> {
     const userMethod: UserService = new UserService();
     const userId: number = parseInt(req.params.id);
-    
+
     try {
       const users: Users = await userMethod.getOneUser(userId);
       res.json(users);
@@ -94,15 +93,23 @@ export class UserController {
   async register(req: Request, res: Response) {
     const userMethod: UserService = new UserService();
     const userData: Users = { ...req.body };
+    const required: string[] = ["name", "firstName", "lastName", "email", "password"]
+
+    const missingFields = required.filter(field => { return !req.body[field]; })
+    if (missingFields.length != 0) {
+      return res.status(400).json({ status: 400, message: `Some fields are missing: ${missingFields.join(', ')}` });
+    }
 
     try {
-      const hashPasswordUser: Users = await userMethod.register(userData);
-      res.status(201).send({ id: hashPasswordUser.id });
+      const token: string = await userMethod.register(userData);
+      res.status(201).send({ token: token });
     } catch (error) {
+      let message = 'Unknown Error'
+      if (error instanceof Error) message = error.message
+
       const errMsg = {
         status: 500,
-        error: error,
-        message: "Error during registration",
+        error: message,
       };
       res.status(500).send(errMsg);
     }
