@@ -2,260 +2,264 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
-  }
-  
-  datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
-  }
-  
-  
-  model Users {
-    id                 Int      @id @default(autoincrement())
-    name               String
-    firstName          String   @map("first_name")
-    lastName           String   @map("last_name")
-    email              String   @unique
-    password           String
-    creationDate       DateTime @default(now()) @map("creation_date")
-    updateDate         DateTime @updatedAt @map("update_date")
-    passwordUpdateDate DateTime @map("password_update_date")
-    lastLoginDate      DateTime @map("last_login_date")
-    connectionAttempts Int      @default(0)
-    isActive           Boolean  @default(false)
-    roleId             Int?      @default(0)
-    curencyId          Int?
-  
-    curency Curencies? @relation(fields: [curencyId], references: [id], onDelete: SetNull)
-  
-  
-    fbTokens                   FbTokens[]
-    alerts                     Alerts[]
-    epargnes                   Epargnes[]
-    frequancies                Frequencies[]
-    subCategories              SubCategories[]
-    ownedGroups                UserGroups[]
-    relation_UserGroupsOnUsers Relation_UserGroupsOnUsers[]
-    role     Role?     @relation(fields: [roleId], references: [id], onDelete: SetNull, onUpdate: SetNull)
-  }
-  
-  model Curencies {
-    id     Int    @id @default(autoincrement())
-    name   String
-    devise String
-  
-    Users Users[]
-  }
-  
-  model FbTokens {
-    id        Int    @id @default(autoincrement())
-    token     String @unique
-    userAgent String
-    userId    Int
-  
-    user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
-  }
-  
-  model Icons {
-    id       Int    @id @default(autoincrement())
-    iconName String @unique
-    svgPath  String @db.Text
-  
-    categories    Categories[]
-    SubCategories SubCategories[]
-  }
-  
-  model Categories {
-    id           Int      @id @default(autoincrement())
-    name         String   @unique
-    iconId       Int?
-    color        String
-    creationDate DateTime @default(now())
-    updateDate   DateTime @updatedAt
-  
-    icon Icons? @relation(fields: [iconId], references: [id], onDelete: SetNull)
-  
-    alerts                          Alerts[]
-    budgetLines                     BudgetLines[]
-    relation_UserGroupsOnCategories Relation_UserGroupsOnCategories[]
-    Epargnes                        Epargnes[]
-    SubCategories                   SubCategories[]
-  }
-  
-  model Alerts {
-    id              Int    @id @default(autoincrement())
-    title           String
-    seuil           Float
-    description     String
-    type            String
-    userId          Int
-    categoryId      Int
-    subCategoriesId Int?
-    budgetId        Int
-  
-    user          Users          @relation(fields: [userId], references: [id], onDelete: Cascade)
-    category      Categories     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-    subCategories SubCategories? @relation(fields: [subCategoriesId], references: [id], onDelete: SetNull)
-  }
-  
-  model BudgetLines {
-    id            Int      @id @default(autoincrement())
-    userId        Int
-    value         Float
-    title         String
-    description   String?
-    date          DateTime
-    type          String
-    frequencyId   Int?
-    categoryId    Int
-    subCategoryId Int?
-    updateDate    DateTime @updatedAt
-    creationDate  DateTime @default(now())
-  
-    frequency   Frequencies?   @relation(fields: [frequencyId], references: [id], onDelete: SetNull)
-    category    Categories     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-    subCategory SubCategories? @relation(fields: [subCategoryId], references: [id], onDelete: SetNull)
-  }
-  
-  model BudgetTypes {
-    id        Int    @id @default(autoincrement())
-    typeName  String @unique
-    typeColor String
-  }
-  
-  model Epargnes {
-    id            Int      @id @default(autoincrement())
-    userId        Int
-    value         Float
-    title         String
-    description   String?
-    creationDate  DateTime @default(now())
-    updateDate    DateTime @updatedAt
-    beginDate     DateTime @default(now())
-    endDate       DateTime
-    categoryId    Int
-    subcategoryId Int?
-    userGroupsId  Int?
-  
-    user                 Users                           @relation(fields: [userId], references: [id], onDelete: Cascade)
-    category             Categories                      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-    subcategory          SubCategories?                  @relation(fields: [subcategoryId], references: [id], onDelete: SetNull)
-    userGroups           UserGroups?                     @relation(fields: [userGroupsId], references: [id], onDelete: SetNull)
-    userGroupsOnEpargnes Relation_UserGroupsOnEpargnes[]
-  }
-  
-  model Frequencies {
-    id        Int       @id @default(autoincrement())
-    userId    Int
-    startTime DateTime  @default(now())
-    endTime   DateTime?
-    type      String
-    days      String
-  
-    user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-    budgetLines BudgetLines[]
-  }
-  
-  model SubCategories {
-    id           Int      @id @default(autoincrement())
-    name         String
-    iconId       Int?
-    color        String
-    creationDate DateTime @default(now())
-    updateDate   DateTime @updatedAt
-    parentId     Int
-    userId       Int
-    userGroupsId Int?
-  
-    parent     Categories  @relation(fields: [parentId], references: [id], onDelete: Cascade)
-    icon       Icons?      @relation(fields: [iconId], references: [id], onDelete: SetNull)
-    user       Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userGroups UserGroups? @relation(fields: [userGroupsId], references: [id], onDelete: SetNull)
-  
-    alerts                             Alerts[]
-    epargnes                           Epargnes[]
-    relation_UserGroupsOnSubCategories Relation_UserGroupsOnSubCategories[]
-    BudgetLines                        BudgetLines[]
-  }
-  
-  model Tips {
-    id           Int      @id @default(autoincrement())
-    title        String
-    description  String
-    level        Int
-    creationDate DateTime @default(now())
-    updateDate   DateTime @updatedAt
-  }
-  
-  model UserGroups {
-    id      Int    @id @default(autoincrement())
-    title   String
-    ownerId Int
-  
-    owner Users @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  
-    categories                         Relation_UserGroupsOnEpargnes[]
-    relation_UserGroupsOnsubCategories Relation_UserGroupsOnSubCategories[]
-    relation_UserGroupsOnCategories    Relation_UserGroupsOnCategories[]
-    epargnes                           Epargnes[]
-    SubCategories                      SubCategories[]
-    Relation_UserGroupsOnUsers         Relation_UserGroupsOnUsers[]
-  }
-  
-  model Relation_UserGroupsOnCategories {
-    userGroupsId Int
-    categoryId   Int
-    assignedAt   DateTime @default(now())
-  
-    userGroups UserGroups @relation(fields: [userGroupsId], references: [id], onDelete: Cascade)
-    category   Categories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  
-    @@id([userGroupsId, categoryId])
-  }
-  
-  model Relation_UserGroupsOnSubCategories {
-    userGroupsId    Int
-    subCategoriesId Int
-    assignedAt      DateTime @default(now())
-  
-    userGroups    UserGroups    @relation(fields: [userGroupsId], references: [id], onDelete: Cascade)
-    subCategories SubCategories @relation(fields: [subCategoriesId], references: [id], onDelete: Cascade)
-  
-    @@id([userGroupsId, subCategoriesId])
-  }
-  
-  model Relation_UserGroupsOnEpargnes {
-    userGroupsId Int
-    epargnesId   Int
-    assignedAt   DateTime @default(now())
-  
-    userGroups UserGroups @relation(fields: [userGroupsId], references: [id], onDelete: Cascade)
-    epargnes   Epargnes   @relation(fields: [epargnesId], references: [id], onDelete: Cascade)
-  
-    @@id([userGroupsId, epargnesId])
-  }
-  
-  model Relation_UserGroupsOnUsers {
-    userGroupsId Int
-    usersId      Int
-    assignedAt   DateTime @default(now())
-  
-    userGroups UserGroups @relation(fields: [userGroupsId], references: [id], onDelete: Cascade)
-    users      Users      @relation(fields: [usersId], references: [id], onDelete: Cascade)
-  
-    @@id([userGroupsId, usersId])
-  }
+  provider = "prisma-client-js"
+}
 
-  model Role {
-    id        Int       @id @default(autoincrement())
-    name      String    @unique
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
 
-    Users     Users[] 
-  }
-  
+model Users {
+  id                 Int      @id @default(autoincrement())
+  name               String
+  firstName          String   @map("first_name")
+  lastName           String   @map("last_name")
+  email              String   @unique
+  password           String
+  creationDate       DateTime @default(now()) @map("creation_date")
+  updateDate         DateTime @updatedAt @map("update_date")
+  passwordUpdateDate DateTime @map("password_update_date")
+  lastLoginDate      DateTime @map("last_login_date")
+  connectionAttempts Int      @default(0)
+  isActive           Boolean  @default(false)
+  roleId             Int?     @default(0)
+  curencyId          Int?
 
- 
+  curency Curencies? @relation(fields: [curencyId], references: [id], onDelete: SetNull)
 
- 
+  fbTokens                   FbTokens[]
+  alerts                     Alerts[]
+  epargnes                   Epargnes[]
+  frequancies                Frequencies[]
+  subCategories              SubCategories[]
+  ownedGroups                UserGroups[]
+  relation_UserGroupsOnUsers Relation_UserGroupsOnUsers[]
+  role                       Role?                        @relation(fields: [roleId], references: [id], onDelete: SetNull, onUpdate: SetNull)
+
+  ConfirmationCode ConfirmationCode[]
+}
+
+model ConfirmationCode {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  code       String
+  created_at DateTime @default(now())
+
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Curencies {
+  id     Int    @id @default(autoincrement())
+  name   String
+  devise String
+
+  Users Users[]
+}
+
+model FbTokens {
+  id        Int    @id @default(autoincrement())
+  token     String @unique
+  userAgent String
+  userId    Int
+
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Icons {
+  id       Int    @id @default(autoincrement())
+  iconName String @unique
+  svgPath  String @db.Text
+
+  categories    Categories[]
+  SubCategories SubCategories[]
+}
+
+model Categories {
+  id           Int      @id @default(autoincrement())
+  name         String   @unique
+  iconId       Int?
+  color        String
+  creationDate DateTime @default(now())
+  updateDate   DateTime @updatedAt
+
+  icon Icons? @relation(fields: [iconId], references: [id], onDelete: SetNull)
+
+  alerts                          Alerts[]
+  budgetLines                     BudgetLines[]
+  relation_UserGroupsOnCategories Relation_UserGroupsOnCategories[]
+  Epargnes                        Epargnes[]
+  SubCategories                   SubCategories[]
+}
+
+model Alerts {
+  id              Int    @id @default(autoincrement())
+  title           String
+  seuil           Float
+  description     String
+  type            String
+  userId          Int
+  categoryId      Int
+  subCategoriesId Int?
+  budgetId        Int
+
+  user          Users          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category      Categories     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  subCategories SubCategories? @relation(fields: [subCategoriesId], references: [id], onDelete: SetNull)
+}
+
+model BudgetLines {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  value         Float
+  title         String
+  description   String?
+  date          DateTime
+  type          String
+  frequencyId   Int?
+  categoryId    Int
+  subCategoryId Int?
+  updateDate    DateTime @updatedAt
+  creationDate  DateTime @default(now())
+
+  frequency   Frequencies?   @relation(fields: [frequencyId], references: [id], onDelete: SetNull)
+  category    Categories     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  subCategory SubCategories? @relation(fields: [subCategoryId], references: [id], onDelete: SetNull)
+}
+
+model BudgetTypes {
+  id        Int    @id @default(autoincrement())
+  typeName  String @unique
+  typeColor String
+}
+
+model Epargnes {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  value         Float
+  title         String
+  description   String?
+  creationDate  DateTime @default(now())
+  updateDate    DateTime @updatedAt
+  beginDate     DateTime @default(now())
+  endDate       DateTime
+  categoryId    Int
+  subcategoryId Int?
+  userGroupsId  Int?
+
+  user                 Users                           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category             Categories                      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  subcategory          SubCategories?                  @relation(fields: [subcategoryId], references: [id], onDelete: SetNull)
+  userGroups           UserGroups?                     @relation(fields: [userGroupsId], references: [id], onDelete: SetNull)
+  userGroupsOnEpargnes Relation_UserGroupsOnEpargnes[]
+}
+
+model Frequencies {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  startTime DateTime  @default(now())
+  endTime   DateTime?
+  type      String
+  days      String
+
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  budgetLines BudgetLines[]
+}
+
+model SubCategories {
+  id           Int      @id @default(autoincrement())
+  name         String
+  iconId       Int?
+  color        String
+  creationDate DateTime @default(now())
+  updateDate   DateTime @updatedAt
+  parentId     Int
+  userId       Int
+  userGroupsId Int?
+
+  parent     Categories  @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  icon       Icons?      @relation(fields: [iconId], references: [id], onDelete: SetNull)
+  user       Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userGroups UserGroups? @relation(fields: [userGroupsId], references: [id], onDelete: SetNull)
+
+  alerts                             Alerts[]
+  epargnes                           Epargnes[]
+  relation_UserGroupsOnSubCategories Relation_UserGroupsOnSubCategories[]
+  BudgetLines                        BudgetLines[]
+}
+
+model Tips {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  level        Int
+  creationDate DateTime @default(now())
+  updateDate   DateTime @updatedAt
+}
+
+model UserGroups {
+  id      Int    @id @default(autoincrement())
+  title   String
+  ownerId Int
+
+  owner Users @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  categories                         Relation_UserGroupsOnEpargnes[]
+  relation_UserGroupsOnsubCategories Relation_UserGroupsOnSubCategories[]
+  relation_UserGroupsOnCategories    Relation_UserGroupsOnCategories[]
+  epargnes                           Epargnes[]
+  SubCategories                      SubCategories[]
+  Relation_UserGroupsOnUsers         Relation_UserGroupsOnUsers[]
+}
+
+model Relation_UserGroupsOnCategories {
+  userGroupsId Int
+  categoryId   Int
+  assignedAt   DateTime @default(now())
+
+  userGroups UserGroups @relation(fields: [userGroupsId], references: [id], onDelete: Cascade)
+  category   Categories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([userGroupsId, categoryId])
+}
+
+model Relation_UserGroupsOnSubCategories {
+  userGroupsId    Int
+  subCategoriesId Int
+  assignedAt      DateTime @default(now())
+
+  userGroups    UserGroups    @relation(fields: [userGroupsId], references: [id], onDelete: Cascade)
+  subCategories SubCategories @relation(fields: [subCategoriesId], references: [id], onDelete: Cascade)
+
+  @@id([userGroupsId, subCategoriesId])
+}
+
+model Relation_UserGroupsOnEpargnes {
+  userGroupsId Int
+  epargnesId   Int
+  assignedAt   DateTime @default(now())
+
+  userGroups UserGroups @relation(fields: [userGroupsId], references: [id], onDelete: Cascade)
+  epargnes   Epargnes   @relation(fields: [epargnesId], references: [id], onDelete: Cascade)
+
+  @@id([userGroupsId, epargnesId])
+}
+
+model Relation_UserGroupsOnUsers {
+  userGroupsId Int
+  usersId      Int
+  assignedAt   DateTime @default(now())
+
+  userGroups UserGroups @relation(fields: [userGroupsId], references: [id], onDelete: Cascade)
+  users      Users      @relation(fields: [usersId], references: [id], onDelete: Cascade)
+
+  @@id([userGroupsId, usersId])
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  Users Users[]
+}
