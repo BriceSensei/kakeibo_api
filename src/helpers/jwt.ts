@@ -1,12 +1,15 @@
 import jwt, { decode, JwtPayload, SignOptions } from 'jsonwebtoken';
 
 export class JWT {
+    verify() {
+        jwt.verify(this.__token!, process.env.JWTHASH!);
+    }
     __token?: string;
     __values?: { [key: string]: string } = {};
     __options: SignOptions = {};
 
-    get values(): string | JwtPayload | null {
-        return decode(this.__token!);
+    get values(): { [key: string]: string } {
+        return decode(this.__token!) as { [key: string]: string };
     }
 
     get token(): string {
