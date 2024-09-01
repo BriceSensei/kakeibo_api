@@ -44,6 +44,8 @@ const userController: UserController = new UserController();
  */
 userRoute.post("/register", userController.register);
 
+userRoute.post("/confirm", userController.confirmEmail);
+
 userRoute.use(authentificateToken);
 
 /**

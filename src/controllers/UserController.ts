@@ -1,5 +1,5 @@
 import { Users } from "@prisma/client";
-import { UserService } from "../services/userService";
+import { UserService } from '../services/userService';
 import { Request, Response } from "express";
 
 export class UserController {
@@ -113,5 +113,32 @@ export class UserController {
       };
       res.status(500).send(errMsg);
     }
+  }
+
+  async confirmEmail(req: Request, res: Response) {
+    const { code } = req.body;
+    const { token } = req.headers;
+
+    if (typeof token !== 'string') {
+      return res.status(403).send({ status: 403, message: 'Token must be unique' });
+    } else if (token === undefined) {
+      return res.status(403).send({ status: 403, message: 'No token provided' });
+    } else if (code === undefined) {
+      return res.status(403).send({ status: 403, message: 'No code provided' });
+    }
+
+    const userMethod: UserService = new UserService();
+
+    try {
+      await userMethod.confirmEmail(token, code)
+    } catch (error) {
+      let message = 'Unknown Error'
+      if (error instanceof Error) message = error.message
+
+      return res.status(403).send({ status: 403, message: message });
+
+    }
+
+    res.status(500).send("In build");
   }
 }

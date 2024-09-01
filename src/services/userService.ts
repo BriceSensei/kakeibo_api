@@ -1,4 +1,6 @@
 import prisma from "@@prisma/prisma";
+import { faker } from "@faker-js/faker";
+import { JWT } from "@helper/jwt";
 import { Mail } from "@helper/mail";
 
 import { Users } from "@prisma/client";
@@ -79,7 +81,7 @@ export class UserService {
    *
    * @returns Promise<Users>
    */
-  async register(userData: Users): Promise<Users> {
+  async register(userData: Users): Promise<string> {
     // Validation du pseudo
     if (!validator.isLength(userData.name, { max: 20 })) {
       throw new Error('Password must be at maximun 20 characters long');
@@ -148,18 +150,31 @@ export class UserService {
       },
     });
 
+    let jwt = new JWT();
     try {
       const mail = new Mail()
+
+      const code = faker.number.int({ min: 1000, max: 9999 })
+
+      await prisma.confirmationCode.create({ data: { userId: newUser.id, code: code.toString() } })
+
+      jwt.values = { code: code.toString(), firstname: userData.firstName }
+      jwt.options = { expiresIn: '24h' };
       mail.to = userData.email;
       mail.body = {
-        path: "./src/mailer/confirmEmail.twig", variables: { firstname: userData.firstName, code: "1234", host: "https://api.kakeibo.pandacrp.com" }
+        path: "./src/mailer/confirmEmail.twig", variables: { firstname: userData.firstName, code: code, host: "https://api.kakeibo.pandacrp.com", token: jwt.token }
       }
-      console.log(await mail.send());
+      await mail.send();
     } catch (e) {
+      console.error(e)
       throw new Error("Error during sending email");
     }
 
-    return newUser;
+    jwt = new JWT();
+
+    jwt.values = { id: newUser.id.toString(), email: newUser.email };
+
+    return jwt.token;
   }
 
   //fct pour récupérer un utilisateur en fct de son email
@@ -174,5 +189,28 @@ export class UserService {
   async getUserByEmail(email: string): Promise<Users | undefined> {
     const allUsers: Users[] = await prisma.users.findMany();
     return allUsers.find((user) => user.email === email);
+  }
+
+  async confirmEmail(token: string, code: string): Promise<string> {
+    const jwt = new JWT();
+    jwt.token = token;
+
+    try {
+      jwt.verify();
+    } catch (e) {
+      throw new Error("Token is invalid or expired");
+    }
+
+    try {
+      await prisma.confirmationCode.findFirstOrThrow({ where: { code: code, userId: Number(jwt.values.id) } });
+    } catch (e) {
+      throw new Error('Invalid code');
+    }
+
+    await prisma.users.update({ where: { id: Number(jwt.values.id) }, data: { isActive: true } });
+
+    jwt.values = { id: jwt.values.id }
+    jwt.options = { expiresIn: '7d' };
+    return jwt.token
   }
 }
