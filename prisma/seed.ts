@@ -1,5 +1,3 @@
-import { glob } from "glob";
-
 const orderSeed: Array<string> = [
   'curency',
   'icon',
@@ -9,7 +7,7 @@ const orderSeed: Array<string> = [
   'role',
   'users',
   'fbTokens',
-  'subcategory',
+  'subCategory',
   'alerts',
   'frequency',
   'budget',
@@ -22,13 +20,13 @@ async function main() {
   for (const index in orderSeed) {
 
     const file = orderSeed[index];
-    
+
     let success = true;
     const { seed } = await import(`./seeders/${file}.seed.ts`);
-    
+
     (await seed()) && (success = false);
-    
-    console.log(`${success?"\x1b[32m":"\x1b[31m"}${file.split("/").pop()} ${success ? "Done":"Failed"} !\x1b[0m`);
+
+    console.log(`${success ? "\x1b[32m" : "\x1b[31m"}${file.split("/").pop()} ${success ? "Done" : "Failed"} !\x1b[0m`);
   }
 }
 
