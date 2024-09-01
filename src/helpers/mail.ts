@@ -43,7 +43,6 @@ export class Mail {
             subject: this.subject,
             html: this.__body,
         };
-        console.log(mailOptions)
 
         try {
             await this.transporter.sendMail(mailOptions);
