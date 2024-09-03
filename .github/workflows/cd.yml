@@ -55,39 +55,6 @@ jobs:
     
       - name: Test kubectl
         run: |
-          kubectl get all
-        shell: bash
-
-      - name: Verify Kubernetes manifests
-        run: |
-          ls -la kubernetes
-          cat kubernetes/deployment.yml
-          cat kubernetes/service.yml
-
-      - name: Apply Kubernetes manifests
-        run: |
-          kubectl apply -f kubernetes/deployment.yml
-          kubectl apply -f kubernetes/service.yml
-      - name: Set up kubeconfig
-        run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
-          chmod 600 $HOME/.kube/config
-          echo "Vérification du contexte actuel de kubectl :"
-          kubectl config current-context  # Vérifie que le bon contexte est utilisé
-        shell: bash
-
-      - name: Set up kubeconfig
-        run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
-          chmod 600 $HOME/.kube/config
-          echo "Vérification du contexte actuel de kubectl :"
-          kubectl config current-context  # Vérifie que le bon contexte est utilisé
-        shell: bash
-
-      - name: Test kubectl
-        run: |
           echo "Lister toutes les ressources Kubernetes :"
           kubectl get all -v=6  # Active le mode verbeux pour plus de détails
         shell: bash
@@ -105,3 +72,14 @@ jobs:
           kubectl apply -f kubernetes/deployment.yml -v=6
           kubectl apply -f kubernetes/service.yml -v=6
         shell: bash
+
+      - name: Set up kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+          echo "Vérification du contexte actuel de kubectl :"
+          kubectl config current-context  # Vérifie que le bon contexte est utilisé
+        shell: bash
+
+      
