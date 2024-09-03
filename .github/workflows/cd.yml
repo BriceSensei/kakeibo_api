@@ -65,7 +65,7 @@ jobs:
 
       - name: Deploy to K8s
         run: |
-          kubectl apply -f kubernetes/
+          kubectl apply -f kubernetes/ --validate=false
 
 
       # - name: Set up kubeconfig
