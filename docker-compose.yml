@@ -47,3 +47,6 @@ volumes:
 
 # Grafana : http://35.180.32.62:3000
 # Prometheus : http://35.180.32.62:9090
+
+
+# docker start $(docker ps -a -q) pour démarrer tous les containers ou redemarer les containers

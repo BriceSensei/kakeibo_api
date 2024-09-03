@@ -45,47 +45,56 @@ jobs:
           fi
           docker run -d -p 9090:9090 --name prometheus prom/prometheus:latest
 
-      - name: Set up kubeconfig
+      - name: Create kubeconfig
         run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
-          chmod 600 $HOME/.kube/config
-          cat $HOME/.kube/config  # Optionnel : pour déboguer, supprimer ou commenter en production
-        shell: bash
+          mkdir ${HOME}/.kube
+          echo ${{ secrets.KUBECONFIG }} | base64 --decode > ${HOME}/.kube/config
+          cat ${HOME}/.kube/config
 
-      - name: Verify Minikube Certificates
+      - name: Use context
+        run: | 
+          kubectl config use-context octobay-api
+
+      - name: Deploy to K8s
         run: |
-          ls -l /home/ubuntu/.minikube/ca.crt
-          ls -l /home/ubuntu/.minikube/profiles/minikube/client.crt
-          ls -l /home/ubuntu/.minikube/profiles/minikube/client.key
+          kubectl apply -f k8s/
+
+
+      # - name: Set up kubeconfig
+      #   run: |
+      #     mkdir -p $HOME/.kube
+      #     echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
+      #     chmod 600 $HOME/.kube/config
+      #     cat $HOME/.kube/config  # Optionnel : pour déboguer, supprimer ou commenter en production
+      #   shell: bash
     
-      - name: Test kubectl
-        run: |
-          echo "Lister toutes les ressources Kubernetes :"
-          kubectl get all -v=6  # Active le mode verbeux pour plus de détails
-        shell: bash
+      # - name: Test kubectl
+      #   run: |
+      #     echo "Lister toutes les ressources Kubernetes :"
+      #     kubectl get all -v=6  # Active le mode verbeux pour plus de détails
+      #   shell: bash
 
-      - name: Verify Kubernetes manifests
-        run: |
-          echo "Vérification des manifestes Kubernetes :"
-          ls -la kubernetes
-          cat kubernetes/deployment.yml
-          cat kubernetes/service.yml
+      # - name: Verify Kubernetes manifests
+      #   run: |
+      #     echo "Vérification des manifestes Kubernetes :"
+      #     ls -la kubernetes
+      #     cat kubernetes/deployment.yml
+      #     cat kubernetes/service.yml
 
-      - name: Apply Kubernetes manifests
-        run: |
-          echo "Application des manifestes Kubernetes avec mode verbeux :"
-          kubectl apply -f kubernetes/deployment.yml -v=6
-          kubectl apply -f kubernetes/service.yml -v=6
-        shell: bash
+      # - name: Apply Kubernetes manifests
+      #   run: |
+      #     echo "Application des manifestes Kubernetes avec mode verbeux :"
+      #     kubectl apply -f kubernetes/deployment.yml -v=6
+      #     kubectl apply -f kubernetes/service.yml -v=6
+      #   shell: bash
 
-      - name: Set up kubeconfig
-        run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
-          chmod 600 $HOME/.kube/config
-          echo "Vérification du contexte actuel de kubectl :"
-          kubectl config current-context  # Vérifie que le bon contexte est utilisé
-        shell: bash
+      # - name: Set up kubeconfig
+      #   run: |
+      #     mkdir -p $HOME/.kube
+      #     echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
+      #     chmod 600 $HOME/.kube/config
+      #     echo "Vérification du contexte actuel de kubectl :"
+      #     kubectl config current-context  # Vérifie que le bon contexte est utilisé
+      #   shell: bash
 
       

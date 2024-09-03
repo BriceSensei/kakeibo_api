@@ -1,0 +1,50 @@
+# Vagrantfile
+
+Vagrant.configure("2") do |config|
+    # Utilisation d'Ubuntu 20.04
+    config.vm.box = "ubuntu/focal64"
+  
+    # Configuration du réseau
+    config.vm.network "private_network", type: "dhcp"
+  
+    # Configuration de la machine virtuelle
+    config.vm.provider "virtualbox" do |vb|
+      vb.memory = "4096"  # 4 GB de RAM
+      vb.cpus = 2         # 2 CPU
+    end
+  
+    # Génération de la clé SSH
+    config.vm.provision "shell", inline: <<-SHELL
+      echo "Génération de clés SSH..."
+      ssh-keygen -t rsa -b 4096 -f /home/vagrant/.ssh/id_rsa -q -N ""
+    SHELL
+  
+    # Configuration d'Ansible pour la provisionning
+    config.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provisioning/playbook.yml"
+    end
+  
+    # Transfert des fichiers Ansible vers la machine virtuelle
+    config.vm.provision "file", source: "ansible/install_docker.yml", destination: "/home/vagrant/install_docker.yml"
+    config.vm.provision "file", source: "ansible/install_kubernetes.yml", destination: "/home/vagrant/install_kubernetes.yml"
+    config.vm.provision "file", source: "ansible/setup_runner.yml", destination: "/home/vagrant/setup_runner.yml"
+  
+    # Exécution des scripts Ansible
+    config.vm.provision "shell", inline: <<-SHELL
+      echo "Mise à jour des paquets..."
+      sudo apt-get update -y
+      echo "Installation de Python3, pip et virtualenv..."
+      sudo apt-get install -y python3-venv python3-pip
+      echo "Création et activation de l'environnement virtuel Python..."
+      python3 -m venv ansible-env
+      source ansible-env/bin/activate
+      echo "Installation d'Ansible..."
+      pip install ansible
+      echo "Exécution des playbooks Ansible..."
+      ansible-playbook /home/vagrant/install_docker.yml -i "localhost,"
+      ansible-playbook /home/vagrant/install_kubernetes.yml -i "localhost,"
+      ansible-playbook /home/vagrant/setup_runner.yml -i "localhost,"
+    SHELL
+  end
+
+# run avec la commande vagrant up
