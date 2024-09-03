@@ -49,11 +49,17 @@ jobs:
         run: |
           mkdir ${HOME}/.kube
           echo ${{ secrets.KUBECONFIG }} | base64 --decode > ${HOME}/.kube/config
+          chmod 600 ${HOME}/.kube/config
           cat ${HOME}/.kube/config
+
+      - name: verify config 
+        run: | 
+          kubectl config get-contexts
 
       - name: Use context
         run: | 
           kubectl config use-context minikube
+
 
       - name: Deploy to K8s
         run: |
