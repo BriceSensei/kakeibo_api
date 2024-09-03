@@ -53,7 +53,7 @@ jobs:
 
       - name: Use context
         run: | 
-          kubectl config use-context octobay-api
+          kubectl config use-context minikube
 
       - name: Deploy to K8s
         run: |
