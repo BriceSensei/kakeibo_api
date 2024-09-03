@@ -54,6 +54,8 @@ jobs:
 
       - name: verify config 
         run: | 
+          kubectl config set-context minikube --cluster=minikube --user=minikube --namespace=default
+          kubectl config use-context minikube
           kubectl config get-contexts
 
       - name: Use context
