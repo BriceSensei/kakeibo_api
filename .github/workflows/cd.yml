@@ -52,6 +52,12 @@ jobs:
           chmod 600 $HOME/.kube/config
           cat $HOME/.kube/config  # Optionnel : pour déboguer, supprimer ou commenter en production
         shell: bash
+
+      - name: Verify Minikube Certificates
+        run: |
+          ls -l /home/ubuntu/.minikube/ca.crt
+          ls -l /home/ubuntu/.minikube/profiles/minikube/client.crt
+          ls -l /home/ubuntu/.minikube/profiles/minikube/client.key
     
       - name: Test kubectl
         run: |
