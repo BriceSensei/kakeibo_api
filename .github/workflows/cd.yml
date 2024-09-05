@@ -36,9 +36,6 @@ jobs:
       
       - name: Check if port 8080 is in use
         run: sudo lsof -i -P -n | grep LISTEN
-        
-      - name: Show Docker logs
-        run: docker logs kakeibo_api
 
       - name: Run new Docker container
         run: |
