@@ -53,7 +53,7 @@ jobs:
           cat ${HOME}/.kube/config
 
       - name: verify config 
-        run: |
+        run: | 
           kubectl config set-context minikube --cluster=minikube --user=minikube --namespace=default
           kubectl config use-context minikube
           kubectl config get-contexts
