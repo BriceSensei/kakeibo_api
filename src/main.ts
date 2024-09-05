@@ -3,7 +3,6 @@ import swaggerUi from 'swagger-ui-express';
 // import { specs } from './swagger';
 import dotenv from "dotenv";
 import promClient from "prom-client";
-import mysql from 'mysql2';
 
 import alertsRoute from '@route/AlertsRoute';
 import budgetLineRoute from '@route/BudgetLineRoute';
