@@ -3,6 +3,7 @@ import swaggerUi from 'swagger-ui-express';
 // import { specs } from './swagger';
 import dotenv from "dotenv";
 import promClient from "prom-client";
+import mysql from 'mysql2';
 
 import alertsRoute from '@route/AlertsRoute';
 import budgetLineRoute from '@route/BudgetLineRoute';
@@ -20,6 +21,15 @@ import userRoute from '@route/UserRoute';
 dotenv.config();
 const ENV: NodeJS.ProcessEnv = process.env;
 const app = express();
+
+// Configuration de la connexion à la base de données
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  port: 3306,
+});
 
 // Configure Prometheus metrics
 const collectDefaultMetrics = promClient.collectDefaultMetrics;
