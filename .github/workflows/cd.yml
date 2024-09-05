@@ -45,26 +45,26 @@ jobs:
           fi
           docker run -d -p 9090:9090 --name prometheus prom/prometheus:latest
 
-      - name: Create kubeconfig
-        run: |
-          mkdir ${HOME}/.kube
-          echo ${{ secrets.KUBECONFIG }} | base64 --decode > ${HOME}/.kube/config
-          chmod 600 ${HOME}/.kube/config
-          cat ${HOME}/.kube/config
+      # - name: Create kubeconfig
+      #   run: |
+      #     mkdir ${HOME}/.kube
+      #     echo ${{ secrets.KUBECONFIG }} | base64 --decode > ${HOME}/.kube/config
+      #     chmod 600 ${HOME}/.kube/config
+      #     cat ${HOME}/.kube/config
 
-      - name: verify config 
-        run: | 
-          kubectl config set-context minikube --cluster=minikube --user=minikube --namespace=default
-          kubectl config use-context minikube
-          kubectl config get-contexts
+      # - name: verify config 
+      #   run: | 
+      #     kubectl config set-context minikube --cluster=minikube --user=minikube --namespace=default
+      #     kubectl config use-context minikube
+      #     kubectl config get-contexts
 
-      - name: Use context
-        run: | 
-          kubectl config use-context minikube
+      # - name: Use context
+      #   run: | 
+      #     kubectl config use-context minikube
 
-      - name: Deploy to K8s
-        run: |
-          kubectl apply -f kubernetes/ --validate=false
+      # - name: Deploy to K8s
+      #   run: |
+      #     kubectl apply -f kubernetes/ --validate=false
 
 
       # - name: Set up kubeconfig
