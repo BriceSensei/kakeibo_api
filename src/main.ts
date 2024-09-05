@@ -98,7 +98,7 @@ app.use("/register", registerRoute);
 //   console.log(`Hello! Server started on ${ENV.SCHEME??'http'}://${host}:${port}`);
 // });
 
-
+// la ligne host fait planter le serveur, je l'ai commenté pour que le serveur fonctionne Brice
 
 const port = parseInt(ENV.PORT ?? "8080");
 
