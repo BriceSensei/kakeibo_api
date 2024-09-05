@@ -20,6 +20,11 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
+      - name: Check Docker version
+        run: docker --version
+      - name: Check Docker info
+        run: docker info
+
       - name: Pull Docker image
         run: docker pull bricesensei/kakeibo_api:latest
 
@@ -28,6 +33,12 @@ jobs:
           if [ $(docker ps -a -q -f name=kakeibo_api) ]; then
             docker rm -f kakeibo_api
           fi
+      
+      - name: Check if port 8080 is in use
+        run: sudo lsof -i -P -n | grep LISTEN
+        
+      - name: Show Docker logs
+        run: docker logs kakeibo_api
 
       - name: Run new Docker container
         run: |
