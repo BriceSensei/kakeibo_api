@@ -1,33 +1,22 @@
 import express, { Request, Response, Router } from 'express';
 import { UnimplementedError } from '../exceptions/UnimplementedError';
+import { CategoryController } from '@controller/CategoryController';
+
 
 const categoryRoute: Router = express.Router()
+const categoryController: CategoryController = new CategoryController;
 
-categoryRoute.post('/', (req: Request, res: Response): void => {
+
+categoryRoute.post('/', categoryController.createNewCategory);
+categoryRoute.get('/', categoryController.getAllCategories);
+categoryRoute.get('/:id', categoryController.getCategoryById);
+
+// Get all category from user
+categoryRoute.get('/category/:userId', (req: Request, res: Response): void => {
     throw new UnimplementedError();
 });
 
-// Get all alerts
-categoryRoute.get('/', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
-
-// Get alert by id
-categoryRoute.get('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
-
-// Get all alerts from user
-categoryRoute.get('/user/:userId', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
-
-categoryRoute.patch('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
-
-categoryRoute.delete('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
+categoryRoute.patch('/:id', categoryController.updateOneCategory);
+categoryRoute.delete('/:id', categoryController.deleteOneCategory);
 
 export default categoryRoute

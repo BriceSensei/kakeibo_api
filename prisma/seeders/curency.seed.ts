@@ -1,6 +1,7 @@
 // app/prisma/seed.ts
-import { Curencies } from "@prisma/client";
 import prisma from "../prisma";
+
+import { Curencies } from "@prisma/client";
 
 export async function seed() {
   await prisma.curencies.deleteMany();
@@ -115,7 +116,10 @@ export async function seed() {
     { id: 0, name: "Viet Nam Dong", devise: "₫" },
     { id: 0, name: "Yemen Rial", devise: "﷼" },
     { id: 0, name: "Zimbabwe Dollar", devise: "Z$" },
-  ].map((x, i)=>{x.id = i+1; return x});
+  ].map((x, i) => {
+    x.id = i + 1;
+    return x;
+  });
 
   const addCurency = async () =>
     await prisma.curencies.createMany({ data: currencies });

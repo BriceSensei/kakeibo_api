@@ -1,33 +1,22 @@
 import express, { Request, Response, Router } from 'express';
-import { UnimplementedError } from '../exceptions/UnimplementedError';
 
-const alertsRouter: Router = express.Router()
+import { AlertController } from '@controller/AlertsController';
 
-alertsRouter.post('/', (req: Request, res: Response): void => {
+import { UnimplementedError } from '@exception/UnimplementedError';
+
+
+const alertsRoute: Router = express.Router()
+const alertController: AlertController = new AlertController
+
+alertsRoute.post('/', alertController.createNewAlert);
+alertsRoute.get('/', alertController.getAllAlertes);
+alertsRoute.get('/:id', alertController.getCategoryById);
+
+alertsRoute.get('/user/:userId', (req: Request, res: Response): void => {
     throw new UnimplementedError();
 });
 
-// Get all alerts
-alertsRouter.get('/', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
+alertsRoute.patch('/:id', alertController.updateOneAlert);
+alertsRoute.delete('/:id', alertController.deleteOneAlert);
 
-// Get alert by id
-alertsRouter.get('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
-
-// Get all alerts from user
-alertsRouter.get('/user/:userId', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
-
-alertsRouter.patch('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
-
-alertsRouter.delete('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
-
-export default alertsRouter
+export default alertsRoute

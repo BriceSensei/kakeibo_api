@@ -62,7 +62,6 @@ jobs:
         run: | 
           kubectl config use-context minikube
 
-
       - name: Deploy to K8s
         run: |
           kubectl apply -f kubernetes/ --validate=false

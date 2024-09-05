@@ -1,33 +1,21 @@
-import express, { Request, Response, Router } from 'express';
-import { UnimplementedError } from '../exceptions/UnimplementedError';
+import express, { Request, Response, Router } from "express";
+import { UnimplementedError } from "../exceptions/UnimplementedError";
+import { TipsController } from "@controller/TipsController";
+import { authentificateToken } from "../middlewares/authentificateToken";
 
-const tipsRoute: Router = express.Router()
+const tipsRoute: Router = express.Router();
+const tipsController: TipsController = new TipsController();
 
-tipsRoute.post('/', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
-
-// Get all alerts
-tipsRoute.get('/', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
-
-// Get alert by id
-tipsRoute.get('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
+tipsRoute.post("/", authentificateToken, tipsController.createNewTip);
+tipsRoute.get("/", authentificateToken, tipsController.getAllTips);
+tipsRoute.get("/:id", authentificateToken, tipsController.getTipById);
 
 // Get all alerts from user
-tipsRoute.get('/user/:userId', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
+tipsRoute.get("/user/:userId", (req: Request, res: Response): void => {
+  throw new UnimplementedError();
 });
 
-tipsRoute.patch('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
+tipsRoute.patch("/:id", tipsController.updateOneTip);
+tipsRoute.delete("/:id", tipsController.deleteOneTip);
 
-tipsRoute.delete('/:id', (req: Request, res: Response): void => {
-    throw new UnimplementedError();
-});
-
-export default tipsRoute
+export default tipsRoute;
