@@ -55,9 +55,9 @@ jobs:
 
       - name: Create kubeconfig
         run: |
-          mkdir ${HOME}/.kube
-          echo ${{ secrets.KUBECONFIG }} | base64 --decode > ${HOME}/.kube/config
-          cat ${HOME}/.kube/config
+          mkdir $HOME/.kube
+          echo ${{ secrets.KUBECONFIG }} | base64 --decode > $HOME/.kube/config
+          cat $HOME/.kube/config
 
       - name: Create context
         run: |
