@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: kakeibo-api
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: kakeibo-api
@@ -17,7 +17,4 @@ spec:
         image: bricesensei/kakeibo_api:latest
         ports:
         - containerPort: 8080
-        env:
-        - name: NODE_ENV
-          value: "production"
 
