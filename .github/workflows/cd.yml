@@ -70,7 +70,7 @@ jobs:
       - name: Deploy to K8s
         if: success()
         run: |
-          kubectl apply -f kubernetes --validate=false
+          kubectl apply -f kubernetes/ --validate=false
 
       - name: get log if failed
         if: failure()
