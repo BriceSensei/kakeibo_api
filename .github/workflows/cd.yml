@@ -52,7 +52,11 @@ jobs:
             docker rm -f prometheus
           fi
           docker run -d -p 9090:9090 --name prometheus prom/prometheus:latest
-
+          
+      - name: start minikube
+        run: |
+          minikube start --driver=docker
+          
       - name: Create kubeconfig
         run: |
           mkdir -p $HOME/.kube
