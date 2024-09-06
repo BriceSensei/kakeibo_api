@@ -59,6 +59,10 @@ jobs:
           echo ${{ secrets.KUBECONFIG }} | base64 --decode > ${HOME}/.kube/config
           cat ${HOME}/.kube/config
 
+      - name: Create context
+        run: |
+          kubectl config set-context minikube --cluster=minikube --user=minikube
+          
       - name: Use context
         run: | 
           kubectl config use-context minikube
