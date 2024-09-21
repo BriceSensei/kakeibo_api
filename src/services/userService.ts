@@ -8,7 +8,7 @@ import bcrypt from "bcrypt";
 import validator from "validator";
 
 export class UserService {
-  constructor() { }
+  constructor() {}
 
   /**
    * Get all users from users table
@@ -84,44 +84,47 @@ export class UserService {
   async register(userData: Users): Promise<string> {
     // Validation du pseudo
     if (!validator.isLength(userData.name, { max: 20 })) {
-      throw new Error('Password must be at maximun 20 characters long');
+      throw new Error("Password must be at maximun 20 characters long");
     }
 
     // Validation du firstname
     if (!validator.isAlpha(userData.firstName)) {
-      throw new Error('firstname must contain only letters');
+      throw new Error("firstname must contain only letters");
     }
 
     // Validation du lastname
     if (!validator.isAlpha(userData.lastName)) {
-      throw new Error('lastname must contain only letters');
+      throw new Error("lastname must contain only letters");
     }
 
     // Validation de l'email
     if (!validator.isEmail(userData.email)) {
-      throw new Error('Invalid email format');
+      throw new Error("Invalid email format");
     }
 
     // Validation du mot de passe
     if (!validator.isLength(userData.password, { min: 8 })) {
-      throw new Error('Password must be at least 8 characters long');
+      throw new Error("Password must be at least 8 characters long");
     }
 
     //Verification email déjà existant
-    if (await prisma.users.findFirst({
-      where:
-        { email: userData.email }
-    })) {
-      throw new Error('Email already exists');
+    if (
+      await prisma.users.findFirst({
+        where: { email: userData.email },
+      })
+    ) {
+      throw new Error("Email already exists");
     }
 
     //Verification pseudo déjà existant
-    if (await prisma.users.findFirst({
-      where: {
-        name: userData.name
-      }
-    })) {
-      throw new Error('This username already exists');
+    if (
+      await prisma.users.findFirst({
+        where: {
+          name: userData.name,
+        },
+      })
+    ) {
+      throw new Error("This username already exists");
     }
 
     //génère un sel aléatoire
@@ -145,28 +148,38 @@ export class UserService {
         connectionAttempts: 0,
         isActive: false,
         //roleId: 1,
-        roleId: await prisma?.role.findUnique({ where: { name: "user" } }).then((user) => user?.id),
+        roleId: await prisma?.role
+          .findUnique({ where: { name: "user" } })
+          .then((user) => user?.id),
         curencyId: 1,
       },
     });
 
     let jwt = new JWT();
     try {
-      const mail = new Mail()
+      const mail = new Mail();
 
-      const code = faker.number.int({ min: 1000, max: 9999 })
+      const code = faker.number.int({ min: 1000, max: 9999 });
 
-      await prisma.confirmationCode.create({ data: { userId: newUser.id, code: code.toString() } })
+      await prisma.confirmationCode.create({
+        data: { userId: newUser.id, code: code.toString() },
+      });
 
-      jwt.values = { code: code.toString(), firstname: userData.firstName }
-      jwt.options = { expiresIn: '24h' };
+      jwt.values = { code: code.toString(), firstname: userData.firstName };
+      jwt.options = { expiresIn: "24h" };
       mail.to = userData.email;
       mail.body = {
-        path: "./src/mailer/confirmEmail.twig", variables: { firstname: userData.firstName, code: code, host: "https://api.kakeibo.pandacrp.com", token: jwt.token }
-      }
+        path: "./src/mailer/confirmEmail.twig",
+        variables: {
+          firstname: userData.firstName,
+          code: code,
+          host: "https://api.kakeibo.pandacrp.com",
+          token: jwt.token,
+        },
+      };
       await mail.send();
     } catch (e) {
-      console.error(e)
+      console.error(e);
       throw new Error("Error during sending email");
     }
 
@@ -186,9 +199,15 @@ export class UserService {
    *
    * @returns Promise<User> or undefined
    */
-  async getUserByEmail(email: string): Promise<Users | undefined> {
-    const allUsers: Users[] = await prisma.users.findMany();
-    return allUsers.find((user) => user.email === email);
+  async getUserByEmail(email: string): Promise<Users | null> {
+    try {
+      return await prisma.users.findUnique({
+        where: { email },
+      });
+    } catch (error) {
+      console.error("Error fetching user by email:", error);
+      return null;
+    }
   }
 
   async confirmEmail(token: string, code: string): Promise<string> {
@@ -202,15 +221,20 @@ export class UserService {
     }
 
     try {
-      await prisma.confirmationCode.findFirstOrThrow({ where: { code: code, userId: Number(jwt.values.id) } });
+      await prisma.confirmationCode.findFirstOrThrow({
+        where: { code: code, userId: Number(jwt.values.id) },
+      });
     } catch (e) {
-      throw new Error('Invalid code');
+      throw new Error("Invalid code");
     }
 
-    await prisma.users.update({ where: { id: Number(jwt.values.id) }, data: { isActive: true } });
+    await prisma.users.update({
+      where: { id: Number(jwt.values.id) },
+      data: { isActive: true },
+    });
 
-    jwt.values = { id: jwt.values.id }
-    jwt.options = { expiresIn: '7d' };
-    return jwt.token
+    jwt.values = { id: jwt.values.id };
+    jwt.options = { expiresIn: "7d" };
+    return jwt.token;
   }
 }

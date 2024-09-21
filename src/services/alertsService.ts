@@ -75,4 +75,16 @@ export class AlertService {
 
     return alert;
   }
+
+  async getAlertByIdAndUser(
+    alertId: number,
+    userId: number
+  ): Promise<Alerts | null> {
+    return prisma.alerts.findFirst({
+      where: {
+        id: alertId,
+        userId: userId, // On vérifie que l'alerte appartient bien à cet utilisateur
+      },
+    });
+  }
 }
