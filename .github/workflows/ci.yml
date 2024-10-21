@@ -17,6 +17,10 @@ jobs:
           sudo groupadd docker || true  # Ignore si le groupe existe déjà
           sudo usermod -aG docker $USER
 
+      - name: Set Docker socket permissions
+        run: |
+          sudo chmod 666 /var/run/docker.sock
+
       - name: Restart Docker service
         run: |
           sudo systemctl restart docker
