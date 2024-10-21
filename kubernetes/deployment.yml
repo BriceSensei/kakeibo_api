@@ -17,4 +17,6 @@ spec:
         image: bricesensei/kakeibo_api:latest
         ports:
         - containerPort: 8080
-
+      env:
+        - name: NODE_ENV
+          value: production 

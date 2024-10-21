@@ -12,16 +12,41 @@
         state: present
         update_cache: yes
 
+    - name: Get the latest kubectl version
+      command: curl -s https://dl.k8s.io/release/stable.txt
+      register: kubectl_version
+
     - name: Install kubectl
-      shell: |
-        curl -Lo /usr/local/bin/kubectl https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
-        chmod +x /usr/local/bin/kubectl
+      command: >
+        curl -Lo /usr/local/bin/kubectl https://dl.k8s.io/release/{{ kubectl_version.stdout }}/bin/linux/amd64/kubectl
+      args:
+        creates: /usr/local/bin/kubectl  # Pour éviter de télécharger à nouveau si le fichier existe
+
+    - name: Make kubectl executable
+      file:
+        path: /usr/local/bin/kubectl
+        mode: '0755'
 
     - name: Install Minikube
-      shell: |
+      command: >
         curl -Lo /usr/local/bin/minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-        chmod +x /usr/local/bin/minikube
+      args:
+        creates: /usr/local/bin/minikube 
+
+    - name: Make minikube executable
+      file:
+        path: /usr/local/bin/minikube
+        mode: '0755'
+
+    - name: Verify kubectl installation
+      command: kubectl version --client
+      register: kubectl_check
+      failed_when: kubectl_check.rc != 0
+
+    - name: Verify minikube installation
+      command: minikube version
+      register: minikube_check
+      failed_when: minikube_check.rc != 0
 
     - name: Start Minikube
-      shell: minikube start --driver=docker
-
+      command: minikube start --driver=docker
