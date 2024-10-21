@@ -16,6 +16,9 @@ jobs:
         run: |
           sudo groupadd docker || true  # Ignore si le groupe existe déjà
           sudo usermod -aG docker $USER
+
+      - name: Restart Docker service
+        run: |
           sudo systemctl restart docker
 
       - name: Login Dockerhub
