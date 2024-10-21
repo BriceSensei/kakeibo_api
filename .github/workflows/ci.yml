@@ -12,6 +12,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Add user to Docker group
+        run: |
+          sudo groupadd docker || true  # Ignore si le groupe existe déjà
+          sudo usermod -aG docker $USER
+          sudo systemctl restart docker
+
       - name: Login Dockerhub
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

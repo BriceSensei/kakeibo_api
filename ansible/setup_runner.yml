@@ -1,6 +1,7 @@
 - hosts: localhost
   connection: local
   become: yes
+  recuse: yes
   vars:
     github_runner_token: "ARGZCD34LJ42M77YBLGBPTLGYRYRU"
   tasks:
