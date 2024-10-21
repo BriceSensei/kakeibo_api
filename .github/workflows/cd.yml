@@ -14,6 +14,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # lister les fichiers
+      - name: List files after checkout
+        run: ls -R
+
+      #afficher le répertoire actuel
+      - name: Print working directory
+        run: pwd
+
       - name: Login Dockerhub
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
