@@ -68,7 +68,12 @@ jobs:
       - name: start minikube
         run: |
           minikube start
-        
+          
+      - name: Create kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo ${{ secrets.KUBECONFIG }} | base64 --decode > $HOME/.kube/config
+          cat $HOME/.kube/config
 
       - name: Create context
         run: |
