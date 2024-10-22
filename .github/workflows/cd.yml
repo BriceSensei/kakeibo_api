@@ -14,14 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # lister les fichiers
-      - name: List files after checkout
-        run: ls -R
-
-      #afficher le répertoire actuel
-      - name: Print working directory
-        run: pwd
-
       - name: Login Dockerhub
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -69,13 +61,12 @@ jobs:
         run: |
           minikube start
       
-      - name: Create kubeconfig
-        run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
-          chmod 600 $HOME/.kube/config
-          cat $HOME/.kube/config
-        
+      # - name: Create kubeconfig
+      #   run: |
+      #     mkdir -p $HOME/.kube
+      #     echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
+      #     cat $HOME/.kube/config
+
       - name: Create context
         run: |
           kubectl config set-context minikube --cluster=minikube --user=minikube
