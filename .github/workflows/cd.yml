@@ -79,6 +79,10 @@ jobs:
         run: | 
           kubectl config use-context minikube
 
+      - name: verify status minikube
+        run: |
+          kubectl get all
+
       - name: Deploy to K8s
         if: success()
         run: |
