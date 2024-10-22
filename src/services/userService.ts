@@ -81,7 +81,7 @@ export class UserService {
    *
    * @returns Promise<Users>
    */
-  async register(userData: Users): Promise<string> {
+  async register(userData: Users, confirmPassword: string): Promise<string> {
     // Validation du pseudo
     if (!validator.isLength(userData.name, { max: 20 })) {
       throw new Error("Password must be at maximun 20 characters long");
@@ -107,25 +107,39 @@ export class UserService {
       throw new Error("Password must be at least 8 characters long");
     }
 
-    //Verification email déjà existant
-    if (
-      await prisma.users.findFirst({
-        where: { email: userData.email },
-      })
-    ) {
-      throw new Error("Email already exists");
+    if (userData.password !== confirmPassword) {
+      throw new Error("Passwords do not match");
     }
 
-    //Verification pseudo déjà existant
-    if (
-      await prisma.users.findFirst({
-        where: {
-          name: userData.name,
-        },
-      })
-    ) {
-      throw new Error("This username already exists");
+    // Vérification email ou nom d'utilisateur déjà existants
+    const existingUser = await prisma.users.findFirst({
+      where: {
+        OR: [{ email: userData.email }, { name: userData.name }],
+      },
+    });
+    if (existingUser) {
+      throw new Error("Email or username already exists");
     }
+
+    // //Verification email déjà existant
+    // if (
+    //   await prisma.users.findFirst({
+    //     where: { email: userData.email },
+    //   })
+    // ) {
+    //   throw new Error("Email already exists");
+    // }
+
+    // //Verification pseudo déjà existant
+    // if (
+    //   await prisma.users.findFirst({
+    //     where: {
+    //       name: userData.name,
+    //     },
+    //   })
+    // ) {
+    //   throw new Error("This username already exists");
+    // }
 
     //génère un sel aléatoire
     const salt = bcrypt.genSaltSync(10);

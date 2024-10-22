@@ -1,5 +1,5 @@
 import { Users } from "@prisma/client";
-import { UserService } from '../services/userService';
+import { UserService } from "../services/userService";
 import { Request, Response } from "express";
 
 export class UserController {
@@ -93,19 +93,37 @@ export class UserController {
   async register(req: Request, res: Response) {
     const userMethod: UserService = new UserService();
     const userData: Users = { ...req.body };
-    const required: string[] = ["name", "firstName", "lastName", "email", "password"]
+    const required: string[] = [
+      "name",
+      "firstName",
+      "lastName",
+      "email",
+      "password",
+      "confirmPassword",
+    ];
+    const { confirmPassword } = req.body;
 
-    const missingFields = required.filter(field => { return !req.body[field]; })
+    const missingFields = required.filter((field) => {
+      return !req.body[field];
+    });
     if (missingFields.length != 0) {
-      return res.status(400).json({ status: 400, message: `Some fields are missing: ${missingFields.join(', ')}` });
+      return res
+        .status(400)
+        .json({
+          status: 400,
+          message: `Some fields are missing: ${missingFields.join(", ")}`,
+        });
     }
 
     try {
-      const token: string = await userMethod.register(userData);
+      const token: string = await userMethod.register(
+        userData,
+        confirmPassword
+      );
       res.status(201).send({ token: token });
     } catch (error) {
-      let message = 'Unknown Error'
-      if (error instanceof Error) message = error.message
+      let message = "Unknown Error";
+      if (error instanceof Error) message = error.message;
 
       const errMsg = {
         status: 500,
@@ -119,24 +137,27 @@ export class UserController {
     const { code } = req.body;
     const { token } = req.headers;
 
-    if (typeof token !== 'string') {
-      return res.status(403).send({ status: 403, message: 'Token must be unique' });
+    if (typeof token !== "string") {
+      return res
+        .status(403)
+        .send({ status: 403, message: "Token must be unique" });
     } else if (token === undefined) {
-      return res.status(403).send({ status: 403, message: 'No token provided' });
+      return res
+        .status(403)
+        .send({ status: 403, message: "No token provided" });
     } else if (code === undefined) {
-      return res.status(403).send({ status: 403, message: 'No code provided' });
+      return res.status(403).send({ status: 403, message: "No code provided" });
     }
 
     const userMethod: UserService = new UserService();
 
     try {
-      await userMethod.confirmEmail(token, code)
+      await userMethod.confirmEmail(token, code);
     } catch (error) {
-      let message = 'Unknown Error'
-      if (error instanceof Error) message = error.message
+      let message = "Unknown Error";
+      if (error instanceof Error) message = error.message;
 
       return res.status(403).send({ status: 403, message: message });
-
     }
 
     res.status(500).send("In build");
