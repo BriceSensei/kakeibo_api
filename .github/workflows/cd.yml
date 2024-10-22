@@ -61,9 +61,13 @@ jobs:
           fi
           docker run -d -p 9090:9090 --name prometheus prom/prometheus:latest
           
+      - name: stop minikube
+        run: |
+          minikube stop
+      
       - name: start minikube
         run: |
-          minikube start --driver=docker
+          minikube start
           
       - name: Create kubeconfig
         run: |
