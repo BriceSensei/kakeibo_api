@@ -46,7 +46,9 @@ jobs:
           if [ $(docker ps -a -q -f name=grafana) ]; then
             docker rm -f grafana
           fi
-          docker run -d -p 3000:3000 --name grafana grafana/grafana:latest
+          docker run -d -p 3000:3000 --name grafana \
+          -v grafana-storage:/var/lib/grafana \
+          grafana/grafana:latest
 
           if [ $(docker ps -a -q -f name=prometheus) ]; then
             docker rm -f prometheus
