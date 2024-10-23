@@ -53,8 +53,10 @@ jobs:
           if [ $(docker ps -a -q -f name=prometheus) ]; then
             docker rm -f prometheus
           fi
-          docker run -d -p 9090:9090 --name prometheus prom/prometheus:latest
-          
+          docker run -d -p 9090:9090 --name prometheus \
+          -v /home/ubuntu/prometheus.yml:/etc/prometheus/prometheus.yml \
+          prom/prometheus:latest
+
       - name: Start Node Exporter
         run: |
           if [ $(docker ps -a -q -f name=node_exporter) ]; then
