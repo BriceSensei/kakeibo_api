@@ -1,7 +1,6 @@
----
 - name: Install Minikube and kubectl
   hosts: kubectl_nodes
-  become: true
+  become: yes
   tasks:
     - name: Ensure necessary dependencies are installed
       apt:
