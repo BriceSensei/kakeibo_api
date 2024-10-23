@@ -50,18 +50,22 @@ jobs:
           -v grafana-storage:/var/lib/grafana \
           grafana/grafana:latest
 
+      - name: Prepare Prometheus config directory
+        run: |
+          mkdir -p ~/prometheus_config
+                  
       - name: Copy Prometheus config from kakeibo_api
         run: |
-          docker cp kakeibo_api:/app/prometheus/prometheus.yml /app/prometheus/prometheus.yml
-          
+          docker cp kakeibo_api:/app/prometheus/prometheus.yml ~/prometheus_config/prometheus.yml
+            
       - name: Run Prometheus
         run: |
           if [ $(docker ps -a -q -f name=prometheus) ]; then
             docker rm -f prometheus
           fi
           docker run -d -p 9090:9090 --name prometheus \
-          -v /app/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
-          prom/prometheus:latest  
+          -v ~/prometheus_config/prometheus.yml:/etc/prometheus/prometheus.yml \
+          prom/prometheus:latest
 
       - name: Start Node Exporter
         run: |
