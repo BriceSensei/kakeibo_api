@@ -41,7 +41,11 @@ jobs:
         run: |
           docker run -d -p 8080:8080 --name kakeibo_api bricesensei/kakeibo_api:latest
 
-      - name: run grafana and prometheus
+          - name: Copy Prometheus config from API container
+          run: |
+            docker cp kakeibo_api:/etc/prometheus/prometheus.yml /home/ubuntu/prometheus.yml
+  
+      - name: Run Grafana
         run: |
           if [ $(docker ps -a -q -f name=grafana) ]; then
             docker rm -f grafana
@@ -50,6 +54,8 @@ jobs:
           -v grafana-storage:/var/lib/grafana \
           grafana/grafana:latest
 
+      - name: Run Prometheus
+        run: |
           if [ $(docker ps -a -q -f name=prometheus) ]; then
             docker rm -f prometheus
           fi
