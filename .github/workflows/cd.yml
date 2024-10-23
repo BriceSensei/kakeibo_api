@@ -56,17 +56,12 @@ jobs:
             docker rm -f prometheus
           fi
           docker run -d -p 9090:9090 --name prometheus \
-          -v /app/prometheus:/etc/prometheus \
+          -v /app/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
           prom/prometheus:latest  
 
       - name: Start Node Exporter
         run: |
-          if [ $(docker ps -a -q -f name=node_exporter) ]; then
-            docker rm -f node_exporter
-          fi
-          docker run -d -p 9100:9100 --name node_exporter \
-          --network host \
-          prom/node-exporter:latest
+            sudo systemctl start node_exporter
           
       - name: stop minikube
         run: |

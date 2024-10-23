@@ -13,3 +13,9 @@ scrape_configs:
   - job_name: "node_exporter"
     static_configs:
       - targets: ["15.236.190.151:9100"] 
+
+
+# Metrics de l'API : Scrappées via http://api:3000/metrics.
+# Metrics de Prometheus : Scrappées via http://localhost:9090/metrics (pour surveiller l'instance de Prometheus elle-même).
+# Metrics de Node Exporter : Scrappées via http://15.236.190.151:9100/metrics (pour surveiller le système).
+# tout est relié depuis la meme url http://15.236.190.151:9090/targets
