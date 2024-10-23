@@ -40,10 +40,6 @@ jobs:
       - name: Run new Docker container
         run: |
           docker run -d -p 8080:8080 --name kakeibo_api bricesensei/kakeibo_api:latest
-
-      - name: Copy Prometheus config from API container
-        run: |
-          docker cp kakeibo_api:/etc/prometheus/prometheus.yml /home/ubuntu/prometheus.yml
   
       - name: Run Grafana
         run: |
@@ -60,8 +56,8 @@ jobs:
             docker rm -f prometheus
           fi
           docker run -d -p 9090:9090 --name prometheus \
-          -v /home/ubuntu/prometheus.yml:/etc/prometheus/prometheus.yml \
-          prom/prometheus:latest
+          -v /app/prometheus:/etc/prometheus \
+          prom/prometheus:latest  
 
       - name: Start Node Exporter
         run: |
