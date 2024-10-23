@@ -50,6 +50,10 @@ jobs:
           -v grafana-storage:/var/lib/grafana \
           grafana/grafana:latest
 
+      - name: Copy Prometheus config from kakeibo_api
+        run: |
+          docker cp kakeibo_api:/app/prometheus/prometheus.yml /app/prometheus/prometheus.yml
+          
       - name: Run Prometheus
         run: |
           if [ $(docker ps -a -q -f name=prometheus) ]; then
