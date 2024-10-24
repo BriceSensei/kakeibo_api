@@ -67,6 +67,10 @@ jobs:
           -v ~/prometheus_config/prometheus.yml:/etc/prometheus/prometheus.yml \
           prom/prometheus:latest
 
+      - name: Vérifier les fichiers dans le conteneur
+        run: |
+          docker exec kakeibo_api ls /app/ansible
+      
       - name: Copy install_certbot_nginx.yml from kakeibo_api
         run: |
           docker cp kakeibo_api:/app/ansible/install_certbot_nginx.yml ~/install_certbot_nginx.yml    
