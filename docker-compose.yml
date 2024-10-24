@@ -1,5 +1,9 @@
 version: '3.8'
 
+networks:
+  kakeibo_network:
+    driver: bridge
+
 services:
   api:
     build:
@@ -11,7 +15,8 @@ services:
       NODE_ENV: production
     env_file:
       - path: ./.env
-        required: true
+    networks:
+      - kakeibo_network  # Ajouter le réseau ici
 
   nginx:
     image: nginx:latest
@@ -24,6 +29,8 @@ services:
       - "443:443"
     depends_on:
       - api
+    networks:
+      - kakeibo_network  # Ajouter le réseau ici
 
   prometheus:
     image: prom/prometheus
@@ -32,6 +39,8 @@ services:
       - ./prometheus:/etc/prometheus
     ports:
       - "9090:9090"
+    networks:
+      - kakeibo_network  # Ajouter le réseau ici
 
   grafana:
     image: grafana/grafana
@@ -42,9 +51,12 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
       - grafana-storage:/var/lib/grafana
+    networks:
+      - kakeibo_network  # Ajouter le réseau ici
 
 volumes:
   grafana-storage:
+
 
 # // attention mon container docker grafana et prometheus doivent être démarer manuellement avec 
 # # Démarrer Grafana
