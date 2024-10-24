@@ -73,7 +73,7 @@ jobs:
       
       - name: Copy install_certbot_nginx.yml from kakeibo_api
         run: |
-          docker cp kakeibo_api:/app/ansible/install_cerbot_&_ngix.yml ~/install_certbot_nginx.yml   
+          docker exec kakeibo_api mv /app/ansible/install_cerbot_and_ngix.yml /app/ansible/install_certbot_and_nginx.yml   
 
       - name: Exécuter le playbook Ansible
         run: |
