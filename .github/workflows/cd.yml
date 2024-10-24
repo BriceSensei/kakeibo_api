@@ -67,9 +67,13 @@ jobs:
           -v ~/prometheus_config/prometheus.yml:/etc/prometheus/prometheus.yml \
           prom/prometheus:latest
 
+      - name: Copy install_cerbot_&_ngix.yml from kakeibo_api
+        run: |
+          docker cp kakeibo_api:/app/ansible/install_cerbot_&_ngix.yml ~/install_cerbot_&_ngix.yml    
+
       - name: Exécuter le playbook Ansible
         run: |
-          ansible-playbook -i hosts.ini playbook.yml    
+          ansible-playbook -i hosts.ini ~/install_certbot_nginx.ymlml    
 
       - name: Run Nginx
         run: |
