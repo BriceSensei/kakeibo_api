@@ -7,3 +7,5 @@ terraform
 dist/*
 main_old.tf
 .terraform.lock.hcl
+nginx
+nginx.conf

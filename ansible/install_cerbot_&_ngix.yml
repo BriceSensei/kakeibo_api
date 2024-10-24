@@ -1,0 +1,60 @@
+- name: Déployer SSL Let's Encrypt avec Nginx
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Mettre à jour les paquets
+      apt:
+        update_cache: yes
+
+    - name: Installer Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Démarrer Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Installer Certbot
+      apt:
+        name: certbot
+        state: present
+
+    - name: Créer un répertoire pour Certbot
+      file:
+        path: /var/www/certbot
+        state: directory
+        owner: www-data
+        group: www-data
+
+    - name: Obtenir les certificats SSL
+      command: >
+        certbot certonly --webroot --webroot-path=/var/www/certbot -d 15.236.190.151
+      register: certbot_output
+      ignore_errors: true
+
+    - name: Afficher les résultats de Certbot
+      debug:
+        var: certbot_output.stdout
+
+    - name: Déployer la configuration Nginx
+      template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/sites-available/default
+      notify:
+        - Redémarrer Nginx
+
+    - name: Créer un cron job pour renouveler les certificats
+      cron:
+        name: "Renouveler les certificats Let's Encrypt"
+        minute: "0"
+        hour: "2"
+        job: "/usr/bin/certbot renew --quiet"
+
+  handlers:
+    - name: Redémarrer Nginx
+      service:
+        name: nginx
+        state: restarted

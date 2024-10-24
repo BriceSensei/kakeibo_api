@@ -67,6 +67,19 @@ jobs:
           -v ~/prometheus_config/prometheus.yml:/etc/prometheus/prometheus.yml \
           prom/prometheus:latest
 
+      - name: Exécuter le playbook Ansible
+        run: |
+          ansible-playbook -i hosts.ini playbook.yml    
+
+      - name: Run Nginx
+        run: |
+          if [ $(docker ps -a -q -f name=nginx) ]; then
+            docker rm -f nginx
+          fi
+          docker run -d -p 80:80 -p 443:443 --name nginx \
+          -v /etc/letsencrypt:/etc/letsencrypt \
+          nginx:latest
+
       - name: Start Node Exporter
         run: |
             sudo systemctl start node_exporter
