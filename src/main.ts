@@ -29,38 +29,9 @@ const app = express();
 
 
 // Configure Prometheus metrics
-const collectDefaultMetrics = promClient.collectDefaultMetrics;
-collectDefaultMetrics();
+promClient.collectDefaultMetrics();
 
-// Create a counter for HTTP requests
-const httpRequestsTotal = new promClient.Counter({
-  name: 'http_requests_total',
-  help: 'Total number of HTTP requests',
-  labelNames: ['method', 'route', 'status_code'],
-});
-
-// Create a histogram for HTTP request durations
-const httpRequestDurationSeconds = new promClient.Histogram({
-  name: 'http_request_duration_seconds',
-  help: 'Duration of HTTP requests in seconds',
-  labelNames: ['method', 'route', 'status_code'],
-});
-
-// Middleware to measure HTTP request duration and count
-app.use((req, res, next) => {
-  const end = httpRequestDurationSeconds.startTimer();
-  res.on('finish', () => {
-    httpRequestsTotal.inc({
-      method: req.method,
-      route: req.route ? req.route.path : 'unknown',
-      status_code: res.statusCode,
-    });
-    end({ method: req.method, route: req.route ? req.route.path : 'unknown', status_code: res.statusCode });
-  });
-  next();
-});
-
-// Metrics endpoint
+// Endpoint pour les métriques
 app.get('/metrics', (req, res) => {
   res.setHeader('Content-Type', promClient.register.contentType);
   res.end(promClient.register.metrics());
