@@ -32,9 +32,15 @@ const app = express();
 promClient.collectDefaultMetrics();
 
 // Endpoint pour les métriques
-app.get('/metrics', (req, res) => {
+app.get('/metrics', async (req, res) => {
   res.setHeader('Content-Type', promClient.register.contentType);
-  res.end(promClient.register.metrics());
+  try {
+    const metrics = await promClient.register.metrics();
+    res.end(metrics);
+  } catch (error) {
+    console.error('Error retrieving metrics:', error);
+    res.status(500).end('Error retrieving metrics');
+  }
 });
 
 // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
