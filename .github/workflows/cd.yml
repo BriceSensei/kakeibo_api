@@ -66,23 +66,6 @@ jobs:
           docker run -d -p 9090:9090 --name prometheus \
           -v ~/prometheus_config/prometheus.yml:/etc/prometheus/prometheus.yml \
           prom/prometheus:latest
-
-      - name: Vérifier les fichiers dans le conteneur
-        run: |
-          docker exec kakeibo_api ls /app/ansible
-
-      - name: Modifier les permissions du fichier
-        run: |
-          docker exec kakeibo_api chmod 666 /app/ansible/install_cerbot_and_ngix.yml || echo "Failed to change permissions"
-      
-      - name: Copy install_certbot_nginx.yml from kakeibo_api
-        run: |
-          docker exec kakeibo_api mv /app/ansible/install_cerbot_and_ngix.yml /app/ansible/install_certbot_and_nginx.yml || echo "Permission denied, trying with sudo"
-          docker exec kakeibo_api sudo mv /app/ansible/install_cerbot_and_ngix.yml /app/ansible/install_certbot_and_nginx.yml || echo "Still permission denied"   
-
-      - name: Exécuter le playbook Ansible
-        run: |
-          ansible-playbook -i hosts.ini ~/install_certbot_nginx.yml    
     
       - name: Run Nginx
         run: |
