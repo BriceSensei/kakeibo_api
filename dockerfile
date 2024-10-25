@@ -3,7 +3,6 @@ FROM node:18-alpine
 WORKDIR /app
 
 COPY . .
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 RUN npm ci
 
