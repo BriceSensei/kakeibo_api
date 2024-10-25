@@ -69,12 +69,8 @@ jobs:
     
       - name: Run Nginx
         run: |
-          if [ $(docker ps -a -q -f name=nginx) ]; then
-            docker rm -f nginx
-          fi
-          docker run -d -p 80:80 -p 443:443 --name nginx \
-          -v /etc/letsencrypt:/etc/letsencrypt \
-          nginx:latest
+            sudo systemctl enable nginx
+            sudo systemctl restart nginx
 
       - name: Start Node Exporter
         run: |
