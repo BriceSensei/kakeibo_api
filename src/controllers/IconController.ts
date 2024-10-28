@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { Icons } from "@prisma/client";
-import { IconsService } from "../services/iconService";
+import { Request, Response } from 'express';
+import { Icons } from '@prisma/client';
+import { IconsService } from '../services/iconService';
 
 
 export class IconsController{
@@ -15,7 +15,7 @@ export class IconsController{
             const errMsg = {
                 status: 500,
                 error: error,
-                message: "Fail to get all icons"               
+                message: 'Fail to get all icons'               
             }
 
             res.status(500).send(errMsg);
@@ -33,7 +33,7 @@ export class IconsController{
             const errMsg = {
                 status: 500,
                 error: error,
-                message: "Impossible de récuperer l'id d'une icone"
+                message: 'Impossible de récuperer l'id d'une icone'
             }
             res.status(500).send(errMsg);
         }
@@ -51,7 +51,7 @@ export class IconsController{
             const errMsg = {
                 status: 500,
                 error: error,
-                message: "Echec leur de la creation d'un nouveau icone"
+                message: 'Echec leur de la creation d'un nouveau icone'
             }
             res.status(500).send(errMsg);
         }
@@ -70,7 +70,7 @@ export class IconsController{
             const errMsg={
                 status: 500,
                 error: error,
-                message: "Fail to update one icon"
+                message: 'Fail to update one icon'
             }
             res.status(500).send(errMsg);
         }
@@ -87,7 +87,7 @@ export class IconsController{
             const errMsg = {
                 status: 500,
                 error: error,
-                message: "Fail to delete icon in database"
+                message: 'Fail to delete icon in database'
             }
             res.status(500).send(errMsg);
         }

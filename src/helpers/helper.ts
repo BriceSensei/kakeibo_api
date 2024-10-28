@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import { faker } from '@faker-js/faker';
 
 export class Helper {
   static getRandomFromArray(list: Array<any>): any {

@@ -1,9 +1,9 @@
 
 import{ Request, Response, NextFunction } from 'express';
-import { PrismaClient, Users } from "@prisma/client";
+import { PrismaClient, Users } from '@prisma/client';
 
-import  jwt  from "jsonwebtoken";
-import {config} from "dotenv";
+import  jwt  from 'jsonwebtoken';
+import {config} from 'dotenv';
 
 config()
 const prisma = new PrismaClient();
@@ -28,7 +28,7 @@ export async function authentificateToken(req:CustomRequest, res:Response, next:
         const decoded:any = jwt.verify(token, accessTokenSecret as string);
         const user = await prisma?.users.findUnique({where: {id: decoded.id}})
         if(!user){
-            console.log("invalid token")
+            console.log('invalid token')
             return res.status(401).json({message: 'Invalid token'});
         }
         //ajouter les informations de l'utilisateur à la requête
@@ -39,7 +39,7 @@ export async function authentificateToken(req:CustomRequest, res:Response, next:
         console.error(error)
         return res.status(403).json({
             error: true,
-            message: "Authentification error",
+            message: 'Authentification error',
         });
     }
 };

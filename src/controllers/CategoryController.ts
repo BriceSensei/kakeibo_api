@@ -1,6 +1,6 @@
-import { Categories } from "@prisma/client";
-import { CategoryService } from "../services/categoryService";
-import { Request, Response } from "express";
+import { Categories } from '@prisma/client';
+import { CategoryService } from '../services/categoryService';
+import { Request, Response } from 'express';
 
 
 export class CategoryController{
@@ -15,7 +15,7 @@ export class CategoryController{
             const errMsg = {
                 status: 500,
                 error: error,
-                message: "Impossible d'afficher les catégories"               
+                message: 'Impossible d'afficher les catégories'               
             }
 
             res.status(5000).send(errMsg);
@@ -34,7 +34,7 @@ export class CategoryController{
             const errMsg = {
                 status: 500,
                 error: error,
-                message: "Impossible de récuperer l'id d'une catégorie"
+                message: 'Impossible de récuperer l'id d'une catégorie'
             }
             res.status(500).send(errMsg);
         }
@@ -51,7 +51,7 @@ export class CategoryController{
             const errMsg = {
                 status: 500,
                 error: error,
-                message: "Echec leur de la creation d'une nouvelle catégorie"
+                message: 'Echec leur de la creation d'une nouvelle catégorie'
             }
             res.status(500).send(errMsg);
         }
@@ -69,7 +69,7 @@ export class CategoryController{
             const errMsg={
                 status: 500,
                 error: error,
-                message: "Fail to update category"
+                message: 'Fail to update category'
             }
             res.status(500).send(errMsg);
         }
@@ -86,7 +86,7 @@ export class CategoryController{
             const errMsg = {
                 status: 500,
                 error: error,
-                message: "Fail to delete category in database"
+                message: 'Fail to delete category in database'
             }
             res.status(500).send(errMsg);
         }

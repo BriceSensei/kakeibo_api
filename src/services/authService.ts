@@ -1,11 +1,11 @@
-import prisma from "@@prisma/prisma";
+import prisma from '@@prisma/prisma';
 
-//import { RefreshToken } from "@prisma/client";
+//import { RefreshToken } from '@prisma/client';
 
-import { Users } from "@prisma/client";
-import jwt, { Secret } from "jsonwebtoken";
-import { config } from "dotenv";
-import { Request } from "express";
+import { Users } from '@prisma/client';
+import jwt, { Secret } from 'jsonwebtoken';
+import { config } from 'dotenv';
+import { Request } from 'express';
 
 config();
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
@@ -31,8 +31,8 @@ export class AuthService {
     req: Request,
     stayLoggedIn: boolean
   ): Promise<string> {
-    const expiresIn = stayLoggedIn ? "7d" : "1h";
-    const userAgent = req.headers["user-agent"] || "Unknown";
+    const expiresIn = stayLoggedIn ? '7d' : '1h';
+    const userAgent = req.headers['user-agent'] || 'Unknown';
     const payload = {
       id: user.id,
       email: user.email,
@@ -53,7 +53,7 @@ export class AuthService {
       email: user.email,
     };
     const refreshToken = jwt.sign(payload, refreshTokenSecret as Secret, {
-      expiresIn: "7d",
+      expiresIn: '7d',
     });
     return refreshToken;
   }

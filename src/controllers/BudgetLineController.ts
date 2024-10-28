@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
-import { BudgetLineService } from "../services/budgetLineService";
-import { BudgetLines } from "@prisma/client";
-import { Users } from "@prisma/client";
+import { Request, Response } from 'express';
+import { BudgetLineService } from '../services/budgetLineService';
+import { BudgetLines } from '@prisma/client';
+import { Users } from '@prisma/client';
 
 interface CustomRequest extends Request {
   // Utilisation de l'interface Users pour annoter le type de la propriété 'user'
@@ -16,7 +16,7 @@ export class BudgetLineController {
     const limit = req.query.limit
       ? parseInt(req.query.limit as string)
       : undefined;
-    const order = (req.query.order as "asc" | "desc") || "asc";
+    const order = (req.query.order as 'asc' | 'desc') || 'asc';
     const begin = req.query.begin
       ? new Date(req.query.begin as string)
       : undefined;
@@ -33,7 +33,7 @@ export class BudgetLineController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Fail to get all budgetLines",
+        message: 'Fail to get all budgetLines',
       };
 
       res.status(500).send(errMsg);
@@ -53,7 +53,7 @@ export class BudgetLineController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Impossible de récuperer l'id d'une alert",
+        message: 'Impossible de récuperer l'id d'une alert',
       };
       res.status(500).send(errMsg);
     }
@@ -71,7 +71,7 @@ export class BudgetLineController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Echec leur de la creation d'une nouvelle ligne de budget",
+        message: 'Echec leur de la creation d'une nouvelle ligne de budget',
       };
       res.status(500).send(errMsg);
     }
@@ -90,7 +90,7 @@ export class BudgetLineController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Fail to update one budgetLine",
+        message: 'Fail to update one budgetLine',
       };
       res.status(500).send(errMsg);
     }
@@ -108,7 +108,7 @@ export class BudgetLineController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Fail to delete budgetLine in database",
+        message: 'Fail to delete budgetLine in database',
       };
       res.status(500).send(errMsg);
     }
@@ -119,12 +119,12 @@ export class BudgetLineController {
     const { year } = req.query;
     try {
       if (!year || isNaN(Number(year))) {
-        return res.status(400).json({ message: "Invalid year parameter" });
+        return res.status(400).json({ message: 'Invalid year parameter' });
       }
 
       const userId: number | undefined = req.user?.id;
       if (userId === undefined) {
-        return res.status(401).json({ message: "User not authentificated" });
+        return res.status(401).json({ message: 'User not authentificated' });
       }
 
       const expenses = await budgetLineMethod.getAnnualExpenses(
@@ -134,13 +134,13 @@ export class BudgetLineController {
       if (expenses.length === 0) {
         return res
           .status(200)
-          .json({ message: "No expenses found for the specified year" });
+          .json({ message: 'No expenses found for the specified year' });
       }
       return res.status(200).json(expenses);
     } catch (error) {
       return res
         .status(500)
-        .json({ message: "Failed to retrieve annual expenses" });
+        .json({ message: 'Failed to retrieve annual expenses' });
     }
   }
 
@@ -150,12 +150,12 @@ export class BudgetLineController {
 
     try {
       if (!year || !month || isNaN(Number(year)) || isNaN(Number(month))) {
-        return res.status(400).json({ message: "Invalid year parameter" });
+        return res.status(400).json({ message: 'Invalid year parameter' });
       }
 
       const userId: number | undefined = req.user?.id;
       if (userId === undefined) {
-        return res.status(401).json({ message: "User not authentificated" });
+        return res.status(401).json({ message: 'User not authentificated' });
       }
 
       const expenses = await budgetLineMethod.getMonthExpenses(
@@ -166,13 +166,13 @@ export class BudgetLineController {
       if (expenses.length === 0) {
         return res
           .status(200)
-          .json({ message: "No expenses found for the specified year" });
+          .json({ message: 'No expenses found for the specified year' });
       }
       return res.status(200).json(expenses);
     } catch (error) {
       return res
         .status(500)
-        .json({ message: "Failed to retrieve annual expenses" });
+        .json({ message: 'Failed to retrieve annual expenses' });
     }
   }
 
@@ -182,18 +182,18 @@ export class BudgetLineController {
     try {
       const userId: number | undefined = req.user?.id;
       if (userId === undefined) {
-        return res.status(401).json({ message: "User not authentificated" });
+        return res.status(401).json({ message: 'User not authentificated' });
       }
       const expenses = await budgetLineMethod.getWeeklyExpenses(userId);
 
       if (expenses.length === 0) {
         return res
           .status(200)
-          .json({ message: "No expenses found for the current week" });
+          .json({ message: 'No expenses found for the current week' });
       }
       res.status(200).json(expenses);
     } catch (error) {
-      res.status(500).json({ message: "Failed to retrieve weekly expenses" });
+      res.status(500).json({ message: 'Failed to retrieve weekly expenses' });
     }
   }
 
@@ -203,12 +203,12 @@ export class BudgetLineController {
     const userId: number | undefined = req.user?.id;
 
     if (userId === undefined) {
-      return res.status(401).json({ message: "User not authentificated" });
+      return res.status(401).json({ message: 'User not authentificated' });
     }
 
     // Validation du paramètre categoryId
     if (!categoryId || isNaN(Number(categoryId))) {
-      return res.status(400).json({ message: "Invalid category ID" });
+      return res.status(400).json({ message: 'Invalid category ID' });
     }
 
     try {
@@ -220,15 +220,15 @@ export class BudgetLineController {
       if (expensesByCategory.length === 0) {
         return res
           .status(200)
-          .json({ message: "No expenses found for the current month" });
+          .json({ message: 'No expenses found for the current month' });
       }
 
       res.status(200).json(expensesByCategory);
     } catch (error) {
-      console.error("Error retrieving monthly expenses by category:", error);
+      console.error('Error retrieving monthly expenses by category:', error);
       res
         .status(500)
-        .json({ message: "Failed to retrieve monthly expenses by category" });
+        .json({ message: 'Failed to retrieve monthly expenses by category' });
     }
   }
 
@@ -238,7 +238,7 @@ export class BudgetLineController {
     const userId: number | undefined = req.user?.id;
 
     if (userId === undefined) {
-      return res.status(401).json({ message: "User not authentificated" });
+      return res.status(401).json({ message: 'User not authentificated' });
     }
 
     // Validation des paramètres year, month et categoryId
@@ -252,7 +252,7 @@ export class BudgetLineController {
     ) {
       return res
         .status(400)
-        .json({ message: "Invalid year, month, or categoryId parameter" });
+        .json({ message: 'Invalid year, month, or categoryId parameter' });
     }
 
     try {
@@ -265,13 +265,13 @@ export class BudgetLineController {
       if (expenses.length === 0) {
         return res
           .status(200)
-          .json({ message: "No expenses found for the current month" });
+          .json({ message: 'No expenses found for the current month' });
       }
       res.status(200).json(expenses);
     } catch (error) {
       res.status(500).json({
         message:
-          "Failed to retrieve expenses for the selected month and category",
+          'Failed to retrieve expenses for the selected month and category',
       });
     }
   }
@@ -284,14 +284,14 @@ export class BudgetLineController {
     const userId: number | undefined = req.user?.id;
 
     if (userId === undefined) {
-      return res.status(401).json({ message: "User not authentificated" });
+      return res.status(401).json({ message: 'User not authentificated' });
     }
 
     try {
       const stats = await budgetLineMethod.getWeeklyExpensesStatsOne(userId);
       res.status(200).json(stats);
     } catch (error) {
-      res.status(500).json({ message: "Failed to retrieve weekly expenses" });
+      res.status(500).json({ message: 'Failed to retrieve weekly expenses' });
     }
   }
 
@@ -301,14 +301,14 @@ export class BudgetLineController {
     const userId: number | undefined = req.user?.id;
 
     if (userId === undefined) {
-      return res.status(401).json({ message: "User not authentificated" });
+      return res.status(401).json({ message: 'User not authentificated' });
     }
 
     try {
       const stats = await budgetLineMethod.getMonthlyExpensesStatsOne(userId);
       res.status(200).json(stats);
     } catch (error) {
-      res.status(500).json({ message: "Failed to retrieve weekly expenses" });
+      res.status(500).json({ message: 'Failed to retrieve weekly expenses' });
     }
   }
 
@@ -319,12 +319,12 @@ export class BudgetLineController {
     const { categoryId } = req.params;
 
     if (userId === undefined) {
-      return res.status(401).json({ message: "User not authentificated" });
+      return res.status(401).json({ message: 'User not authentificated' });
     }
 
     // Validation du paramètre categoryId
     if (!categoryId || isNaN(Number(categoryId))) {
-      return res.status(400).json({ message: "Invalid category ID" });
+      return res.status(400).json({ message: 'Invalid category ID' });
     }
 
     try {
@@ -336,7 +336,7 @@ export class BudgetLineController {
     } catch (error) {
       res
         .status(500)
-        .json({ message: "Failed to retrieve category stats for week" });
+        .json({ message: 'Failed to retrieve category stats for week' });
     }
   }
 
@@ -348,12 +348,12 @@ export class BudgetLineController {
     const { categoryId } = req.params;
 
     if (userId === undefined) {
-      return res.status(401).json({ message: "User not authentificated" });
+      return res.status(401).json({ message: 'User not authentificated' });
     }
 
     // Validation du paramètre categoryId
     if (!categoryId || isNaN(Number(categoryId))) {
-      return res.status(400).json({ message: "Invalid category ID" });
+      return res.status(400).json({ message: 'Invalid category ID' });
     }
 
     try {
@@ -365,7 +365,7 @@ export class BudgetLineController {
     } catch (error) {
       res
         .status(500)
-        .json({ message: "Failed to retrieve category stats for week" });
+        .json({ message: 'Failed to retrieve category stats for week' });
     }
   }
 
@@ -380,12 +380,12 @@ export class BudgetLineController {
     console.log(categoryId, subCategoryId);
 
     if (userId === undefined || isNaN(Number(userId))) {
-      return res.status(401).json({ message: "User not authentificated" });
+      return res.status(401).json({ message: 'User not authentificated' });
     }
 
     // Validation du paramètre categoryId
     if (!categoryId || isNaN(Number(categoryId))) {
-      return res.status(400).json({ message: "Invalid category ID" });
+      return res.status(400).json({ message: 'Invalid category ID' });
     }
 
     try {
@@ -397,7 +397,7 @@ export class BudgetLineController {
     } catch (error) {
       res
         .status(500)
-        .json({ message: "Failed to retrieve category stats for week" });
+        .json({ message: 'Failed to retrieve category stats for week' });
     }
   }
 
@@ -410,16 +410,16 @@ export class BudgetLineController {
     console.log(categoryId, subCategoryId)
 
     if (userId === undefined || isNaN(Number(userId))) {
-      return res.status(401).json({ message: "User not authentificated" });
+      return res.status(401).json({ message: 'User not authentificated' });
     }
 
     // Validation du paramètre categoryId
     if (!categoryId || isNaN(Number(categoryId))) {
-      return res.status(400).json({ message: "Invalid category ID" });
+      return res.status(400).json({ message: 'Invalid category ID' });
     }
 
     // if (!subCategoryId && isNaN(Number(subCategoryId))) {
-    //   return res.status(400).json({ message: "Invalid subcategory ID" });
+    //   return res.status(400).json({ message: 'Invalid subcategory ID' });
     // }
 
     try {
@@ -432,7 +432,7 @@ export class BudgetLineController {
     } catch (error) {
       res
         .status(500)
-        .json({ message: "Failed to retrieve category stats for week" });
+        .json({ message: 'Failed to retrieve category stats for week' });
     }
   }
   ////////////////////////////////////////////////////////////////

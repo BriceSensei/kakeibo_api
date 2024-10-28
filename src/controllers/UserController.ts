@@ -1,6 +1,6 @@
-import { Users } from "@prisma/client";
-import { UserService } from "../services/userService";
-import { Request, Response } from "express";
+import { Users } from '@prisma/client';
+import { UserService } from '../services/userService';
+import { Request, Response } from 'express';
 
 export class UserController {
   async getAllUsers(req: Request, res: Response): Promise<void> {
@@ -12,7 +12,7 @@ export class UserController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "impossible de récuperer la liste des users",
+        message: 'impossible de récuperer la liste des users',
       };
       res.status(500).send(errMsg);
     }
@@ -29,7 +29,7 @@ export class UserController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Fail to fetch user id",
+        message: 'Fail to fetch user id',
       };
       res.status(500).send(errMsg);
     }
@@ -45,7 +45,7 @@ export class UserController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Fail to create new user",
+        message: 'Fail to create new user',
       };
       res.status(500).send(errMsg);
     }
@@ -67,7 +67,7 @@ export class UserController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "fail to update user's data",
+        message: 'fail to update user's data',
       };
       res.status(500).send(errMsg);
     }
@@ -84,7 +84,7 @@ export class UserController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Fail to delete user in database",
+        message: 'Fail to delete user in database',
       };
       res.status(500).send(errMsg);
     }
@@ -94,12 +94,12 @@ export class UserController {
     const userMethod: UserService = new UserService();
     const userData: Users = { ...req.body };
     const required: string[] = [
-      "name",
-      "firstName",
-      "lastName",
-      "email",
-      "password",
-      "confirmPassword",
+      'name',
+      'firstName',
+      'lastName',
+      'email',
+      'password',
+      'confirmPassword',
     ];
     const { confirmPassword } = req.body;
 
@@ -111,7 +111,7 @@ export class UserController {
         .status(400)
         .json({
           status: 400,
-          message: `Some fields are missing: ${missingFields.join(", ")}`,
+          message: `Some fields are missing: ${missingFields.join(', ')}`,
         });
     }
 
@@ -122,7 +122,7 @@ export class UserController {
       );
       res.status(201).send({ token: token });
     } catch (error) {
-      let message = "Unknown Error";
+      let message = 'Unknown Error';
       if (error instanceof Error) message = error.message;
 
       const errMsg = {
@@ -137,16 +137,16 @@ export class UserController {
     const { code } = req.body;
     const { token } = req.headers;
 
-    if (typeof token !== "string") {
+    if (typeof token !== 'string') {
       return res
         .status(403)
-        .send({ status: 403, message: "Token must be unique" });
+        .send({ status: 403, message: 'Token must be unique' });
     } else if (token === undefined) {
       return res
         .status(403)
-        .send({ status: 403, message: "No token provided" });
+        .send({ status: 403, message: 'No token provided' });
     } else if (code === undefined) {
-      return res.status(403).send({ status: 403, message: "No code provided" });
+      return res.status(403).send({ status: 403, message: 'No code provided' });
     }
 
     const userMethod: UserService = new UserService();
@@ -154,12 +154,12 @@ export class UserController {
     try {
       await userMethod.confirmEmail(token, code);
     } catch (error) {
-      let message = "Unknown Error";
+      let message = 'Unknown Error';
       if (error instanceof Error) message = error.message;
 
       return res.status(403).send({ status: 403, message: message });
     }
 
-    res.status(500).send("In build");
+    res.status(500).send('In build');
   }
 }

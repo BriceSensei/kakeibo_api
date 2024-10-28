@@ -1,6 +1,6 @@
-import prisma from "../prisma";
+import prisma from '../prisma';
 
-import { BudgetTypes } from "@prisma/client";
+import { BudgetTypes } from '@prisma/client';
 
 export async function seed() {
   await prisma.budgetTypes.deleteMany({});

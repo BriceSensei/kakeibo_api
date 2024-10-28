@@ -1,8 +1,8 @@
-import prisma from "../prisma";
+import prisma from '../prisma';
 
-import { Alerts } from "@prisma/client";
+import { Alerts } from '@prisma/client';
 import { faker } from '@faker-js/faker';
-import { Helper } from "@helper/helper";
+import { Helper } from '@helper/helper';
 
 export async function seed() {
   await prisma.alerts.deleteMany({});
@@ -20,7 +20,7 @@ export async function seed() {
       title: faker.lorem.sentence(5),
       seuil: faker.number.float({min: 10, max: 100, fractionDigits: 2}),
       description: faker.lorem.sentence(),
-      type: ["PCT","VAL"][faker.number.int({min: 0, max: 1})],
+      type: ['PCT','VAL'][faker.number.int({min: 0, max: 1})],
       userId: Helper.getRandomFromArray(user),
       categoryId: Helper.getRandomFromArray(category),
       subCategoriesId: null,

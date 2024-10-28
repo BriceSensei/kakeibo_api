@@ -26,13 +26,13 @@ async function main() {
 
     (await seed()) && (success = false);
 
-    console.log(`${success ? "\x1b[32m" : "\x1b[31m"}${file.split("/").pop()} ${success ? "Done" : "Failed"} !\x1b[0m`);
+    console.log(`${success ? '\x1b[32m' : '\x1b[31m'}${file.split('/').pop()} ${success ? 'Done' : 'Failed'} !\x1b[0m`);
   }
 }
 
 function numb(str: string): number {
-  str = str.replace(/\\/g, "/")
-  const parsed: number = parseInt(str.split("/").pop()?.split("_")[0] ?? "0");
+  str = str.replace(/\\/g, '/')
+  const parsed: number = parseInt(str.split('/').pop()?.split('_')[0] ?? '0');
   return parsed;
 }
 

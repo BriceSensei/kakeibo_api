@@ -1,6 +1,6 @@
-import prisma from "@@prisma/prisma";
+import prisma from '@@prisma/prisma';
 
-import { Tips } from "@prisma/client";
+import { Tips } from '@prisma/client';
 
 export class TipsService {
   constructor() {}
@@ -12,7 +12,7 @@ export class TipsService {
    */
   async getAllTips(
     limit?: number,
-    order: "asc" | "desc" = "asc",
+    order: 'asc' | 'desc' = 'asc',
     begin?: Date
   ): Promise<Tips[]> {
     const allTips: Tips[] = await prisma.tips.findMany({

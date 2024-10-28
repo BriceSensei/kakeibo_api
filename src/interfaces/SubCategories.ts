@@ -1,10 +1,10 @@
-import { AlertsInterface } from "./Alerts";
-import { BudgetLinesInterface } from "./BudgetLines";
-import { CategoriesInterface } from "./Categories";
-import { EpargnesInterface } from "./Epargnes";
-import { IconsInterface } from "./Icons";
-import { UserGroupsInterface } from "./UserGroups";
-import { UsersInterface } from "./Users";
+import { AlertsInterface } from './Alerts';
+import { BudgetLinesInterface } from './BudgetLines';
+import { CategoriesInterface } from './Categories';
+import { EpargnesInterface } from './Epargnes';
+import { IconsInterface } from './Icons';
+import { UserGroupsInterface } from './UserGroups';
+import { UsersInterface } from './Users';
 
 export interface SubCategoriesInterface {
     id: number;

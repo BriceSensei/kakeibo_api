@@ -1,6 +1,6 @@
-import prisma from "@@prisma/prisma";
+import prisma from '@@prisma/prisma';
 
-import { Alerts } from "@prisma/client";
+import { Alerts } from '@prisma/client';
 
 export class AlertService {
   constructor() {}

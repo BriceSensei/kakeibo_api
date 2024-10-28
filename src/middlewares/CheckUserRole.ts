@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express";
-import { Users } from "@prisma/client";
+import { Request, Response, NextFunction } from 'express';
+import { Users } from '@prisma/client';
 
 // Définition d'une interface personnalisée pour l'objet de requête
 export interface CustomRequest extends Request {
@@ -7,12 +7,12 @@ export interface CustomRequest extends Request {
   user?: Users;
 }
 
-// const roles = ["admin","moderator","user"];
+// const roles = ['admin','moderator','user'];
 
 export function CheckUserRole(role: number) {
   return (req: CustomRequest, res: Response, next: NextFunction) => {
     if (!req.body || req.body.role !== role) {
-      return res.status(403).json({ message: "Accès interdit" });
+      return res.status(403).json({ message: 'Accès interdit' });
     }
     next();
   };

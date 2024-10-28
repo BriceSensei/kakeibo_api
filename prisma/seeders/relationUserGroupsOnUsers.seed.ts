@@ -1,8 +1,8 @@
-import prisma from "../prisma";
+import prisma from '../prisma';
 
-import { Relation_UserGroupsOnUsers } from "@prisma/client";
-import { faker } from "@faker-js/faker";
-import { Helper } from "@helper/helper";
+import { Relation_UserGroupsOnUsers } from '@prisma/client';
+import { faker } from '@faker-js/faker';
+import { Helper } from '@helper/helper';
 
 export async function seed() {
   await prisma.relation_UserGroupsOnUsers.deleteMany({});

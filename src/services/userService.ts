@@ -1,11 +1,11 @@
-import prisma from "@@prisma/prisma";
-import { faker } from "@faker-js/faker";
-import { JWT } from "@helper/jwt";
-import { Mail } from "@helper/mail";
+import prisma from '@@prisma/prisma';
+import { faker } from '@faker-js/faker';
+import { JWT } from '@helper/jwt';
+import { Mail } from '@helper/mail';
 
-import { Users } from "@prisma/client";
-import bcrypt from "bcrypt";
-import validator from "validator";
+import { Users } from '@prisma/client';
+import bcrypt from 'bcrypt';
+import validator from 'validator';
 
 export class UserService {
   constructor() {}
@@ -84,31 +84,31 @@ export class UserService {
   async register(userData: Users, confirmPassword: string): Promise<string> {
     // Validation du pseudo
     if (!validator.isLength(userData.name, { max: 20 })) {
-      throw new Error("Password must be at maximun 20 characters long");
+      throw new Error('Password must be at maximun 20 characters long');
     }
 
     // Validation du firstname
     if (!validator.isAlpha(userData.firstName)) {
-      throw new Error("firstname must contain only letters");
+      throw new Error('firstname must contain only letters');
     }
 
     // Validation du lastname
     if (!validator.isAlpha(userData.lastName)) {
-      throw new Error("lastname must contain only letters");
+      throw new Error('lastname must contain only letters');
     }
 
     // Validation de l'email
     if (!validator.isEmail(userData.email)) {
-      throw new Error("Invalid email format");
+      throw new Error('Invalid email format');
     }
 
     // Validation du mot de passe
     if (!validator.isLength(userData.password, { min: 8 })) {
-      throw new Error("Password must be at least 8 characters long");
+      throw new Error('Password must be at least 8 characters long');
     }
 
     if (userData.password !== confirmPassword) {
-      throw new Error("Passwords do not match");
+      throw new Error('Passwords do not match');
     }
 
     // Vérification email ou nom d'utilisateur déjà existants
@@ -118,7 +118,7 @@ export class UserService {
       },
     });
     if (existingUser) {
-      throw new Error("Email or username already exists");
+      throw new Error('Email or username already exists');
     }
 
     // //Verification email déjà existant
@@ -127,7 +127,7 @@ export class UserService {
     //     where: { email: userData.email },
     //   })
     // ) {
-    //   throw new Error("Email already exists");
+    //   throw new Error('Email already exists');
     // }
 
     // //Verification pseudo déjà existant
@@ -138,7 +138,7 @@ export class UserService {
     //     },
     //   })
     // ) {
-    //   throw new Error("This username already exists");
+    //   throw new Error('This username already exists');
     // }
 
     //génère un sel aléatoire
@@ -163,7 +163,7 @@ export class UserService {
         isActive: false,
         //roleId: 1,
         roleId: await prisma?.role
-          .findUnique({ where: { name: "user" } })
+          .findUnique({ where: { name: 'user' } })
           .then((user) => user?.id),
         curencyId: 1,
       },
@@ -180,21 +180,21 @@ export class UserService {
       });
 
       jwt.values = { code: code.toString(), firstname: userData.firstName };
-      jwt.options = { expiresIn: "24h" };
+      jwt.options = { expiresIn: '24h' };
       mail.to = userData.email;
       mail.body = {
-        path: "./src/mailer/confirmEmail.twig",
+        path: './src/mailer/confirmEmail.twig',
         variables: {
           firstname: userData.firstName,
           code: code,
-          host: "https://api.kakeibo.pandacrp.com",
+          host: 'https://api.kakeibo.pandacrp.com',
           token: jwt.token,
         },
       };
       await mail.send();
     } catch (e) {
       console.error(e);
-      throw new Error("Error during sending email");
+      throw new Error('Error during sending email');
     }
 
     jwt = new JWT();
@@ -219,7 +219,7 @@ export class UserService {
         where: { email },
       });
     } catch (error) {
-      console.error("Error fetching user by email:", error);
+      console.error('Error fetching user by email:', error);
       return null;
     }
   }
@@ -231,7 +231,7 @@ export class UserService {
     try {
       jwt.verify();
     } catch (e) {
-      throw new Error("Token is invalid or expired");
+      throw new Error('Token is invalid or expired');
     }
 
     try {
@@ -239,7 +239,7 @@ export class UserService {
         where: { code: code, userId: Number(jwt.values.id) },
       });
     } catch (e) {
-      throw new Error("Invalid code");
+      throw new Error('Invalid code');
     }
 
     await prisma.users.update({
@@ -248,7 +248,7 @@ export class UserService {
     });
 
     jwt.values = { id: jwt.values.id };
-    jwt.options = { expiresIn: "7d" };
+    jwt.options = { expiresIn: '7d' };
     return jwt.token;
   }
 }

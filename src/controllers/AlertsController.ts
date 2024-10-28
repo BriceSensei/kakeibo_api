@@ -1,6 +1,6 @@
-import { Alerts } from "@prisma/client";
-import { AlertService } from "../services/alertsService";
-import { Request, Response } from "express";
+import { Alerts } from '@prisma/client';
+import { AlertService } from '../services/alertsService';
+import { Request, Response } from 'express';
 
 export class AlertController {
   async getAllAlertes(req: Request, res: Response): Promise<void> {
@@ -13,7 +13,7 @@ export class AlertController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Impossible d'afficher les alertes",
+        message: 'Impossible d'afficher les alertes',
       };
 
       res.status(5000).send(errMsg);
@@ -31,7 +31,7 @@ export class AlertController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Impossible de récuperer l'id d'une alert",
+        message: 'Impossible de récuperer l'id d'une alert',
       };
       res.status(500).send(errMsg);
     }
@@ -48,7 +48,7 @@ export class AlertController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Echec leur de la creation d'une nouvelle catégorie",
+        message: 'Echec leur de la creation d'une nouvelle catégorie',
       };
       res.status(500).send(errMsg);
     }
@@ -69,7 +69,7 @@ export class AlertController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Fail to update alert",
+        message: 'Fail to update alert',
       };
       res.status(500).send(errMsg);
     }
@@ -86,7 +86,7 @@ export class AlertController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Fail to delete category in database",
+        message: 'Fail to delete category in database',
       };
       res.status(500).send(errMsg);
     }

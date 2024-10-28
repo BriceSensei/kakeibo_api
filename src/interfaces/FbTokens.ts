@@ -1,4 +1,4 @@
-import { UsersInterface } from "./Users";
+import { UsersInterface } from './Users';
 
 export interface FbTokensInterface {
     id: number;

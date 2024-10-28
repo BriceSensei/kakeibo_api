@@ -1,10 +1,10 @@
-import prisma from "@@prisma/prisma";
+import prisma from '@@prisma/prisma';
 
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
-import { UsersInterface } from "../interfaces/Users";
-import { UnimplementedError} from "../exceptions/UnimplementedError";
-import { isMain } from "./helperService";
+import { UsersInterface } from '../interfaces/Users';
+import { UnimplementedError} from '../exceptions/UnimplementedError';
+import { isMain } from './helperService';
 export class TokenClass{
 
     // async getAllUsers() : Promise<Tokens[]> {

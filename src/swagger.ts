@@ -62,7 +62,7 @@ const options = {
                     properties:{
                         userId:{
                             type: 'integer',
-                            description: "user id",
+                            description: 'user id',
                         },
                         value:{
                             type:'number',
@@ -112,8 +112,8 @@ const options = {
                     example: {
                         userId: 62,
                         value: 20,
-                        title:"Test",
-                        type:"outcome",
+                        title:'Test',
+                        type:'outcome',
                         categoryId: 41
                     }
                 },
@@ -166,15 +166,15 @@ const options = {
                         },
                         isActive:{
                             type:'boolean',
-                            description:"active account",
+                            description:'active account',
                         },
                         roleId:{
                             type:'integer',
-                            description: "role id",
+                            description: 'role id',
                         },
                         currencyId:{
                             type:'integer',
-                            description: "currency id",
+                            description: 'currency id',
                         },
                        
                     },              

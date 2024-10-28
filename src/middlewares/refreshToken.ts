@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
-import { config } from "dotenv";
-import jwt, { Secret } from "jsonwebtoken";
+import { Request, Response } from 'express';
+import { config } from 'dotenv';
+import jwt, { Secret } from 'jsonwebtoken';
 
-import { AuthService } from "@services/authService";
-import { UserService } from "../services/userService";
+import { AuthService } from '@services/authService';
+import { UserService } from '../services/userService';
 
 config();
 
@@ -15,7 +15,7 @@ export async function refreshToken(req: Request, res: Response): Promise<void> {
   const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken) {
-    res.status(401).json({ message: "Refresh token required" });
+    res.status(401).json({ message: 'Refresh token required' });
     return;
   }
 
@@ -26,7 +26,7 @@ export async function refreshToken(req: Request, res: Response): Promise<void> {
     ) as any;
     const user = await userMethod.getUserByEmail(decoded.email);
     if (!user) {
-      res.status(401).json({ message: "Invalid refresh token" });
+      res.status(401).json({ message: 'Invalid refresh token' });
       return;
     }
 
@@ -37,6 +37,6 @@ export async function refreshToken(req: Request, res: Response): Promise<void> {
     );
     res.status(200).json({ accessToken: newAccessToken });
   } catch (error) {
-    res.status(403).json({ message: "Invalid refresh token" });
+    res.status(403).json({ message: 'Invalid refresh token' });
   }
 }

@@ -1,8 +1,8 @@
-import prisma from "../prisma";
+import prisma from '../prisma';
 
-import { faker } from "@faker-js/faker";
-import { Helper } from "@helper/helper";
-import { FbTokens } from "@prisma/client";
+import { faker } from '@faker-js/faker';
+import { Helper } from '@helper/helper';
+import { FbTokens } from '@prisma/client';
 
 export async function seed() {
   await prisma.fbTokens.deleteMany({});

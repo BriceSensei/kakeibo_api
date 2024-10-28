@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 export class TwigFormatter {
     body: string;
     variables: { [key: string]: any; };

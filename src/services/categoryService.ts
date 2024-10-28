@@ -1,6 +1,6 @@
-import prisma from "@@prisma/prisma";
+import prisma from '@@prisma/prisma';
 
-import { Categories } from "@prisma/client";
+import { Categories } from '@prisma/client';
 
 export class CategoryService {
   constructor() {}

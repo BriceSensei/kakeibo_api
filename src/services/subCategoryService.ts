@@ -1,6 +1,6 @@
-import  prisma  from "@@prisma/prisma";
+import  prisma  from '@@prisma/prisma';
 
-import {SubCategories} from "@prisma/client";
+import {SubCategories} from '@prisma/client';
 
 
 export class SubCategoriesService{

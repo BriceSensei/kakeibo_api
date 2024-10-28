@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { TipsService } from "../services/tipsService";
-import { Tips } from "@prisma/client";
+import { Request, Response } from 'express';
+import { TipsService } from '../services/tipsService';
+import { Tips } from '@prisma/client';
 
 export class TipsController {
   async getAllTips(req: Request, res: Response): Promise<void> {
@@ -8,7 +8,7 @@ export class TipsController {
     const limit = req.query.limit
       ? parseInt(req.query.limit as string)
       : undefined;
-    const order = (req.query.order as "asc" | "desc") || "asc";
+    const order = (req.query.order as 'asc' | 'desc') || 'asc';
     const begin = req.query.begin
       ? new Date(req.query.begin as string)
       : undefined;
@@ -19,7 +19,7 @@ export class TipsController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Fail to get all tips",
+        message: 'Fail to get all tips',
       };
 
       res.status(500).send(errMsg);
@@ -37,7 +37,7 @@ export class TipsController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Impossible de récuperer l'id d'un conseil",
+        message: 'Impossible de récuperer l'id d'un conseil',
       };
       res.status(500).send(errMsg);
     }
@@ -54,7 +54,7 @@ export class TipsController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Echec leur de la creation d'un nouveau conseil",
+        message: 'Echec leur de la creation d'un nouveau conseil',
       };
       res.status(500).send(errMsg);
     }
@@ -72,7 +72,7 @@ export class TipsController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Fail to update one advice",
+        message: 'Fail to update one advice',
       };
       res.status(500).send(errMsg);
     }
@@ -89,7 +89,7 @@ export class TipsController {
       const errMsg = {
         status: 500,
         error: error,
-        message: "Fail to delete tip in database",
+        message: 'Fail to delete tip in database',
       };
       res.status(500).send(errMsg);
     }

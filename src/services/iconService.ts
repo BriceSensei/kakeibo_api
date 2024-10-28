@@ -1,6 +1,6 @@
-import prisma from "@@prisma/prisma";
+import prisma from '@@prisma/prisma';
 
-import {Icons} from "@prisma/client";
+import {Icons} from '@prisma/client';
 
 
 export class IconsService{

@@ -1,6 +1,6 @@
-import prisma from "../prisma";
+import prisma from '../prisma';
 
-import { Tips } from "@prisma/client";
+import { Tips } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 
 export async function seed() {

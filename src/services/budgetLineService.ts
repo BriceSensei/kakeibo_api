@@ -1,13 +1,13 @@
-import prisma from "@@prisma/prisma";
+import prisma from '@@prisma/prisma';
 
-import { BudgetLines } from "@prisma/client";
-import { startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
-import { ExpenseStatsOne } from "../interfaces/WeeklyExpenseStatsOne";
+import { BudgetLines } from '@prisma/client';
+import { startOfWeek, endOfWeek, startOfMonth, endOfMonth } from 'date-fns';
+import { ExpenseStatsOne } from '../interfaces/WeeklyExpenseStatsOne';
 import {
   CategoryStats,
   subCategoryStats,
-} from "../interfaces/getCategoryStatsForWeek";
-import { BudgetLineHistory } from "../interfaces/getBudgetLineHistory";
+} from '../interfaces/getCategoryStatsForWeek';
+import { BudgetLineHistory } from '../interfaces/getBudgetLineHistory';
 
 export class BudgetLineService {
   constructor() {}
@@ -19,7 +19,7 @@ export class BudgetLineService {
    */
   async getAllBudgetLines(
     limit?: number,
-    order: "asc" | "desc" = "asc",
+    order: 'asc' | 'desc' = 'asc',
     begin?: Date
   ): Promise<BudgetLines[]> {
     const allBudgetLines: BudgetLines[] = await prisma.budgetLines.findMany({
@@ -129,7 +129,7 @@ export class BudgetLineService {
         },
       },
       orderBy: {
-        date: "asc",
+        date: 'asc',
       },
     });
 
@@ -153,7 +153,7 @@ export class BudgetLineService {
         },
       },
       orderBy: {
-        date: "asc",
+        date: 'asc',
       },
     });
 
@@ -176,7 +176,7 @@ export class BudgetLineService {
         },
       },
       orderBy: {
-        date: "asc",
+        date: 'asc',
       },
     });
 
@@ -201,7 +201,7 @@ export class BudgetLineService {
         },
       },
       orderBy: {
-        date: "asc",
+        date: 'asc',
       },
     });
 
@@ -227,7 +227,7 @@ export class BudgetLineService {
         },
       },
       orderBy: {
-        date: "asc",
+        date: 'asc',
       },
     });
 
@@ -255,7 +255,7 @@ export class BudgetLineService {
           },
         },
         orderBy: {
-          date: "asc",
+          date: 'asc',
         },
         //  include: {
         //    category: true,
@@ -309,7 +309,7 @@ export class BudgetLineService {
         categoryStats,
       };
     } catch (error) {
-      throw new Error("Failed to retrieve weekly expenses");
+      throw new Error('Failed to retrieve weekly expenses');
     }
   }
 
@@ -332,7 +332,7 @@ export class BudgetLineService {
           },
         },
         orderBy: {
-          date: "asc",
+          date: 'asc',
         },
         select: {
           id: true,
@@ -383,7 +383,7 @@ export class BudgetLineService {
         categoryStats,
       };
     } catch (error) {
-      throw new Error("Failed to retrieve monthly expenses");
+      throw new Error('Failed to retrieve monthly expenses');
     }
   }
   
@@ -408,7 +408,7 @@ export class BudgetLineService {
           },
         },
         orderBy: {
-          date: "asc",
+          date: 'asc',
         },
         select: {
           value: true,
@@ -443,7 +443,7 @@ export class BudgetLineService {
         // Calcul des statistiques par sous-catégorie
         expenses.forEach((expense) => {
           const subCategoryId = expense.subCategory?.id ?? 0; // Si la sous-catégorie est nulle, utiliser 0
-          const subCategoryName = expense.subCategory?.name ?? "Uncategorized"; // Si le nom de la sous-catégorie est nul, utiliser "Uncategorized"
+          const subCategoryName = expense.subCategory?.name ?? 'Uncategorized'; // Si le nom de la sous-catégorie est nul, utiliser 'Uncategorized'
           if (!subCategoryStats[subCategoryName]) {
             subCategoryStats[subCategoryName] = {
               subCategoryId,
@@ -458,7 +458,7 @@ export class BudgetLineService {
 
       // Calcul de la moyenne des dépenses journalières
       const averageDaily = totalValue / 7;
-      const categoryName = expenses[0]?.category?.name ?? "Unknown"; // Si le nom de la catégorie est nul, utiliser "Unknown"
+      const categoryName = expenses[0]?.category?.name ?? 'Unknown'; // Si le nom de la catégorie est nul, utiliser 'Unknown'
 
       return {
         categoryId,
@@ -469,7 +469,7 @@ export class BudgetLineService {
         subCategoryStats,
       };
     } catch (error) {
-      throw new Error("Failed to retrieve category stats for the week");
+      throw new Error('Failed to retrieve category stats for the week');
     }
   }
 
@@ -494,7 +494,7 @@ export class BudgetLineService {
           },
         },
         orderBy: {
-          date: "asc",
+          date: 'asc',
         },
         select: {
           value: true,
@@ -529,7 +529,7 @@ export class BudgetLineService {
         // Calcul des statistiques par sous-catégorie
         expenses.forEach((expense) => {
           const subCategoryId = expense.subCategory?.id ?? 0; // Si la sous-catégorie est nulle, utiliser 0
-          const subCategoryName = expense.subCategory?.name ?? "Uncategorized"; // Si le nom de la sous-catégorie est nul, utiliser "Uncategorized"
+          const subCategoryName = expense.subCategory?.name ?? 'Uncategorized'; // Si le nom de la sous-catégorie est nul, utiliser 'Uncategorized'
           if (!subCategoryStats[subCategoryName]) {
             subCategoryStats[subCategoryName] = {
               subCategoryId,
@@ -545,7 +545,7 @@ export class BudgetLineService {
       // Calcul de la moyenne des dépenses journalières
       const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
       const averageDaily = totalValue / daysInMonth;
-      const categoryName = expenses[0]?.category?.name ?? "Unknown"; // Si le nom de la catégorie est nul, utiliser "Unknown"
+      const categoryName = expenses[0]?.category?.name ?? 'Unknown'; // Si le nom de la catégorie est nul, utiliser 'Unknown'
 
       return {
         categoryId,
@@ -556,7 +556,7 @@ export class BudgetLineService {
         subCategoryStats,
       };
     } catch (error) {
-      throw new Error("Failed to retrieve category stats for the week");
+      throw new Error('Failed to retrieve category stats for the week');
     }
   }
 
@@ -586,7 +586,7 @@ export class BudgetLineService {
       const budgetLines = await prisma.budgetLines.findMany({
         where: whereClause,
         orderBy: {
-          date: "asc",
+          date: 'asc',
         },
         select: {
           id: true,
@@ -646,7 +646,7 @@ export class BudgetLineService {
         };
       
     } catch (error) {
-      throw new Error("Failed to retrieve budget lines");
+      throw new Error('Failed to retrieve budget lines');
     }
   }
 
@@ -676,7 +676,7 @@ export class BudgetLineService {
       const budgetLines = await prisma.budgetLines.findMany({
         where: whereClause,
         orderBy: {
-          date: "asc",
+          date: 'asc',
         },
         select: {
           id: true,
@@ -731,7 +731,7 @@ export class BudgetLineService {
         averageDailyExpenses,
       };
     } catch (error) {
-      throw new Error("Failed to retrieve budget lines");
+      throw new Error('Failed to retrieve budget lines');
     }
   }
 

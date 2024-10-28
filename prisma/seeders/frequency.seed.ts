@@ -1,8 +1,8 @@
-import prisma from "../prisma";
+import prisma from '../prisma';
 
-import { Frequencies } from "@prisma/client";
-import { faker } from "@faker-js/faker";
-import { Helper } from "@helper/helper";
+import { Frequencies } from '@prisma/client';
+import { faker } from '@faker-js/faker';
+import { Helper } from '@helper/helper';
 
 export async function seed() {
   await prisma.frequencies.deleteMany({});
@@ -17,8 +17,8 @@ export async function seed() {
       userId: Helper.getRandomFromArray(user),
       startTime: faker.date.recent(),
       endTime: faker.date.future(),
-      type: "d",
-      days: "M______",
+      type: 'd',
+      days: 'M______',
     });
   }
 

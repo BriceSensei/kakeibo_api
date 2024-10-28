@@ -1,14 +1,14 @@
-import { config } from "dotenv";
-import nodemailer from "nodemailer";
-import type SMTPTransport from "nodemailer/lib/smtp-transport";
-import { TwigFormatter } from "./twig";
+import { config } from 'dotenv';
+import nodemailer from 'nodemailer';
+import type SMTPTransport from 'nodemailer/lib/smtp-transport';
+import { TwigFormatter } from './twig';
 
 config();
 
 export class Mail {
     __body?: string;
     __subject?: string;
-    from: string = "kakeibo@pandacrp.com";
+    from: string = 'kakeibo@pandacrp.com';
     to?: string;
     transporter: any;
 
@@ -18,8 +18,8 @@ export class Mail {
         try {
             return RegExp(/<title>(.*)<\/title>/).exec(this.__body!)![1]
         } catch (e) {
-            console.error("Error extracting subject from twig template:", e);
-            return "Kakeibo Mailer"
+            console.error('Error extracting subject from twig template:', e);
+            return 'Kakeibo Mailer'
         }
     }
 

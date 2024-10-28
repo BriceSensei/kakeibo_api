@@ -1,11 +1,11 @@
-import { AlertsInterface } from "./Alerts";
-import { CurenciesInterface } from "./Curencies";
-import { EpargnesInterface } from "./Epargnes";
-import { FbTokensInterface } from "./FbTokens";
-import { FrequenciesInterface } from "./Frequencies";
-import { SubCategoriesInterface } from "./SubCategories";
-import { TokensInterface } from "./Tokens";
-import { UserGroupsInterface } from "./UserGroups";
+import { AlertsInterface } from './Alerts';
+import { CurenciesInterface } from './Curencies';
+import { EpargnesInterface } from './Epargnes';
+import { FbTokensInterface } from './FbTokens';
+import { FrequenciesInterface } from './Frequencies';
+import { SubCategoriesInterface } from './SubCategories';
+import { TokensInterface } from './Tokens';
+import { UserGroupsInterface } from './UserGroups';
 
 export interface UsersInterface {
   id: number;

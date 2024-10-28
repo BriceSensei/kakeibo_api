@@ -1,7 +1,7 @@
-import express, { Router } from "express";
-import { UserController } from "@controller/UserController";
-import { authentificateToken } from "../middlewares/authentificateToken";
-import { CheckUserRole } from "../middlewares/CheckUserRole";
+import express, { Router } from 'express';
+import { UserController } from '@controller/UserController';
+import { authentificateToken } from '../middlewares/authentificateToken';
+import { CheckUserRole } from '../middlewares/CheckUserRole';
 
 const userRoute: Router = express.Router();
 const userController: UserController = new UserController();
@@ -27,24 +27,24 @@ const userController: UserController = new UserController();
  *             schema:
  *               $ref: '#/components/schemas/userRoute'
  *             example:
- *                name: "Testy"
- *                firstName: "Quatre"
- *                lastName: "Quatre"               
- *                email: "testy.quatre@gmail.com"
- *                password: "12345678"
+ *                name: 'Testy'
+ *                firstName: 'Quatre'
+ *                lastName: 'Quatre'               
+ *                email: 'testy.quatre@gmail.com'
+ *                password: '12345678'
  *       responses:
- *          "201":
+ *          '201':
  *             description: Budget line created successfully
  *             contents:
  *               application/json
- *          "400":
+ *          '400':
  *             $ref: '#/components/responses/400'
- *          "401":
+ *          '401':
  *             $ref: '#/components/responses/401'
  */
-userRoute.post("/register", userController.register);
+userRoute.post('/register', userController.register);
 
-userRoute.post("/confirm", userController.confirmEmail);
+userRoute.post('/confirm', userController.confirmEmail);
 
 userRoute.use(authentificateToken);
 
@@ -70,7 +70,7 @@ userRoute.use(authentificateToken);
  *       '401':
  *         $ref: '#/components/responses/401'
  */
-userRoute.get("/", CheckUserRole(13), userController.getAllUsers);
+userRoute.get('/', CheckUserRole(13), userController.getAllUsers);
 
 /**
  * @swagger
@@ -86,20 +86,20 @@ userRoute.get("/", CheckUserRole(13), userController.getAllUsers);
  *          required: true
  *          description: The user ID
  *      responses:
- *        "200":
+ *        '200':
  *          description: The user data
  *          content:
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/userRoute'
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "404":
+ *        '404':
  *          $ref: '#/components/responses/404'
  */
-userRoute.get("/:id", userController.getUserById);
+userRoute.get('/:id', userController.getUserById);
 
 
 /**
@@ -122,18 +122,18 @@ userRoute.get("/:id", userController.getUserById);
  *              schema:
  *                $ref: '#/components/schemas/userRoute'
  *      responses:
- *        "204":
+ *        '204':
  *          description: The user updated data successfully
  *          content:
  *            application/json: {}
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "404":
+ *        '404':
  *          $ref: '#/components/responses/404'
  */
-userRoute.patch("/:id", userController.updateOneUser);
+userRoute.patch('/:id', userController.updateOneUser);
 
 
 /**
@@ -150,17 +150,17 @@ userRoute.patch("/:id", userController.updateOneUser);
  *          required: true
  *          description: Id of the user
  *      responses:
- *        "204":
+ *        '204':
  *          description: User deleted successfully
  *          content:
  *            application/json: {}
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "404":
+ *        '404':
  *          $ref: '#/components/responses/404'
  */
-userRoute.delete("/:id", userController.deleteOneUser);
+userRoute.delete('/:id', userController.deleteOneUser);
 
 export default userRoute;

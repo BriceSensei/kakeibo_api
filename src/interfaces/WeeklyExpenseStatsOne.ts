@@ -1,5 +1,5 @@
 
-//mport { BudgetLines } from "@prisma/client";
+//mport { BudgetLines } from '@prisma/client';
 export interface ExpenseStatsOne {
   totalExpenses: number;
   numberOfTransactions: number;

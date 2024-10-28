@@ -1,8 +1,8 @@
-import prisma from "../prisma";
+import prisma from '../prisma';
 
-import { BudgetLines } from "@prisma/client";
-import { faker } from "@faker-js/faker";
-import { Helper } from "@helper/helper";
+import { BudgetLines } from '@prisma/client';
+import { faker } from '@faker-js/faker';
+import { Helper } from '@helper/helper';
 
 
 export async function seed() {

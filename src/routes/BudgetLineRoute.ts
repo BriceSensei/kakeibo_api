@@ -1,8 +1,8 @@
-import express, { Request, Response, Router } from "express";
-import { UnimplementedError } from "../exceptions/UnimplementedError";
-import { BudgetLineController } from "@controller/BudgetLineController";
+import express, { Request, Response, Router } from 'express';
+import { UnimplementedError } from '../exceptions/UnimplementedError';
+import { BudgetLineController } from '@controller/BudgetLineController';
 
-import { authentificateToken } from "../middlewares/authentificateToken";
+import { authentificateToken } from '../middlewares/authentificateToken';
 
 const budgetLineRoute: Router = express.Router();
 const budgetLineController: BudgetLineController = new BudgetLineController();
@@ -30,20 +30,20 @@ const budgetLineController: BudgetLineController = new BudgetLineController();
  *             example:
  *                userId: 72
  *                value: 150.50
- *                title: "Grocery Shopping"               
- *                type: "outcome/income"
+ *                title: 'Grocery Shopping'               
+ *                type: 'outcome/income'
  *                categoryId: 3
  *       responses:
- *          "201":
+ *          '201':
  *             description: Budget line created successfully
  *             contents:
  *               application/json
- *          "400":
+ *          '400':
  *             $ref: '#/components/responses/400'
- *          "401":
+ *          '401':
  *             $ref: '#/components/responses/401'
  */
-budgetLineRoute.post("/", budgetLineController.createNewBudgetLine);
+budgetLineRoute.post('/', budgetLineController.createNewBudgetLine);
 
 /**
  * @swagger
@@ -58,7 +58,7 @@ budgetLineRoute.post("/", budgetLineController.createNewBudgetLine);
  *         - $ref: '#/components/parameters/order'
  *         - $ref: '#/components/parameters/begin'
  *       responses:
-*          "200":
+*          '200':
 *            description: The list of all BudgetLines
 *            contents:
 *              application/json:
@@ -66,13 +66,13 @@ budgetLineRoute.post("/", budgetLineController.createNewBudgetLine);
 *                  type: array
 *                  items: 
 *                    $ref: '#/components/schemas/budgetLineRoute'                
-*          "400":
+*          '400':
 *             $ref: '#/components/responses/400'
-*          "401":
+*          '401':
 *             $ref: '#/components/responses/401'
 * 
 */
-budgetLineRoute.get("/", authentificateToken ,budgetLineController.getAllBudgetLines.bind(budgetLineController)
+budgetLineRoute.get('/', authentificateToken ,budgetLineController.getAllBudgetLines.bind(budgetLineController)
 );
 
 /**
@@ -89,20 +89,20 @@ budgetLineRoute.get("/", authentificateToken ,budgetLineController.getAllBudgetL
  *          required: true
  *          description: The budgetline ID
  *      responses:
- *        "200":
+ *        '200':
  *          description: The budget line data
  *          content:
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/budgetLineRoute'
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "404":
+ *        '404':
  *          $ref: '#/components/responses/404'
  */
-budgetLineRoute.get("/:id", authentificateToken, budgetLineController.getBudgetLineById);
+budgetLineRoute.get('/:id', authentificateToken, budgetLineController.getBudgetLineById);
 
 /**
  * @swagger
@@ -124,18 +124,18 @@ budgetLineRoute.get("/:id", authentificateToken, budgetLineController.getBudgetL
  *            schema:
  *              $ref: '#/components/schemas/budgetLineRoute'
  *      responses:
- *        "204":
+ *        '204':
  *          description: Budget line updated successfully
  *          content:
  *            application/json: {}
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "404":
+ *        '404':
  *          $ref: '#/components/responses/404'
  */
-budgetLineRoute.patch("/:id", authentificateToken, budgetLineController.updateOneBudgetLine);
+budgetLineRoute.patch('/:id', authentificateToken, budgetLineController.updateOneBudgetLine);
 
 /**
  * @swagger
@@ -151,18 +151,18 @@ budgetLineRoute.patch("/:id", authentificateToken, budgetLineController.updateOn
  *          required: true
  *          description: Id of the budgetLine
  *      responses:
- *        "204":
+ *        '204':
  *          description: Budget line deleted successfully
  *          content:
  *            application/json: {}
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "404":
+ *        '404':
  *          $ref: '#/components/responses/404'
  */
-budgetLineRoute.delete("/:id", budgetLineController.deleteOneBudgebudgetLine);
+budgetLineRoute.delete('/:id', budgetLineController.deleteOneBudgebudgetLine);
 
 /**
  * @swagger
@@ -180,7 +180,7 @@ budgetLineRoute.delete("/:id", budgetLineController.deleteOneBudgebudgetLine);
  *          required: true
  *          description: Year for which to retrieve expenses
  *      responses:
- *        "200":
+ *        '200':
  *          description: Annual expenses retrieved successfully
  *          content:
  *            application/json:
@@ -188,11 +188,11 @@ budgetLineRoute.delete("/:id", budgetLineController.deleteOneBudgebudgetLine);
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/budgetLineRoute'
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "500":
+ *        '500':
  *          description: Failed to retrieve annual expenses
  *          content:
  *            application/json:
@@ -204,7 +204,7 @@ budgetLineRoute.delete("/:id", budgetLineController.deleteOneBudgebudgetLine);
  *                    example: Failed to retrieve annual expenses
  */
 budgetLineRoute.get(
-  "/expenses/annual",
+  '/expenses/annual',
   authentificateToken,
   budgetLineController.getAnnualExpenses
 );
@@ -231,7 +231,7 @@ budgetLineRoute.get(
  *          required: true
  *          description: Month for which to retrieve expenses (1-12)
  *      responses:
- *        "200":
+ *        '200':
  *          description: Monthly expenses retrieved successfully
  *          content:
  *            application/json:
@@ -239,11 +239,11 @@ budgetLineRoute.get(
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/budgetLineRoute'
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "500":
+ *        '500':
  *          description: Failed to retrieve monthly expenses
  *          content:
  *            application/json:
@@ -255,7 +255,7 @@ budgetLineRoute.get(
  *                    example: Failed to retrieve monthly expenses
  */
 budgetLineRoute.get(
-  "/expenses/monthly",
+  '/expenses/monthly',
   authentificateToken,
   budgetLineController.getMonthlyExpenses
 );
@@ -288,7 +288,7 @@ budgetLineRoute.get(
  *          required: true
  *          description: Week for which to retrieve expenses
  *      responses:
- *        "200":
+ *        '200':
  *          description: weekly expenses retrieved successfully
  *          content:
  *            application/json:
@@ -296,11 +296,11 @@ budgetLineRoute.get(
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/budgetLineRoute'
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "500":
+ *        '500':
  *          description: Failed to retrieve weekly expenses
  *          content:
  *            application/json:
@@ -312,7 +312,7 @@ budgetLineRoute.get(
  *                    example: Failed to retrieve weekly expenses
  */
 budgetLineRoute.get(
-  "/expenses/weekly",
+  '/expenses/weekly',
   authentificateToken,
   budgetLineController.getWeeklyExpenses
 );
@@ -335,7 +335,7 @@ budgetLineRoute.get(
  *          required: true
  *          description: ID of the category
  *      responses:
- *        "200":
+ *        '200':
  *          description: Current month expenses retrieved successfully
  *          content:
  *            application/json:
@@ -343,11 +343,11 @@ budgetLineRoute.get(
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/budgetLineRoute'
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "500":
+ *        '500':
  *          description: Failed to retrieve monthly expenses
  *          content:
  *            application/json:
@@ -359,7 +359,7 @@ budgetLineRoute.get(
  *                    example: Failed to retrieve monthly expenses by category
  */
 budgetLineRoute.get(
-  "/expenses/category/:categoryId/current-month",
+  '/expenses/category/:categoryId/current-month',
   authentificateToken,
   budgetLineController.getMonthlyExpensesByCategory
 );
@@ -392,7 +392,7 @@ budgetLineRoute.get(
  *          required: true
  *          description: Category ID for which to retrieve expenses
  *      responses:
- *        "200":
+ *        '200':
  *          description: Expenses retrieved successfully
  *          content:
  *            application/json:
@@ -400,11 +400,11 @@ budgetLineRoute.get(
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/budgetLineRoute'
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "500":
+ *        '500':
  *          description: Failed to retrieve expenses for the selected month and category
  *          content:
  *            application/json:
@@ -416,7 +416,7 @@ budgetLineRoute.get(
  *                    example: Failed to retrieve expenses for the selected month and category
  */
 budgetLineRoute.get(
-  "/expenses/category",
+  '/expenses/category',
   authentificateToken,
   budgetLineController.getExpensesByMonthAndCategory
 );
@@ -443,7 +443,7 @@ budgetLineRoute.get(
  *      security:
  *        - bearerAuth: []
  *      responses:
- *        "200":
+ *        '200':
  *          description: Weekly expenses statistics retrieved successfully
  *          content:
  *            application/json:
@@ -483,11 +483,11 @@ budgetLineRoute.get(
  *                          type: number
  *                        transactions:
  *                          type: integer
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "500":
+ *        '500':
  *          description: Failed to retrieve weekly expenses
  *          content:
  *            application/json:
@@ -499,7 +499,7 @@ budgetLineRoute.get(
  *                    example: Failed to retrieve weekly expenses
  */
 budgetLineRoute.get(
-  "/expenses/weekly/statsOne",
+  '/expenses/weekly/statsOne',
   authentificateToken,
   budgetLineController.getWeeklyExpensesStatsOne
 );
@@ -513,7 +513,7 @@ budgetLineRoute.get(
  *      security:
  *        - bearerAuth: []
  *      responses:
- *        "200":
+ *        '200':
  *          description: Monthly expenses statistics retrieved successfully
  *          content:
  *            application/json:
@@ -553,11 +553,11 @@ budgetLineRoute.get(
  *                          type: number
  *                        transactions:
  *                          type: integer
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "500":
+ *        '500':
  *          description: Failed to retrieve monthly expenses
  *          content:
  *            application/json:
@@ -569,7 +569,7 @@ budgetLineRoute.get(
  *                    example: Failed to retrieve monthly expenses
  */
 budgetLineRoute.get(
-  "/expenses/monthly/statsOne",
+  '/expenses/monthly/statsOne',
   authentificateToken,
   budgetLineController.getMonthlyExpensesStatsOne
 );
@@ -590,7 +590,7 @@ budgetLineRoute.get(
  *          required: true
  *          description: The ID of the category to retrieve statistics for
  *      responses:
- *        "200":
+ *        '200':
  *          description: Weekly expense statistics retrieved successfully
  *          content:
  *            application/json:
@@ -618,11 +618,11 @@ budgetLineRoute.get(
  *                          type: number
  *                        transactions:
  *                          type: integer
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "500":
+ *        '500':
  *          description: Failed to retrieve category stats for week
  *          content:
  *            application/json:
@@ -634,7 +634,7 @@ budgetLineRoute.get(
  *                    example: Failed to retrieve category stats for week
  */
 budgetLineRoute.get(
-  "/expenses/weekly/CategoryStatsWeek/:categoryId",
+  '/expenses/weekly/CategoryStatsWeek/:categoryId',
   authentificateToken,
   budgetLineController.getCategoryStatsForWeek
 );
@@ -655,7 +655,7 @@ budgetLineRoute.get(
  *          required: true
  *          description: The ID of the category to retrieve statistics for
  *      responses:
- *        "200":
+ *        '200':
  *          description: Monthly expense statistics retrieved successfully
  *          content:
  *            application/json:
@@ -683,11 +683,11 @@ budgetLineRoute.get(
  *                          type: number
  *                        transactions:
  *                          type: integer
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "500":
+ *        '500':
  *          description: Failed to retrieve category stats for month
  *          content:
  *            application/json:
@@ -699,7 +699,7 @@ budgetLineRoute.get(
  *                    example: Failed to retrieve category stats for month
  */
 budgetLineRoute.get(
-  "/expenses/monthly/CategoryStatsMonth/:categoryId",
+  '/expenses/monthly/CategoryStatsMonth/:categoryId',
   authentificateToken,
   budgetLineController.getCategoryStatsForMonth
 );
@@ -726,7 +726,7 @@ budgetLineRoute.get(
  *          required: false
  *          description: The ID of the subcategory to filter by
  *      responses:
- *        "200":
+ *        '200':
  *          description: Budget line history for the current week retrieved successfully
  *          content:
  *            application/json:
@@ -765,11 +765,11 @@ budgetLineRoute.get(
  *                    type: integer
  *                  averageDailyExpenses:
  *                    type: number
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "500":
+ *        '500':
  *          description: Failed to retrieve budget lines
  *          content:
  *            application/json:
@@ -781,7 +781,7 @@ budgetLineRoute.get(
  *                    example: Failed to retrieve budget lines
  */
 budgetLineRoute.get(
-  "/expenses/weekly/BudgetLineHistoryCurrentWeek",
+  '/expenses/weekly/BudgetLineHistoryCurrentWeek',
   authentificateToken,
   budgetLineController.getBudgetLineHistoryCurrentWeek
 );
@@ -809,7 +809,7 @@ budgetLineRoute.get(
  *          required: false
  *          description: The ID of the subcategory to filter by
  *      responses:
- *        "200":
+ *        '200':
  *          description: Budget line history for the current month retrieved successfully
  *          content:
  *            application/json:
@@ -848,11 +848,11 @@ budgetLineRoute.get(
  *                    type: integer
  *                  averageDailyExpenses:
  *                    type: number
- *        "400":
+ *        '400':
  *          $ref: '#/components/responses/400'
- *        "401":
+ *        '401':
  *          $ref: '#/components/responses/401'
- *        "500":
+ *        '500':
  *          description: Failed to retrieve budget lines
  *          content:
  *            application/json:
@@ -864,7 +864,7 @@ budgetLineRoute.get(
  *                    example: Failed to retrieve budget lines
  */
 budgetLineRoute.get(
-  "/expenses/monthly/BudgetLineHistoryCurrentMonth",
+  '/expenses/monthly/BudgetLineHistoryCurrentMonth',
   authentificateToken,
   budgetLineController.getBudgetLineHistoryCurrentMonth
 );

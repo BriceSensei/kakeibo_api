@@ -1,5 +1,5 @@
-import { CategoriesInterface } from "./Categories";
-import { SubCategoriesInterface } from "./SubCategories";
+import { CategoriesInterface } from './Categories';
+import { SubCategoriesInterface } from './SubCategories';
 
 export interface IconsInterface {
     id: number;
