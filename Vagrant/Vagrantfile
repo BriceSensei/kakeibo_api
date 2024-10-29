@@ -1,0 +1,75 @@
+# Vagrantfile
+Vagrant.configure("2") do |config|
+    # Configuration de la box à utiliser
+    config.vm.box = "ubuntu/bionic64"  # Utilise l'image Ubuntu 18.04 LTS
+  
+    # Configuration de la mémoire et des ressources
+    config.vm.network "forwarded_port", guest: 22, host: 2222  # Redirige le port SSH
+    config.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"  # Attribue 2 Go de mémoire
+      vb.cpus = 2         # Attribue 2 cœurs de CPU
+    end
+  
+    # Provisionnement avec des scripts shell
+    config.vm.provision "shell", inline: <<-SHELL
+      # Mise à jour des paquets
+      echo 'Mise à jour des paquets...'
+      sudo apt-get update
+      sudo apt-get -y upgrade
+  
+      # Installation de Python et pip
+      echo 'Installation de Python3 et pip...'
+      sudo apt-get -y install python3 python3-pip python3-venv
+  
+      # Installation d'Ansible
+      echo 'Installation d\'Ansible...'
+      sudo apt-get -y install ansible
+  
+      # Autres installations nécessaires
+      echo 'Installation des dépendances...'
+      sudo apt-get -y install docker.io kubectl
+  
+      # Configuration de Docker
+      echo 'Démarrage et activation de Docker...'
+      sudo systemctl start docker
+      sudo systemctl enable docker
+  
+      # Création d'un environnement virtuel Python
+      echo 'Création de l\'environnement virtuel Python...'
+      python3 -m venv ansible-env
+      source ansible-env/bin/activate
+  
+      # Installation d'Ansible dans l'environnement virtuel
+      echo 'Installation d\'Ansible dans l\'environnement virtuel...'
+      pip install ansible
+  
+      # Copie des fichiers YAML d'Ansible
+      echo 'Copie des fichiers d\'Ansible...'
+      mkdir -p /home/vagrant/ansible
+      cp /vagrant/install_docker.yml /home/vagrant/ansible/
+      cp /vagrant/install_kubernetes.yml /home/vagrant/ansible/
+      cp /vagrant/setup_runner.yml /home/vagrant/ansible/
+      cp /vagrant/install_node_exporter.yml /home/vagrant/ansible/
+  
+      # Création d'un script pour exécuter les playbooks
+      echo 'Création du script run_playbook.sh...'
+      echo '#!/bin/bash' > /home/vagrant/run_playbook.sh
+      echo 'ansible-playbook /home/vagrant/ansible/install_docker.yml -i "localhost," --ssh-common-args="-o StrictHostKeyChecking=no"' >> /home/vagrant/run_playbook.sh
+      echo 'ansible-playbook /home/vagrant/ansible/install_kubernetes.yml -i "localhost," --ssh-common-args="-o StrictHostKeyChecking=no"' >> /home/vagrant/run_playbook.sh
+      echo 'ansible-playbook /home/vagrant/ansible/setup_runner.yml -i "localhost," --ssh-common-args="-o StrictHostKeyChecking=no"' >> /home/vagrant/run_playbook.sh
+      echo 'ansible-playbook /home/vagrant/ansible/install_node_exporter.yml -i "localhost," --ssh-common-args="-o StrictHostKeyChecking=no"' >> /home/vagrant/run_playbook.sh
+      chmod +x /home/vagrant/run_playbook.sh
+  
+      # Exécution du script pour installer et configurer les services
+      echo 'Exécution du script de playbook...'
+      sudo /home/vagrant/run_playbook.sh
+    SHELL
+  
+    # Répertoire partagé pour les fichiers
+    config.vm.synced_folder ".", "/vagrant"
+  end
+  
+
+
+#   vagrant up  démarrer la VM
+#  vagrant ssh Accéder à la VM
