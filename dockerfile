@@ -2,9 +2,12 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY . .
+COPY package.json package-lock.json ./
 
-RUN npm ci
+# Installer toutes les dépendances, y compris devDependencies
+RUN npm install --production=false
+
+COPY . .
 
 RUN npm run build
 
@@ -14,4 +17,3 @@ EXPOSE 3306
 EXPOSE 8080
 
 CMD ["npm", "run", "start:prod"]
-# ```
