@@ -1,6 +1,5 @@
 export default {
   testEnvironment: "node",
-  types: ["@types/jest"],
   transform: {
     "^.+.tsx?$": ["ts-jest",{}],
   },
