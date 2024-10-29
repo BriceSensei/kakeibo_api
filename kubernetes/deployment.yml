@@ -17,6 +17,13 @@ spec:
         image: bricesensei/kakeibo_api:latest
         ports:
         - containerPort: 8080
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
       env:
         - name: NODE_ENV
           value: production 

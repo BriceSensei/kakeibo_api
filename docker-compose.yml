@@ -20,6 +20,11 @@ services:
       - ./prometheus:/etc/prometheus
     ports:
       - "9090:9090"
+    deploy:
+    resources:
+      limits:
+        cpus: "0.5" # Utilise au maximum 50% d'un CPU
+        memory: "512M" # Limite à 512 Mo de mémoire
 
   grafana:
     image: grafana/grafana
@@ -30,6 +35,11 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
       - grafana-storage:/var/lib/grafana
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5" # Utilise au maximum 50% d'un CPU
+          memory: "256M" # Limite à 256 Mo de mémoire
 
       
 volumes:
