@@ -6,8 +6,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, production]  # Spécifiez un label unique pour l'agent de production
-
+    runs-on: [self-hosted, production]  # Attention à bien ajouter le label production au runner
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
