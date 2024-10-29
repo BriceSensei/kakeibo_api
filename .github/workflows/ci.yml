@@ -34,6 +34,10 @@ jobs:
       - name: Build the Docker image
         run: docker build -t bricesensei/kakeibo_api:latest .
 
+      - name: Run tests in Docker
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/app -w /app bricesensei/kakeibo_api:latest npm test
+
       - name: List Docker images
         run: docker images
 

@@ -106,11 +106,7 @@ jobs:
         if: success()
         run: |
           kubectl apply -f kubernetes/ --validate=false
-
-      - name: Run integration tests
-        run: |
-          npm test
-
+          
       - name: get log if failed
         if: failure()
         run: |
