@@ -4,7 +4,8 @@ export default {
     "^.+\\.(ts|tsx)$": "ts-jest",
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  "moduleNameMapper": {
+  modulePathIgnorePatterns: ["<rootDir>/dist/"],
+  moduleNameMapper: {
     "^@route(.*)$": "<rootDir>/src/routes/$1",
     "^@controller/(.*)$": "<rootDir>/src/controllers/$1",
     "^@class\/(.*)$": "<rootDir>/src/classes/$1",
