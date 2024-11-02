@@ -16,13 +16,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # Adapté à la version Node.js de ton Dockerfile
+          node-version: '18'
 
       - name: Install dependencies
         run: npm ci
 
       - name: Run unit tests
-        run: npm run test
+        run: |
+          PORT=8081 npm run test
 
       - name: Build production version
         run: npm run build
