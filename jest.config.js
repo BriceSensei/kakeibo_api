@@ -1,8 +1,9 @@
 export default {
   testEnvironment: "node",
   transform: {
-    "^.+.tsx?$": ["ts-jest",{}],
+    "^.+\\.(ts|tsx)$": "ts-jest",
   },
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   "moduleNameMapper": {
     "^@route(.*)$": "<rootDir>/src/routes/$1",
     "^@controller/(.*)$": "<rootDir>/src/controllers/$1",
