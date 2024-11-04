@@ -3,11 +3,25 @@ kind: Service
 metadata:
   name: kakeibo-api-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: kakeibo-api
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
-      nodePort: 30008  # Utilise un port dans la plage 30000-32767 pour NodePort
+
+# old test 
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: kakeibo-api-service
+# spec:
+#   type: NodePort
+#   selector:
+#     app: kakeibo-api
+#   ports:
+#     - protocol: TCP
+#       port: 8080
+#       targetPort: 8080
+#       nodePort: 30008  # Utilise un port dans la plage 30000-32767 pour NodePort
