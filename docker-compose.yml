@@ -26,10 +26,10 @@ services:
     ports:
       - "9090:9090"
     deploy:
-    resources:
-      limits:
-        cpus: "0.25"    # Utilise au maximum 25% d'un CPU
-        memory: "128M"  # Limite à 128 Mo de mémoire
+      resources:
+        limits:
+          cpus: "0.25"    # Utilise au maximum 25% d'un CPU
+          memory: "128M"  # Limite à 128 Mo de mémoire
 
   grafana:
     image: grafana/grafana
