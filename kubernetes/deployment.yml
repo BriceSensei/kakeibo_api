@@ -21,11 +21,11 @@ spec:
         - containerPort: 8080
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "500m"
+            memory: "64Mi"  # Réduit à 64 Mi
+            cpu: "250m"     # Réduit à 250m (0.25 CPU)
           limits:
-            memory: "256Mi"
-            cpu: "500m"
+            memory: "128Mi" # Réduit à 128 Mi
+            cpu: "250m"     # Réduit à 250m (0.25 CPU)
         env: 
           - name: NODE_ENV
             value: production
