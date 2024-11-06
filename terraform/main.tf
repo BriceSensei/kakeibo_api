@@ -58,13 +58,13 @@ resource "aws_instance" "ec2_instance" {
   # ami           = "ami-0359cb6c0c97c6607" # version de débian
   //instance_type = "t2.micro"
   instance_type = "t3.medium"
-  key_name      = var.key_name
+  key_name      = aws_key_pair.key_pair.key_name
 
   # groupe de sécurité existant pour autoriser le trafic SSH
   vpc_security_group_ids = ["sg-06cd678b2d1b7f525"]
 
   tags = {
-    Name = "ec2-instance"
+    Name = "EC2Instance"
   }
 
   # Configure the root volume size to 50GB
