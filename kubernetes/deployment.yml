@@ -12,8 +12,6 @@ spec:
       labels:
         app: kakeibo-api
     spec:
-      imagePullSecrets:
-        - name: myregistrykey
       containers:
       - name: kakeibo-api
         image: bricesensei/kakeibo_api:latest
