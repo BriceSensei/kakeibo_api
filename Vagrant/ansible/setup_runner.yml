@@ -1,0 +1,79 @@
+- hosts: localhost
+  connection: local
+  become: yes
+  recuse: yes
+  vars:
+    github_runner_token: "ARGZCD34LJ42M77YBLGBPTLGYRYRU"
+  tasks:
+    - name: Create actions runner directory
+      file:
+        path: /home/ubuntu/actions-runner
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Download GitHub Actions runner
+      get_url:
+        url: curl -o actions-runner-linux-x64-2.319.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.319.1/actions-runner-linux-x64-2.319.1.tar.gz
+        dest: /home/ubuntu/actions-runner/actions-runner-linux-x64-2.317.0.tar.gz
+        mode: '0644'
+
+    - name: Validate the hash
+      shell: echo "9e883d210df8c6028aff475475a457d380353f9d01877d51cc01a17b2a91161d  /home/ubuntu/actions-runner/actions-runner-linux-x64-2.317.0.tar.gz" | shasum -a 256 -c
+      register: hash_validation
+      ignore_errors: yes
+
+    - name: Fail if hash validation fails
+      fail:
+        msg: "The downloaded file's hash does not match the expected value."
+      when: hash_validation.rc != 0
+
+    - name: Extract GitHub Actions runner
+      unarchive:
+        src: /home/ubuntu/actions-runner/actions-runner-linux-x64-2.317.0.tar.gz
+        dest: /home/ubuntu/actions-runner/
+        remote_src: yes
+
+    - name: Set permissions for extracted files
+      file:
+        path: /home/ubuntu/actions-runner
+        state: directory
+        recurse: yes
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Set ownership and permissions
+      file:
+        path: /home/ubuntu/actions-runner
+        state: directory
+        recurse: yes
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Configure GitHub Actions runner
+      command: ./config.sh --url https://github.com/BriceSensei/kakeibo_api --token {{ github_runner_token }}
+      args:
+        chdir: /home/ubuntu/actions-runner
+      environment:
+        RUNNER_ALLOW_RUNASROOT: "1"
+
+    - name: Start GitHub Actions runner
+      command: ./run.sh
+      args:
+        chdir: /home/ubuntu/actions-runner
+
+
+# ça marche mais j'ai un probleme de permision il faut que le fasse manuellement pour l'instant
+# ubuntu@ip-172-31-44-96:~$ sudo chown -R ubuntu:ubuntu /home/ubuntu/actions-runner
+# sudo chmod -R 755 /home/ubuntu/actions-runner
+# ubuntu@ip-172-31-44-96:~$ cd actions-runner/
+# ubuntu@ip-172-31-44-96:~/actions-runner$ ./run.sh
+
+# √ Connected to GitHub
+
+# Current runner version: '2.317.0'
+# 2024-07-25 12:23:57Z: Listening for Jobs
+

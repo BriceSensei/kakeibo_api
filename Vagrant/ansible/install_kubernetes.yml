@@ -1,0 +1,51 @@
+- name: Install Minikube and kubectl
+  hosts: kubectl_nodes
+  become: yes
+  tasks:
+    - name: Ensure necessary dependencies are installed
+      apt:
+        name:
+          - curl
+          - apt-transport-https
+          - ca-certificates
+        state: present
+        update_cache: yes
+
+    - name: Get the latest kubectl version
+      command: curl -s https://dl.k8s.io/release/stable.txt
+      register: kubectl_version
+
+    - name: Install kubectl
+      command: >
+        curl -Lo /usr/local/bin/kubectl https://dl.k8s.io/release/{{ kubectl_version.stdout }}/bin/linux/amd64/kubectl
+      args:
+        creates: /usr/local/bin/kubectl  # Pour éviter de télécharger à nouveau si le fichier existe
+
+    - name: Make kubectl executable
+      file:
+        path: /usr/local/bin/kubectl
+        mode: '0755'
+
+    - name: Install Minikube
+      command: >
+        curl -Lo /usr/local/bin/minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+      args:
+        creates: /usr/local/bin/minikube 
+
+    - name: Make minikube executable
+      file:
+        path: /usr/local/bin/minikube
+        mode: '0755'
+
+    - name: Verify kubectl installation
+      command: kubectl version --client
+      register: kubectl_check
+      failed_when: kubectl_check.rc != 0
+
+    - name: Verify minikube installation
+      command: minikube version
+      register: minikube_check
+      failed_when: minikube_check.rc != 0
+
+    - name: Start Minikube
+      command: minikube start --driver=docker

@@ -38,3 +38,42 @@ Ce fichier crée un service LoadBalancer pour exposer l'API Kakeibo à l'extéri
     - **protocol** : `TCP`.
     - **port** : `8080` – Port exposé pour accéder à l'API.
     - **targetPort** : `8080` – Port cible correspondant à celui défini dans le conteneur.
+
+## 🛠️ Dépannage
+
+Cette section fournit des solutions aux erreurs courantes lors du déploiement de l'API Kakeibo sur Kubernetes.
+
+- **Erreur lors du déploiement**  
+  Utilisez la commande suivante pour obtenir des détails :
+
+  ```bash
+  kubectl describe pod <nom_du_pod>
+  ```
+
+ou consultez les logs de l’application pour identifier l’erreur :
+
+```bash
+kubectl logs <nom_du_pod>
+ ```
+
+ **Pod en statut CrashLoopBackOff**
+Ce statut indique souvent une erreur de configuration. Pour identifier la cause, affichez les logs du pod :
+
+
+```bash
+kubectl logs <nom_du_pod>
+ ```
+
+Assurez-vous que toutes les variables d’environnement sont bien définies et que les ressources allouées sont suffisantes.
+
+Problème de connectivité réseau
+Si le service n'est pas accessible, vérifiez le statut du service :
+
+```bash
+kubectl get services
+```
+
+Assurez-vous également que le type de service est correctement configuré (par exemple, LoadBalancer ou NodePort selon le besoin).
+
+Ressources insuffisantes
+Si les ressources sont épuisées, ajustez les valeurs des requests et limits pour le CPU et la mémoire dans le fichier deployment.yml. Cela peut être nécessaire si les ressources allouées sont insuffisantes pour exécuter l’application de manière stable.

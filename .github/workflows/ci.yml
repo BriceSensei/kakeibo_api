@@ -49,26 +49,11 @@ jobs:
       - name: Build the Docker image
         run: docker build -t bricesensei/kakeibo_api:latest .
 
-      # - name: Run tests in Docker
-      #   run: |
-      #     docker run --rm -v ${{ github.workspace }}:/app -w /app bricesensei/kakeibo_api:latest npm test
-
       - name: List Docker images
         run: docker images
 
       - name: Push to Docker Hub
         run: docker push bricesensei/kakeibo_api:latest
-
-
-      # - name: Configure kubectl
-      #   run: |
-      #     mkdir -p $HOME/.kube
-      #     echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
-
-      # - name: Apply Kubernetes manifests
-      #   run: |
-      #     kubectl apply -f deployment.yml
-      #     kubectl apply -f service.yml
 
 
 # Faire un repo docker hub et pusher l'image dessus avec les secrets DOCKER_USERNAME et DOCKER_PASSWORD qui sont les identifiants docker hub
